@@ -1,4 +1,4 @@
-extends Area2D
+class_name Selector extends Area2D
 
 @export var sprite: AnimatedSprite2D
 @export var movement_controller: GridController
@@ -8,10 +8,10 @@ enum SelectorState {
 	PieceSelect, # Choosing a piece to move
 	PieceHovered,
 	PieceSelected, # Piece has been choosen
-	Idle, # Waitin for the piece to finish moving
+	Idle, # Waiting for the piece to finish moving
 }
 
-var state: SelectorState = SelectorState.PieceSelect
+var state: SelectorState = SelectorState.Idle
 
 func _physics_process(_delta: float):
 	
@@ -19,7 +19,7 @@ func _physics_process(_delta: float):
 		self.hide()
 	else:
 		self.show()
-	
+	#
 	match state:
 		SelectorState.PieceSelect:
 			sprite.play("default")
@@ -44,4 +44,7 @@ func handle_move():
 		
 func handle_select():
 	pass
+	
+func start():
+	state = SelectorState.PieceSelect
 	
