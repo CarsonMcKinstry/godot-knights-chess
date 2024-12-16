@@ -1,0 +1,126 @@
+[gd_scene load_steps=10 format=4 uid="uid://d3a6aj0ot5y7p"]
+
+[ext_resource type="PackedScene" uid="uid://hixjhyddggqj" path="res://features/selector/selector.tscn" id="1_dhoyy"]
+[ext_resource type="PackedScene" uid="uid://ui5n72gcvt17" path="res://features/chess_board/chess_board.tscn" id="1_k53qp"]
+[ext_resource type="PackedScene" uid="uid://dqm44jxtilmoy" path="res://components/tilemaps/medieval_town/medieval_town.tscn" id="1_qm0lq"]
+[ext_resource type="PackedScene" uid="uid://72rs4ula8umo" path="res://features/piece/pieces/pawn.tscn" id="4_bgln0"]
+[ext_resource type="PackedScene" uid="uid://buxp5qklitymd" path="res://features/piece/pieces/king.tscn" id="4_ephhl"]
+[ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="5_qdw0a"]
+[ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="5_rwhmo"]
+[ext_resource type="PackedScene" uid="uid://dqvuts7bktur1" path="res://features/piece/pieces/knight.tscn" id="6_1cqcu"]
+[ext_resource type="PackedScene" uid="uid://ep0abkdtvegc" path="res://features/piece/pieces/bishop.tscn" id="7_oim0n"]
+
+[node name="Main" type="Node2D"]
+
+[node name="MedievalTown" parent="." instance=ExtResource("1_qm0lq")]
+position = Vector2(0, -12)
+tile_map_data = PackedByteArray("AAAGAAEAAAAGAAAAAAAHAAEAAAAGAAAAAAAIAAEAAAAGAAAAAAAJAAEAAAAGAAAAAAAKAAEAAAAGAAAAAAALAAEAAAAGAAAAAAAMAAEAAAAGAAAAAAANAAEAAAAGAAAAAAAOAAEAAAAHAAAAAAAFAAEAAAAFAAAAAAAFAAIAAAAFAAEAAAAFAAMAAAAFAAEAAAAFAAQAAAAEAAIAAAAFAAUAAAAGAAEAAAAFAAYAAAAGAAEAAAAFAAcAAAAEAAAAAAAFAAgAAAAFAAEAAAAOAAIAAAAHAAEAAAAOAAMAAAAHAAEAAAAOAAQAAAACAAIAAAAOAAUAAAAGAAEAAAAOAAYAAAAGAAEAAAAOAAcAAAACAAAAAAAOAAgAAAAHAAEAAAAGAAIAAAAGAAEAAAAHAAIAAAAGAAEAAAAIAAIAAAAGAAEAAAAJAAIAAAAGAAEAAAAKAAIAAAAGAAEAAAALAAIAAAAGAAEAAAAMAAIAAAAGAAEAAAANAAIAAAAGAAEAAAANAAMAAAAGAAEAAAANAAQAAAAGAAEAAAANAAUAAAAGAAEAAAANAAYAAAAGAAEAAAANAAcAAAAGAAEAAAANAAgAAAAGAAEAAAAMAAgAAAAGAAEAAAALAAgAAAAGAAEAAAAKAAgAAAAGAAEAAAAJAAgAAAAGAAEAAAAIAAgAAAAGAAEAAAAHAAgAAAAGAAEAAAAGAAgAAAAGAAEAAAAGAAcAAAAGAAEAAAAGAAYAAAAGAAEAAAAGAAUAAAAGAAEAAAAGAAQAAAAGAAEAAAAGAAMAAAAGAAEAAAAHAAMAAAAGAAEAAAAIAAMAAAAGAAEAAAAJAAMAAAAGAAEAAAAKAAMAAAAGAAEAAAALAAMAAAAGAAEAAAAMAAMAAAAGAAEAAAAMAAQAAAAGAAEAAAAMAAUAAAAGAAEAAAAMAAYAAAAGAAEAAAAMAAcAAAAGAAEAAAALAAcAAAAGAAEAAAAKAAcAAAAGAAEAAAAJAAcAAAAGAAEAAAAIAAcAAAAGAAEAAAAHAAcAAAAGAAEAAAAHAAYAAAAGAAEAAAAHAAUAAAAGAAEAAAAHAAQAAAAGAAEAAAAIAAQAAAAGAAEAAAAJAAQAAAAGAAEAAAAKAAQAAAAGAAEAAAALAAQAAAAGAAEAAAALAAUAAAAGAAEAAAALAAYAAAAGAAEAAAAKAAYAAAAGAAEAAAAJAAYAAAAGAAEAAAAIAAYAAAAGAAEAAAAIAAUAAAAGAAEAAAAJAAUAAAAGAAEAAAAKAAUAAAAGAAEAAAAOAAkAAAAHAAEAAAAFAAkAAAAFAAEAAAAGAAoAAAAGAAIAAAAHAAoAAAAGAAIAAAAIAAoAAAAGAAIAAAAJAAoAAAAGAAIAAAAKAAoAAAAGAAIAAAALAAoAAAAGAAIAAAAMAAoAAAAGAAIAAAANAAoAAAAGAAIAAAAOAAoAAAAHAAIAAAAFAAoAAAAFAAIAAAAGAAkAAAAGAAEAAAAHAAkAAAAGAAEAAAAIAAkAAAAGAAEAAAAJAAkAAAAGAAEAAAAKAAkAAAAGAAEAAAALAAkAAAAGAAEAAAAMAAkAAAAGAAEAAAANAAkAAAAGAAEAAAAAAAUAAAAGAAEAAAABAAUAAAAGAAEAAAACAAUAAAAGAAEAAAADAAUAAAAGAAEAAAAEAAUAAAAGAAEAAAAAAAYAAAAGAAEAAAABAAYAAAAGAAEAAAACAAYAAAAGAAEAAAADAAYAAAAGAAEAAAAEAAYAAAAGAAEAAAAPAAUAAAAGAAEAAAAQAAUAAAAGAAEAAAARAAUAAAAGAAEAAAASAAUAAAAGAAEAAAATAAUAAAAGAAEAAAAPAAYAAAAGAAEAAAAQAAYAAAAGAAEAAAARAAYAAAAGAAEAAAASAAYAAAAGAAEAAAATAAYAAAAGAAEAAAAAAAAAAAADAAEAAAABAAAAAAADAAEAAAACAAAAAAADAAEAAAADAAAAAAADAAEAAAAEAAAAAAADAAEAAAAFAAAAAAADAAEAAAAGAAAAAAADAAEAAAAHAAAAAAADAAEAAAAIAAAAAAADAAEAAAAJAAAAAAADAAEAAAAKAAAAAAADAAEAAAALAAAAAAADAAEAAAAMAAAAAAADAAEAAAANAAAAAAADAAEAAAAOAAAAAAADAAEAAAAPAAAAAAADAAEAAAAQAAAAAAADAAEAAAARAAAAAAADAAEAAAASAAAAAAADAAEAAAATAAAAAAADAAEAAAAAAAEAAAADAAEAAAAAAAIAAAADAAEAAAAAAAMAAAADAAEAAAAAAAQAAAAGAAAAAAABAAQAAAAGAAAAAAACAAQAAAAGAAAAAAADAAQAAAAGAAAAAAAEAAQAAAAGAAAAAAAEAAMAAAADAAEAAAAEAAIAAAADAAEAAAAEAAEAAAADAAEAAAADAAEAAAADAAEAAAACAAEAAAADAAEAAAABAAEAAAADAAEAAAABAAIAAAADAAEAAAACAAIAAAADAAEAAAADAAIAAAADAAEAAAACAAMAAAADAAEAAAABAAMAAAADAAEAAAADAAMAAAADAAEAAAAPAAEAAAADAAEAAAAPAAIAAAADAAEAAAAPAAMAAAADAAEAAAAPAAQAAAADAAIAAAAQAAQAAAADAAIAAAARAAQAAAADAAIAAAASAAQAAAADAAIAAAATAAQAAAADAAIAAAATAAMAAAADAAEAAAATAAIAAAADAAEAAAATAAEAAAADAAEAAAASAAEAAAADAAEAAAARAAEAAAADAAEAAAARAAIAAAADAAEAAAARAAMAAAADAAEAAAASAAMAAAADAAEAAAASAAIAAAADAAEAAAAQAAEAAAADAAEAAAAQAAIAAAADAAEAAAAQAAMAAAADAAEAAAAAAAcAAAADAAAAAAAAAAgAAAADAAEAAAAAAAkAAAADAAEAAAAAAAoAAAADAAEAAAAAAAsAAAADAAEAAAATAAsAAAADAAEAAAABAAsAAAADAAEAAAACAAsAAAADAAEAAAADAAsAAAADAAEAAAAEAAsAAAADAAEAAAAFAAsAAAADAAEAAAAGAAsAAAADAAEAAAAHAAsAAAADAAEAAAAIAAsAAAADAAEAAAAJAAsAAAADAAEAAAAKAAsAAAADAAEAAAALAAsAAAADAAEAAAAMAAsAAAADAAEAAAANAAsAAAADAAEAAAAOAAsAAAADAAEAAAAPAAsAAAADAAEAAAAQAAsAAAADAAEAAAARAAsAAAADAAEAAAASAAsAAAADAAEAAAABAAcAAAADAAAAAAABAAgAAAADAAEAAAABAAkAAAADAAEAAAABAAoAAAADAAEAAAACAAcAAAADAAAAAAACAAgAAAADAAEAAAACAAkAAAADAAEAAAACAAoAAAADAAEAAAADAAcAAAADAAAAAAADAAgAAAADAAEAAAADAAkAAAADAAEAAAADAAoAAAADAAEAAAAEAAcAAAAGAAIAAAAEAAgAAAADAAEAAAAEAAkAAAADAAEAAAAEAAoAAAADAAEAAAAPAAcAAAADAAAAAAAPAAgAAAADAAEAAAAPAAkAAAADAAEAAAAPAAoAAAADAAEAAAAQAAcAAAADAAAAAAAQAAgAAAADAAEAAAAQAAkAAAADAAEAAAAQAAoAAAADAAEAAAARAAcAAAADAAAAAAARAAgAAAADAAEAAAARAAkAAAADAAEAAAARAAoAAAADAAEAAAASAAcAAAADAAAAAAASAAgAAAADAAEAAAASAAkAAAADAAEAAAASAAoAAAADAAEAAAATAAcAAAADAAAAAAATAAgAAAADAAEAAAATAAkAAAADAAEAAAATAAoAAAADAAEAAAA=")
+
+[node name="ChessBoard" parent="." instance=ExtResource("1_k53qp")]
+position = Vector2(320, 180)
+metadata/_edit_lock_ = true
+
+[node name="Selector" parent="ChessBoard" node_paths=PackedStringArray("chess_board") instance=ExtResource("1_dhoyy")]
+position = Vector2(-16, -16)
+chess_board = NodePath("..")
+
+[node name="Player" type="Node2D" parent="ChessBoard"]
+y_sort_enabled = true
+
+[node name="King" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_ephhl")]
+position = Vector2(-560, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 4)
+intermediate_stop = Vector2(1, 4)
+
+[node name="Queen" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("5_qdw0a")]
+position = Vector2(-560, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 5)
+intermediate_stop = Vector2(1, 5)
+
+[node name="Pawn" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-336, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 1)
+intermediate_stop = Vector2(2, 4)
+
+[node name="Pawn2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-368, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 2)
+intermediate_stop = Vector2(2, 4)
+
+[node name="Pawn3" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-400, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 3)
+intermediate_stop = Vector2(2, 4)
+
+[node name="Pawn4" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-432, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 4)
+intermediate_stop = Vector2(2, 4)
+
+[node name="Pawn5" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-336, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 8)
+intermediate_stop = Vector2(2, 5)
+
+[node name="Pawn6" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-368, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 7)
+intermediate_stop = Vector2(2, 5)
+
+[node name="Pawn7" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-400, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 6)
+intermediate_stop = Vector2(2, 5)
+
+[node name="Pawn8" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_bgln0")]
+position = Vector2(-432, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(2, 5)
+intermediate_stop = Vector2(2, 5)
+
+[node name="Rook" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("5_rwhmo")]
+position = Vector2(-464, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 1)
+intermediate_stop = Vector2(1, 4)
+
+[node name="Rook2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("5_rwhmo")]
+position = Vector2(-464, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 8)
+intermediate_stop = Vector2(1, 5)
+
+[node name="Knight" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_1cqcu")]
+position = Vector2(-496, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 2)
+intermediate_stop = Vector2(1, 4)
+
+[node name="Knight2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_1cqcu")]
+position = Vector2(-496, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 7)
+intermediate_stop = Vector2(1, 5)
+
+[node name="Bishop" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("7_oim0n")]
+position = Vector2(-528, -16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 3)
+intermediate_stop = Vector2(1, 4)
+
+[node name="Bishop2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("7_oim0n")]
+position = Vector2(-528, 16)
+chess_board = NodePath("../..")
+start_position = Vector2(1, 6)
+intermediate_stop = Vector2(1, 5)
+
+[node name="Opponent" type="Node" parent="ChessBoard"]

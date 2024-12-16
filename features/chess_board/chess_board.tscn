@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ui5n72gcvt17"]
+
+[ext_resource type="Script" path="res://features/chess_board/chess_board.gd" id="1_a7amc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d6pu8"]
+size = Vector2(256, 256)
+
+[node name="ChessBoard" type="Area2D" node_paths=PackedStringArray("grid_line", "grid_lines")]
+script = ExtResource("1_a7amc")
+grid_line = NodePath("GridLines/GridLineBase")
+grid_lines = NodePath("GridLines")
+
+[node name="GridLines" type="Node2D" parent="."]
+
+[node name="GridLineBase" type="Line2D" parent="GridLines"]
+width = 1.0
+default_color = Color(0, 0, 0, 0.243137)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_d6pu8")

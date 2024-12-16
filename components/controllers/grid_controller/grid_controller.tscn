@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkf7j1xyjpjia"]
+
+[ext_resource type="Script" path="res://components/controllers/grid_controller/grid_controller.gd" id="1_6ebo2"]
+
+[node name="GridController" type="Node"]
+script = ExtResource("1_6ebo2")

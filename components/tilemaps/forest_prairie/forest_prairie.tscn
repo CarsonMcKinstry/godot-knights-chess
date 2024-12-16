@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwfvcp3giyqpq"]
+
+[ext_resource type="Texture2D" uid="uid://bbf2kwycd2rqw" path="res://components/tilemaps/forest_prairie/forest-prairie.png" id="1_4nrw0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp6iy"]
+texture = ExtResource("1_4nrw0")
+texture_region_size = Vector2i(32, 32)
+
+[sub_resource type="TileSet" id="TileSet_367n6"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_wp6iy")
+
+[node name="ForestPrairie" type="TileMapLayer"]
+tile_set = SubResource("TileSet_367n6")
