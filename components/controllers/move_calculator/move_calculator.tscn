@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxxlgjb0hbhpx"]
+
+[ext_resource type="Script" path="res://components/controllers/move_calculator/move_calculator.gd" id="1_uyn8f"]
+
+[node name="MoveCalculator" type="Node"]
+script = ExtResource("1_uyn8f")

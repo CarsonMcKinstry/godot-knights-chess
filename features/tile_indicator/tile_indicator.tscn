@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2rqwflsqpvp2"]
+
+[ext_resource type="Shader" path="res://features/tile_indicator/edge_opacity.gdshader" id="1_4j4nf"]
+[ext_resource type="Texture2D" uid="uid://ck0bhojgy3dus" path="res://features/tile_indicator/placeholder-32x32.png" id="2_0ph5t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pcot4"]
+shader = ExtResource("1_4j4nf")
+shader_parameter/background_color = Color(0.176471, 0.415686, 0.772549, 1)
+shader_parameter/pulse_color = Color(0.14902, 0.505882, 0.741176, 1)
+shader_parameter/radius = 0.25
+shader_parameter/squircle_power = 4.0
+shader_parameter/center_opacity = 0.5
+shader_parameter/outer_opacity = 0.66
+shader_parameter/pulse_speed = 4.0
+
+[node name="TileIndicator" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pcot4")
+texture = ExtResource("2_0ph5t")

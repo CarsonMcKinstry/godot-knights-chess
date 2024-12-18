@@ -3,6 +3,8 @@ class_name Selector extends Area2D
 @export var sprite: AnimatedSprite2D
 @export var movement_controller: GridController
 @export var chess_board: ChessBoard
+@export var player_party: PartyController
+@export var opponent_party: PartyController
 
 enum SelectorState {
 	PieceSelect, # Choosing a piece to move
@@ -25,6 +27,8 @@ func _physics_process(_delta: float):
 			sprite.play("default")
 			handle_move()
 			handle_select()
+		SelectorState.PieceHovered:
+			pass
 		SelectorState.PieceSelected:
 			pass
 		SelectorState.Idle:
