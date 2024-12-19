@@ -1,12 +1,11 @@
 class_name PawnAttackController extends AttackController
 
-const ATTACK_POSITION_OFFSET: Vector2 = Vector2(8, 0)
-
 func attack(target: Piece) -> void:
+	ATTACK_POSITION_OFFSET = Vector2(8, 0)
 	var init_z_index = piece.z_index
 	var target_position = target.position
 	# move in front of the target
-	move_to_attack_position(target)
+	move_to_melee_attack_position(target)
 	await piece.movement_controller.finished_moving
 	
 	piece.movement_controller.face_toward(target_position)
