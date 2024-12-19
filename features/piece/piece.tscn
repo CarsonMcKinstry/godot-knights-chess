@@ -1,18 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cyqg7sf7itrmr"]
+[gd_scene load_steps=4 format=3 uid="uid://cyqg7sf7itrmr"]
 
 [ext_resource type="Script" path="res://features/piece/piece.gd" id="1_n3k7b"]
 [ext_resource type="Script" path="res://components/controllers/grid_controller/grid_controller.gd" id="2_fecje"]
 [ext_resource type="Shape2D" uid="uid://b3gtrg1rcgxi1" path="res://features/piece/piece_collision_shape.tres" id="2_yqscp"]
-[ext_resource type="PackedScene" uid="uid://buxp5qklitymd" path="res://features/piece/pieces/king.tscn" id="4_1bq1e"]
-[ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="5_hekfw"]
-[ext_resource type="PackedScene" uid="uid://72rs4ula8umo" path="res://features/piece/pieces/pawn.tscn" id="6_6nqx1"]
-[ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="7_l34rw"]
-[ext_resource type="PackedScene" uid="uid://dqvuts7bktur1" path="res://features/piece/pieces/knight.tscn" id="8_nb12c"]
-[ext_resource type="PackedScene" uid="uid://ep0abkdtvegc" path="res://features/piece/pieces/bishop.tscn" id="9_j0gjs"]
 
-[node name="Piece" type="Area2D" node_paths=PackedStringArray("movement_controller")]
+[node name="Piece" type="Area2D"]
 script = ExtResource("1_n3k7b")
-movement_controller = NodePath("GridController")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource("2_yqscp")
@@ -20,102 +13,3 @@ shape = ExtResource("2_yqscp")
 [node name="GridController" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("2_fecje")
 body = NodePath("..")
-
-[node name="Player" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="King" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("4_1bq1e")]
-position = Vector2(-560, -16)
-chess_board = NodePath("")
-start_position = Vector2(1, 4)
-intermediate_stop = Vector2(1, 4)
-
-[node name="Queen" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("5_hekfw")]
-position = Vector2(-560, 16)
-chess_board = NodePath("")
-start_position = Vector2(1, 5)
-intermediate_stop = Vector2(1, 5)
-
-[node name="Pawn" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-336, -16)
-chess_board = NodePath("")
-start_position = Vector2(2, 1)
-intermediate_stop = Vector2(2, 4)
-
-[node name="Pawn2" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-368, -16)
-chess_board = NodePath("")
-start_position = Vector2(2, 2)
-intermediate_stop = Vector2(2, 4)
-
-[node name="Pawn3" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-400, -16)
-chess_board = NodePath("")
-start_position = Vector2(2, 3)
-intermediate_stop = Vector2(2, 4)
-
-[node name="Pawn4" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-432, -16)
-chess_board = NodePath("")
-start_position = Vector2(2, 4)
-intermediate_stop = Vector2(2, 4)
-
-[node name="Pawn5" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-336, 16)
-chess_board = NodePath("")
-start_position = Vector2(2, 8)
-intermediate_stop = Vector2(2, 5)
-
-[node name="Pawn6" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-368, 16)
-chess_board = NodePath("")
-start_position = Vector2(2, 7)
-intermediate_stop = Vector2(2, 5)
-
-[node name="Pawn7" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-400, 16)
-chess_board = NodePath("")
-start_position = Vector2(2, 6)
-intermediate_stop = Vector2(2, 5)
-
-[node name="Pawn8" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("6_6nqx1")]
-position = Vector2(-432, 16)
-chess_board = NodePath("")
-start_position = Vector2(2, 5)
-intermediate_stop = Vector2(2, 5)
-
-[node name="Rook" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("7_l34rw")]
-position = Vector2(-464, -16)
-chess_board = NodePath("")
-start_position = Vector2(1, 1)
-intermediate_stop = Vector2(1, 4)
-
-[node name="Rook2" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("7_l34rw")]
-position = Vector2(-464, 16)
-chess_board = NodePath("")
-start_position = Vector2(1, 8)
-intermediate_stop = Vector2(1, 5)
-
-[node name="Knight" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("8_nb12c")]
-position = Vector2(-496, -16)
-chess_board = NodePath("")
-start_position = Vector2(1, 2)
-intermediate_stop = Vector2(1, 4)
-
-[node name="Knight2" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("8_nb12c")]
-position = Vector2(-496, 16)
-chess_board = NodePath("")
-start_position = Vector2(1, 7)
-intermediate_stop = Vector2(1, 5)
-
-[node name="Bishop" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("9_j0gjs")]
-position = Vector2(-528, -16)
-chess_board = NodePath("")
-start_position = Vector2(1, 3)
-intermediate_stop = Vector2(1, 4)
-
-[node name="Bishop2" parent="Player" node_paths=PackedStringArray("chess_board") instance=ExtResource("9_j0gjs")]
-position = Vector2(-528, 16)
-chess_board = NodePath("")
-start_position = Vector2(1, 6)
-intermediate_stop = Vector2(1, 5)

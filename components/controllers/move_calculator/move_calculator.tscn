@@ -2,5 +2,9 @@
 
 [ext_resource type="Script" path="res://components/controllers/move_calculator/move_calculator.gd" id="1_uyn8f"]
 
-[node name="MoveCalculator" type="Node"]
+[node name="MoveCalculator" type="Node" node_paths=PackedStringArray("tile_indicators")]
 script = ExtResource("1_uyn8f")
+tile_indicators = NodePath("Indicators")
+
+[node name="Indicators" type="Node2D" parent="."]
+z_index = 1

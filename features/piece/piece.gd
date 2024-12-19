@@ -2,8 +2,11 @@ class_name Piece extends Area2D
 
 @export var movement_controller: GridController
 @export var chess_board: ChessBoard
-@export var sprite: AnimatedSprite2D
 @export var move_calculator: MoveCalculator
+@export var animation_tree: AnimationTree
+@export var sprites: Array[Sprite2D]
+
+@onready var animation_state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @export var start_position: Vector2
 @export var intermediate_stop: Vector2
@@ -13,39 +16,76 @@ class_name Piece extends Area2D
 @export var dark_color: Color
 
 signal finished_entering
+signal attack_collide
 
 var is_ready: bool = false
 
-func _ready():
+var selected: bool = false
+
+const animations = [
+	"attack",
+	"idle",
+	"move",
+	"death",
+]
+
+func _ready() -> void:
 	
-	sprite.material.set_shader_parameter("light", light_color)
-	sprite.material.set_shader_parameter("dark", dark_color)
+	if sprites.size() > 0:
+		for sprite in sprites:
+			sprite.material.set_shader_parameter("light", light_color)
+			sprite.material.set_shader_parameter("dark", dark_color)
 	
 	movement_controller.facing_changed.connect(handle_facing_change)
 	
-	if chess_board != null && move_calculator != null:
-		move_calculator.chess_board = chess_board
+	handle_facing_change(movement_controller.facing)
 	
 	if chess_board != null:
-		sprite.play("move")
+		animation_state_machine.travel("move")
 		movement_controller.move_to(chess_board.get_absolute_position(intermediate_stop))
 		await movement_controller.finished_moving
 		movement_controller.move_to(chess_board.get_absolute_position(start_position))
 		await movement_controller.finished_moving
-		sprite.play("idle")
+		animation_state_machine.travel("idle")
 		is_ready = true
 		finished_entering.emit()
 	else:
-		sprite.play("idle")
-		
-	
+		animation_state_machine.travel("idle")
+		is_ready = true
+		finished_entering.emit()
 
-func handle_facing_change(facing: GridController.Facing):
+
+func attack_hit():
+	attack_collide.emit()
+
+
+func handle_facing_change(facing: GridController.Facing) -> void:
 	match facing:
 		GridController.Facing.Left:
-			sprite.flip_h = true
+			for animation in animations:
+				animation_tree.set("parameters/%s/blend_position" % animation, -1.0)
 		GridController.Facing.Right:
-			sprite.flip_h = false
+			for animation in animations:
+				animation_tree.set("parameters/%s/blend_position" % animation, 1.0)
 
-func get_board_position():
+func select() -> void:
+	selected = true
+	if move_calculator != null:
+		move_calculator.show_indicators()
+
+func deselect() -> void:
+	selected = false
+	if move_calculator != null:
+		move_calculator.hide_indicators()
+
+func attack(_opponent: Piece) -> void:
+	animation_state_machine.travel("attack")
+	await attack_collide
+	death()
+
+func death() -> void:
+	animation_state_machine.travel("death")
+	queue_free()
+
+func get_board_position() -> Vector2:
 	return chess_board.get_relative_position(position)

@@ -12,7 +12,7 @@ uniform float squircle_power: hint_range(2.0, 10.0, 0.01) = 4.0;
 uniform float center_opacity : hint_range(0.0, 1.0, 0.01) = 0.5;
 uniform float outer_opacity :hint_range(0.0, 1.0, 0.01) = 0.5;
 
-uniform float pulse_speed : hint_range(0.0, 5.0, 0.1) = 2.0;
+uniform float pulse_speed : hint_range(0.0, 10.0, 0.1) = 2.0;
 
 float squircle_dist (vec2 uv) {
 

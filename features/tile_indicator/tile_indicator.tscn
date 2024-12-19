@@ -11,7 +11,7 @@ shader_parameter/radius = 0.25
 shader_parameter/squircle_power = 4.0
 shader_parameter/center_opacity = 0.5
 shader_parameter/outer_opacity = 0.66
-shader_parameter/pulse_speed = 4.0
+shader_parameter/pulse_speed = 5.0
 
 [node name="TileIndicator" type="Node2D"]
 

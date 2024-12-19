@@ -11,4 +11,4 @@ func _process(delta):
 	if !parties_ready:
 		parties_ready = player_party.is_ready() && opponent_party.is_ready()
 		if parties_ready:
-			selector.start()
+			selector.start_turn()
