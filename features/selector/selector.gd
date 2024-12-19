@@ -90,6 +90,7 @@ func attack_target(target: Piece) -> void:
 	selected_piece = null
 
 func move_piece_to_position(pos: Vector2) -> void:
+	selected_piece.move()
 	selected_piece.movement_controller.move_to(chess_board.get_absolute_position(pos))
 	selected_piece.deselect()
 	state = SelectorState.Idle
@@ -97,6 +98,7 @@ func move_piece_to_position(pos: Vector2) -> void:
 	state = SelectorState.PieceSelect
 	if selected_piece.move_calculator != null:
 		selected_piece.move_calculator.is_first_move = false
+	selected_piece.idle()
 	selected_piece = null
 
 func can_piece_move_there(position: Vector2) -> bool:

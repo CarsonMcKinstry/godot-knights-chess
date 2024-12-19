@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ep0abkdtvegc"]
+[gd_scene load_steps=19 format=3 uid="uid://ep0abkdtvegc"]
 
 [ext_resource type="Script" path="res://features/piece/piece.gd" id="1_kqo1l"]
 [ext_resource type="Shape2D" uid="uid://b3gtrg1rcgxi1" path="res://features/piece/piece_collision_shape.tres" id="2_ep21a"]
@@ -6,6 +6,8 @@
 [ext_resource type="Shader" path="res://components/shaders/replacement.gdshader" id="4_af31v"]
 [ext_resource type="Texture2D" uid="uid://cfwvnjkiq26i" path="res://features/piece/assets/bishop-source.png" id="4_id0q8"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bleeij3quy5ua" path="res://features/piece/piece_animation_tree.tres" id="6_uwqca"]
+[ext_resource type="Script" path="res://features/piece/piece_indicator_calculators/bishop_move_calculator.gd" id="7_p7sdt"]
+[ext_resource type="Script" path="res://features/piece/piece_attack_controllers/bishop_attack_controller.gd" id="8_a1ok8"]
 
 [sub_resource type="Animation" id="Animation_8lq1k"]
 resource_name = "attack_left"
@@ -93,6 +95,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [true, true]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"died"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_xvlrr"]
 resource_name = "damage_right"
@@ -121,6 +137,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"died"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_g11md"]
@@ -259,11 +289,13 @@ shader = ExtResource("4_af31v")
 shader_parameter/dark = null
 shader_parameter/light = null
 
-[node name="Bishop" type="Area2D" node_paths=PackedStringArray("movement_controller", "animation_tree", "sprites")]
+[node name="Bishop" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_kqo1l")
 movement_controller = NodePath("GridController")
+move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")
 sprites = [NodePath("Sprite2D")]
+attack_controller = NodePath("AttackController")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource("2_ep21a")
@@ -285,7 +317,7 @@ texture = ExtResource("4_id0q8")
 flip_h = true
 hframes = 8
 vframes = 8
-frame = 3
+frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = ExtResource("6_uwqca")
@@ -294,3 +326,14 @@ parameters/attack/blend_position = 0
 parameters/death/blend_position = 0
 parameters/idle/blend_position = 0
 parameters/move/blend_position = 0
+
+[node name="MoveCalculator" type="Node" parent="." node_paths=PackedStringArray("piece", "tile_indicators")]
+script = ExtResource("7_p7sdt")
+piece = NodePath("..")
+tile_indicators = NodePath("Node2D")
+
+[node name="Node2D" type="Node2D" parent="MoveCalculator"]
+
+[node name="AttackController" type="Node" parent="." node_paths=PackedStringArray("piece")]
+script = ExtResource("8_a1ok8")
+piece = NodePath("..")

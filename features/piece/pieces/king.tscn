@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://buxp5qklitymd"]
+[gd_scene load_steps=19 format=3 uid="uid://buxp5qklitymd"]
 
 [ext_resource type="Script" path="res://features/piece/piece.gd" id="1_4vkyb"]
 [ext_resource type="Script" path="res://components/controllers/grid_controller/grid_controller.gd" id="2_2ij6j"]
@@ -6,6 +6,8 @@
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bleeij3quy5ua" path="res://features/piece/piece_animation_tree.tres" id="4_5a8u3"]
 [ext_resource type="Texture2D" uid="uid://ctkx1phsbdqbp" path="res://features/piece/assets/king-source.png" id="4_hq6kc"]
 [ext_resource type="Shader" path="res://components/shaders/replacement.gdshader" id="4_xuj3r"]
+[ext_resource type="Script" path="res://features/piece/piece_indicator_calculators/king_move_calculator.gd" id="7_bwx6a"]
+[ext_resource type="Script" path="res://features/piece/piece_attack_controllers/king_attack_controller.gd" id="8_7ulay"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ir5mo"]
 resource_local_to_scene = true
@@ -307,11 +309,13 @@ _data = {
 "move_right": SubResource("Animation_4mawb")
 }
 
-[node name="King" type="Area2D" node_paths=PackedStringArray("movement_controller", "animation_tree", "sprites")]
+[node name="King" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_4vkyb")
 movement_controller = NodePath("GridController")
+move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")
 sprites = [NodePath("Sprite2D")]
+attack_controller = NodePath("AttackController")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource("3_3hmtq")
@@ -331,7 +335,7 @@ texture = ExtResource("4_hq6kc")
 flip_h = true
 hframes = 9
 vframes = 7
-frame = 3
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -341,3 +345,14 @@ libraries = {
 [node name="GridController" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("2_2ij6j")
 body = NodePath("..")
+
+[node name="MoveCalculator" type="Node" parent="." node_paths=PackedStringArray("piece", "tile_indicators")]
+script = ExtResource("7_bwx6a")
+piece = NodePath("..")
+tile_indicators = NodePath("Node2D")
+
+[node name="Node2D" type="Node2D" parent="MoveCalculator"]
+
+[node name="AttackController" type="Node" parent="." node_paths=PackedStringArray("piece")]
+script = ExtResource("8_7ulay")
+piece = NodePath("..")

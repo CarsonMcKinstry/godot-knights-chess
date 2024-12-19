@@ -1,4 +1,4 @@
-class_name PawnAttackController extends AttackController
+class_name KingAttackController extends AttackController
 
 const ATTACK_POSITION_OFFSET: Vector2 = Vector2(8, 0)
 
@@ -52,8 +52,5 @@ func move_to_attack_position(target: Piece) -> void:
 			target_absolute_position -= ATTACK_POSITION_OFFSET
 	else:
 		target_absolute_position -= ATTACK_POSITION_OFFSET
-	
-	piece.move()
+		
 	piece.movement_controller.move_to(target_absolute_position)
-	await piece.movement_controller.finished_moving
-	piece.idle()

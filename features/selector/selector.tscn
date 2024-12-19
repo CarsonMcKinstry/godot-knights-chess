@@ -93,7 +93,7 @@ shape = SubResource("RectangleShape2D_h521l")
 
 [node name="GridController" parent="." node_paths=PackedStringArray("body") instance=ExtResource("1_siv8p")]
 body = NodePath("..")
-speed = 400
+speed = 250
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gu7ql")

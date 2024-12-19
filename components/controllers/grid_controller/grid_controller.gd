@@ -1,12 +1,13 @@
 class_name GridController extends Node
 
 @export var body: Node2D
-@export var speed: int = 200
+@export var speed: int = 150
 @export var move_by: int = 32
 
 signal finished_moving
 signal state_changed(GridControllerState)
 signal facing_changed(Facing)
+signal moving
 
 enum GridControllerState {
 	Idle,
@@ -44,7 +45,9 @@ func _physics_process(delta: float):
 			
 func handle_move(delta: float):
 	if body.position != target_pos:
+		moving.emit()
 		body.position = body.position.move_toward(target_pos, delta * speed)
+		
 	else:
 		if !initial_facing:
 			initial_facing = facing

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dqvuts7bktur1"]
+[gd_scene load_steps=21 format=3 uid="uid://dqvuts7bktur1"]
 
 [ext_resource type="Script" path="res://features/piece/piece.gd" id="1_1cjmm"]
 [ext_resource type="Shape2D" uid="uid://b3gtrg1rcgxi1" path="res://features/piece/piece_collision_shape.tres" id="2_loc3s"]
@@ -7,6 +7,8 @@
 [ext_resource type="Shader" path="res://components/shaders/replacement.gdshader" id="4_ry0j7"]
 [ext_resource type="Texture2D" uid="uid://dxkdbvr5v6yyu" path="res://features/piece/assets/knight-source.png" id="5_p0u7v"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bleeij3quy5ua" path="res://features/piece/piece_animation_tree.tres" id="7_v14k7"]
+[ext_resource type="Script" path="res://features/piece/piece_indicator_calculators/knight_move_calculator.gd" id="8_8efd4"]
+[ext_resource type="Script" path="res://features/piece/piece_attack_controllers/knight_attack_controller.gd" id="9_m7y8x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x2xd3"]
 resource_local_to_scene = true
@@ -15,6 +17,7 @@ shader_parameter/dark = null
 shader_parameter/light = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vi8v0"]
+resource_local_to_scene = true
 shader = ExtResource("4_ry0j7")
 shader_parameter/dark = null
 shader_parameter/light = null
@@ -580,11 +583,13 @@ _data = {
 "move_right": SubResource("Animation_s11ln")
 }
 
-[node name="Knight" type="Area2D" node_paths=PackedStringArray("movement_controller", "animation_tree", "sprites")]
+[node name="Knight" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_1cjmm")
 movement_controller = NodePath("GridController")
+move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")
 sprites = [NodePath("MainSprite"), NodePath("AttackSprite")]
+attack_controller = NodePath("AttackCalculator")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource("2_loc3s")
@@ -600,7 +605,7 @@ texture = ExtResource("5_p0u7v")
 flip_h = true
 hframes = 24
 vframes = 7
-frame = 5
+frame = 7
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 visible = false
@@ -611,6 +616,7 @@ flip_h = true
 vframes = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+active = false
 libraries = {
 "": SubResource("AnimationLibrary_g1ql6")
 }
@@ -622,3 +628,14 @@ parameters/attack/blend_position = 0
 parameters/death/blend_position = 0
 parameters/idle/blend_position = 0
 parameters/move/blend_position = 0
+
+[node name="MoveCalculator" type="Node" parent="." node_paths=PackedStringArray("piece", "tile_indicators")]
+script = ExtResource("8_8efd4")
+piece = NodePath("..")
+tile_indicators = NodePath("Node2D")
+
+[node name="Node2D" type="Node2D" parent="MoveCalculator"]
+
+[node name="AttackCalculator" type="Node" parent="." node_paths=PackedStringArray("piece")]
+script = ExtResource("9_m7y8x")
+piece = NodePath("..")

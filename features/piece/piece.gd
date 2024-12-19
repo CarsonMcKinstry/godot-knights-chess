@@ -6,6 +6,7 @@ class_name Piece extends Area2D
 @export var animation_tree: AnimationTree
 @export var sprites: Array[Sprite2D]
 @export var attack_controller: AttackController
+@export var party: PartyController
 
 @onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
@@ -17,7 +18,6 @@ class_name Piece extends Area2D
 @export var dark_color: Color
 
 signal finished_entering
-
 
 var is_ready: bool = false
 var initial_facing: GridController.Facing
@@ -39,19 +39,19 @@ func _ready() -> void:
 	
 	movement_controller.facing_changed.connect(handle_facing_change)
 	
+	movement_controller.finished_moving.connect(handle_finish_moving)
+	movement_controller.moving.connect(handle_moving)
+	
 	handle_facing_change(movement_controller.facing)
 	
 	if chess_board != null:
-		animation_state.travel("move")
 		movement_controller.move_to(chess_board.get_absolute_position(intermediate_stop))
 		await movement_controller.finished_moving
 		movement_controller.move_to(chess_board.get_absolute_position(start_position))
 		await movement_controller.finished_moving
-		animation_state.travel("idle")
 		is_ready = true
 		finished_entering.emit()
 	else:
-		animation_state.travel("idle")
 		is_ready = true
 		finished_entering.emit()
 
@@ -99,3 +99,12 @@ func idle() -> void:
 	
 func move() -> void:
 	animation_state.travel("move")
+
+func is_on_same_team_as(piece: Piece) -> bool:
+	return party.contains(piece)
+
+func handle_moving():
+	move()
+	
+func handle_finish_moving():
+	idle()
