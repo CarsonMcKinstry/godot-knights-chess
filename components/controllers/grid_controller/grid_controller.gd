@@ -30,6 +30,8 @@ var facing: Facing = Facing.Right:
 		facing_changed.emit(next_state)
 		facing = next_state
 
+var initial_facing: Facing
+
 func _ready():
 	facing_changed.emit(facing)
 
@@ -44,6 +46,10 @@ func handle_move(delta: float):
 	if body.position != target_pos:
 		body.position = body.position.move_toward(target_pos, delta * speed)
 	else:
+		if !initial_facing:
+			initial_facing = facing
+
+		face(initial_facing)
 		state = GridControllerState.Idle
 		finished_moving.emit()
 
@@ -51,10 +57,7 @@ func handle_move(delta: float):
 func move_to(pos: Vector2):
 	if state == GridControllerState.Idle:
 		target_pos = pos
-		if target_pos.x > body.position.x:
-			facing = Facing.Right
-		elif target_pos.x < body.position.x:
-			facing = Facing.Left
+		face_toward(target_pos)
 		state = GridControllerState.Moving
 
 func move_in(direction: Vector2):
@@ -72,3 +75,12 @@ func get_movement_direction() -> Vector2:
 		if Input.is_action_pressed("ui_left"):
 			return Vector2.LEFT
 	return Vector2.ZERO
+
+func face(dir: Facing) -> void:
+	facing = dir
+
+func face_toward(pos: Vector2) -> void:
+	if pos.x > body.position.x:
+		face(Facing.Right)
+	elif pos.x < body.position.x:
+		face(Facing.Left)

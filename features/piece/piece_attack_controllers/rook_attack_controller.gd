@@ -1,4 +1,4 @@
-class_name PawnAttackController extends AttackController
+class_name RookAttackController extends AttackController
 
 const ATTACK_POSITION_OFFSET: Vector2 = Vector2(8, 0)
 

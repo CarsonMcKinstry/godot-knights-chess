@@ -20,7 +20,7 @@ signal finished_entering
 
 
 var is_ready: bool = false
-
+var initial_facing: GridController.Facing
 var selected: bool = false
 
 const animations = [

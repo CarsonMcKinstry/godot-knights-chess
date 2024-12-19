@@ -4,7 +4,7 @@ func _calculate_indicator_positions() -> void:
 	
 	var pos = piece.get_board_position()
 	
-	var facing := piece.movement_controller.facing 
+	var facing = piece.movement_controller.facing 
 	
 	var position_change: Vector2 = Vector2.LEFT if facing == GridController.Facing.Left else Vector2.RIGHT
 	

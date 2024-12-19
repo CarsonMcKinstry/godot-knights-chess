@@ -49,7 +49,6 @@ func handle_move() -> void:
 
 func handle_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
-		
 		var relative_position = chess_board.get_relative_position(position)
 		
 		var player_piece = chess_board.get_player_piece_at(relative_position)
@@ -65,32 +64,40 @@ func handle_target_select() -> void:
 		
 		if can_piece_move_there(relative_position):
 			
-			var target = chess_board.get_opponent_piece_at(relative_position)
+			var target_piece = chess_board.get_piece_at(relative_position)
 			
-			if target != null:
-				selected_piece.deselect()
-				state = SelectorState.Idle
-				selected_piece.attack_controller.attack(target)
-				await selected_piece.attack_controller.attack_finished
-				state = SelectorState.PieceSelect
-				if selected_piece.move_calculator != null:
-					selected_piece.move_calculator.is_first_move = false
-				selected_piece = null
+			if target_piece != null:
+				if player_party.contains(target_piece):
+					pass
+				elif opponent_party.contains(target_piece):
+					await attack_target(target_piece)
 			else:
-				selected_piece.movement_controller.move_to(chess_board.get_absolute_position(relative_position))
-				selected_piece.deselect()
-				state = SelectorState.Idle
-				await selected_piece.movement_controller.finished_moving
-				state = SelectorState.PieceSelect
-				if selected_piece.move_calculator != null:
-					selected_piece.move_calculator.is_first_move = false
-				selected_piece = null
+				await move_piece_to_position(relative_position)
 
 	elif Input.is_action_just_pressed("ui_cancel"):
 		selected_piece.deselect()
 		state = SelectorState.PieceSelect
 		selected_piece = null
 
+func attack_target(target: Piece) -> void:
+	selected_piece.deselect()
+	state = SelectorState.Idle
+	selected_piece.attack_controller.attack(target)
+	await selected_piece.attack_controller.attack_finished
+	state = SelectorState.PieceSelect
+	if selected_piece.move_calculator != null:
+		selected_piece.move_calculator.is_first_move = false
+	selected_piece = null
+
+func move_piece_to_position(pos: Vector2) -> void:
+	selected_piece.movement_controller.move_to(chess_board.get_absolute_position(pos))
+	selected_piece.deselect()
+	state = SelectorState.Idle
+	await selected_piece.movement_controller.finished_moving
+	state = SelectorState.PieceSelect
+	if selected_piece.move_calculator != null:
+		selected_piece.move_calculator.is_first_move = false
+	selected_piece = null
 
 func can_piece_move_there(position: Vector2) -> bool:
 	return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)

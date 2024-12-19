@@ -118,6 +118,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [16, 17, 18, 19]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"died"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_b12pc"]
 length = 0.40001
@@ -145,6 +159,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [16, 17, 18, 19]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"died"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_pclyo"]
@@ -305,7 +333,7 @@ texture = ExtResource("4_cgl73")
 flip_h = true
 hframes = 8
 vframes = 4
-frame = 3
+frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = ExtResource("6_g2cqf")
