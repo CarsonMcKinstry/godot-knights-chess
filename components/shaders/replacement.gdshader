@@ -8,9 +8,12 @@ const vec4 dark_color = vec4(0.0, 1.0, 0.0, 1.0);
 const vec4 light_color = vec4(1.0, 0.0, 1.0, 1.0);
 
 void fragment() {
-	if (COLOR == dark_color) {
+	
+	
+	
+	if (COLOR.rgb == dark_color.rgb) {
 		COLOR = dark;
-	} else if (COLOR == light_color) {
+	} else if (COLOR.rgb == light_color.rgb) {
 		COLOR = light;
 	}
 }

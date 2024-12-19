@@ -5,8 +5,9 @@ class_name Piece extends Area2D
 @export var move_calculator: MoveCalculator
 @export var animation_tree: AnimationTree
 @export var sprites: Array[Sprite2D]
+@export var attack_controller: AttackController
 
-@onready var animation_state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+@onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @export var start_position: Vector2
 @export var intermediate_stop: Vector2
@@ -16,7 +17,7 @@ class_name Piece extends Area2D
 @export var dark_color: Color
 
 signal finished_entering
-signal attack_collide
+
 
 var is_ready: bool = false
 
@@ -41,23 +42,21 @@ func _ready() -> void:
 	handle_facing_change(movement_controller.facing)
 	
 	if chess_board != null:
-		animation_state_machine.travel("move")
+		animation_state.travel("move")
 		movement_controller.move_to(chess_board.get_absolute_position(intermediate_stop))
 		await movement_controller.finished_moving
 		movement_controller.move_to(chess_board.get_absolute_position(start_position))
 		await movement_controller.finished_moving
-		animation_state_machine.travel("idle")
+		animation_state.travel("idle")
 		is_ready = true
 		finished_entering.emit()
 	else:
-		animation_state_machine.travel("idle")
+		animation_state.travel("idle")
 		is_ready = true
 		finished_entering.emit()
 
-
 func attack_hit():
-	attack_collide.emit()
-
+	attack_controller.attack_collided.emit()
 
 func handle_facing_change(facing: GridController.Facing) -> void:
 	match facing:
@@ -67,6 +66,9 @@ func handle_facing_change(facing: GridController.Facing) -> void:
 		GridController.Facing.Right:
 			for animation in animations:
 				animation_tree.set("parameters/%s/blend_position" % animation, 1.0)
+
+func get_board_position() -> Vector2:
+	return chess_board.get_relative_position(position)
 
 func select() -> void:
 	selected = true
@@ -78,14 +80,22 @@ func deselect() -> void:
 	if move_calculator != null:
 		move_calculator.hide_indicators()
 
-func attack(_opponent: Piece) -> void:
-	animation_state_machine.travel("attack")
-	await attack_collide
-	death()
+func damaged() -> void:
+	animation_state.travel("death")
 
-func death() -> void:
-	animation_state_machine.travel("death")
+func died() -> void:
+	var tween = get_tree().create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(self,"modulate:a",0.0,0.3)
+	await tween.finished
 	queue_free()
 
-func get_board_position() -> Vector2:
-	return chess_board.get_relative_position(position)
+func attack() -> void:
+	animation_state.travel("attack")
+
+func idle() -> void:
+	animation_state.travel("idle")
+	
+func move() -> void:
+	animation_state.travel("move")

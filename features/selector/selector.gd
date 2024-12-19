@@ -59,18 +59,17 @@ func handle_target_select() -> void:
 		
 		if can_piece_move_there(relative_position):
 			
-			var opponent = chess_board.opponent_party_at(relative_position)
+			var target = chess_board.opponent_party_at(relative_position)
 			
-			if opponent != null:
-				selected_piece.movement_controller.move_to(
-					chess_board.get_absolute_position(
-						chess_board.get_relative_position(
-							opponent.position
-						) + Vector2.LEFT
-					) + Vector2(8, 0)
-				)
-				await selected_piece.movement_controller.finished_moving
-				selected_piece.attack(opponent)
+			if target != null:
+				selected_piece.deselect()
+				state = SelectorState.Idle
+				selected_piece.attack_controller.attack(target)
+				await selected_piece.attack_controller.attack_finished
+				state = SelectorState.PieceSelect
+				if selected_piece.move_calculator != null:
+					selected_piece.move_calculator.is_first_move = false
+				selected_piece = null
 			else:
 				selected_piece.movement_controller.move_to(chess_board.get_absolute_position(relative_position))
 				selected_piece.deselect()
