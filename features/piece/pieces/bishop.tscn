@@ -273,6 +273,7 @@ script = ExtResource("3_moegt")
 body = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+active = false
 libraries = {
 "": SubResource("AnimationLibrary_8hkw1")
 }
@@ -284,7 +285,7 @@ texture = ExtResource("4_id0q8")
 flip_h = true
 hframes = 8
 vframes = 8
-frame = 3
+frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = ExtResource("6_uwqca")

@@ -18,8 +18,8 @@ func _calculate_indicator_positions() -> void:
 	var top_target_pos = pos + position_change + Vector2.UP
 	var bottom_target_pos = pos + position_change + Vector2.DOWN
 	
-	var top_target = piece.chess_board.opponent_party_at(top_target_pos)
-	var bottom_target = piece.chess_board.opponent_party_at(bottom_target_pos)
+	var top_target = piece.chess_board.get_opponent_piece_at(top_target_pos)
+	var bottom_target = piece.chess_board.get_opponent_piece_at(bottom_target_pos)
 	
 	indicator_positions = indicator_positions\
 		.filter(filter_blocked_positions)

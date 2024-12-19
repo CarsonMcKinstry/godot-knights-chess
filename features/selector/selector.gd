@@ -48,10 +48,16 @@ func handle_move() -> void:
 			await movement_controller.finished_moving
 
 func handle_select() -> void:
-	if Input.is_action_just_pressed("ui_select") && hovered_piece != null:
-		hovered_piece.select()
-		selected_piece = hovered_piece
-		state = SelectorState.PieceSelected
+	if Input.is_action_just_pressed("ui_select"):
+		
+		var relative_position = chess_board.get_relative_position(position)
+		
+		var player_piece = chess_board.get_player_piece_at(relative_position)
+		
+		if player_piece != null:
+			player_piece.select()
+			selected_piece = player_piece
+			state = SelectorState.PieceSelected
 
 func handle_target_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
@@ -59,7 +65,7 @@ func handle_target_select() -> void:
 		
 		if can_piece_move_there(relative_position):
 			
-			var target = chess_board.opponent_party_at(relative_position)
+			var target = chess_board.get_opponent_piece_at(relative_position)
 			
 			if target != null:
 				selected_piece.deselect()
@@ -80,6 +86,11 @@ func handle_target_select() -> void:
 					selected_piece.move_calculator.is_first_move = false
 				selected_piece = null
 
+	elif Input.is_action_just_pressed("ui_cancel"):
+		selected_piece.deselect()
+		state = SelectorState.PieceSelect
+		selected_piece = null
+
 
 func can_piece_move_there(position: Vector2) -> bool:
 	return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)
@@ -89,8 +100,10 @@ func start_turn() -> void:
 
 
 func _on_area_entered(piece: Piece) -> void:
+	# use this later for UI?
 	hovered_piece = piece
 
 
 func _on_area_exited(piece: Piece) -> void:
+	# same here?
 	hovered_piece = null

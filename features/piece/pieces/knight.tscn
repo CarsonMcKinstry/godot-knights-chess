@@ -572,7 +572,7 @@ texture = ExtResource("5_p0u7v")
 flip_h = true
 hframes = 24
 vframes = 7
-frame = 3
+frame = 1
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 visible = false

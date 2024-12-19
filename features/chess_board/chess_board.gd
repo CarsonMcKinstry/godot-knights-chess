@@ -65,15 +65,15 @@ func opponent_party_contains(piece: Piece) -> bool:
 	return opponent_party.contains(piece)
 
 func piece_exists_at(pos: Vector2) -> bool:
-	return player_party_at(pos) != null || opponent_party_at(pos) != null
+	return get_player_piece_at(pos) != null || get_opponent_piece_at(pos) != null
 
 func has_opponent_at(pos: Vector2):
-	return opponent_party_at(pos) != null
+	return get_opponent_piece_at(pos) != null
 
-func player_party_at(pos: Vector2) -> Piece:
+func get_player_piece_at(pos: Vector2) -> Piece:
 	var abs_pos = get_absolute_position(pos)
 	return player_party.get_piece_at(abs_pos)
 
-func opponent_party_at(pos: Vector2) -> Piece:
+func get_opponent_piece_at(pos: Vector2) -> Piece:
 	var abs_pos = get_absolute_position(pos)
 	return opponent_party.get_piece_at(abs_pos)
