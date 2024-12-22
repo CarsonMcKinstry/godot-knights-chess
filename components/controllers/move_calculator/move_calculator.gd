@@ -65,11 +65,13 @@ func get_positions_in_direction(position: Vector2, direction: Vector2) -> Array[
 		
 		var next_position = position + direction * i
 		
-		if piece.chess_board.is_position_out_of_bounds(next_position)\
-			|| piece.chess_board.has_player_piece_at(next_position):
+		if piece.chess_board.is_position_out_of_bounds(next_position):
 			break
 		
 		var target_piece = piece.chess_board.get_piece_at(next_position)
+		
+		if piece.is_on_same_team_as(target_piece):
+			break
 		
 		if target_piece != null && !piece.is_on_same_team_as(target_piece):
 			positions.push_back(next_position)

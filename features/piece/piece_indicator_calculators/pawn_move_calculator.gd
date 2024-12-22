@@ -11,6 +11,10 @@ func _calculate_indicator_positions() -> void:
 	# the first square forward
 	indicator_positions = [pos + position_change]
 	
+	if piece.chess_board.piece_exists_at(indicator_positions[0]):
+		indicator_positions = []
+		return;
+	
 	# on the first move of a pawn, they can move 2 squares forward
 	if is_first_move:
 		indicator_positions.push_back(pos + position_change * 2)

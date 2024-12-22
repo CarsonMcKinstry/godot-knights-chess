@@ -29,6 +29,7 @@ enum PieceType {
 @export var dark_color: Color
 
 signal finished_entering
+signal finished_moving
 
 var is_ready: bool = false
 var initial_facing: GridController.Facing
@@ -97,13 +98,6 @@ func deselect() -> void:
 	if move_calculator != null:
 		move_calculator.hide_indicators()
 
-func ai_select() -> Array[Vector2]:
-	selected = true
-	if move_calculator != null:
-		move_calculator._calculate_indicator_positions()
-		return move_calculator.indicator_positions
-	return []
-
 func damaged() -> void:
 	animation_state.travel("death")
 
@@ -132,3 +126,63 @@ func handle_moving():
 	
 func handle_finish_moving():
 	idle()
+
+func get_all_possible_moves() -> Array[Vector2]:
+	move_calculator._calculate_indicator_positions()
+	return move_calculator.indicator_positions
+
+func move_to(pos: Vector2) -> void:
+	var target_piece = chess_board.get_piece_at(pos)
+	
+	if target_piece != null:
+		if !is_on_same_team_as(target_piece):
+			await attack_target(target_piece)
+	else:
+		await move_to_position(pos)
+		
+	finished_moving.emit()
+
+func attack_target(target: Piece) -> void:
+	attack_controller.attack(target)
+	await attack_controller.attack_finished
+	
+	if move_calculator != null:
+		move_calculator.is_first_move = false
+
+func move_to_position(pos: Vector2) -> void:
+	movement_controller.move_to(chess_board.get_absolute_position(pos))
+	await movement_controller.finished_moving
+	if move_calculator != null:
+		move_calculator.is_first_move = false
+
+#var target_piece = chess_board.get_piece_at(relative_position)
+			#
+			#if target_piece != null:
+				#if player_party.contains(target_piece):
+					#pass
+				#elif opponent_party.contains(target_piece):
+					#await attack_target(target_piece)
+			#else:
+				#await move_piece_to_position(relative_position)
+
+#func attack_target(target: Piece) -> void:
+	#selected_piece.deselect()
+	#state = SelectorState.Idle
+	#selected_piece.attack_controller.attack(target)
+	#await selected_piece.attack_controller.attack_finished
+	#if selected_piece.move_calculator != null:
+		#selected_piece.move_calculator.is_first_move = false
+	#selected_piece = null
+	#turn_finished.emit()
+#
+#func move_piece_to_position(pos: Vector2) -> void:
+	#selected_piece.move()
+	#selected_piece.movement_controller.move_to(chess_board.get_absolute_position(pos))
+	#selected_piece.deselect()
+	#state = SelectorState.Idle
+	#await selected_piece.movement_controller.finished_moving
+	#if selected_piece.move_calculator != null:
+		#selected_piece.move_calculator.is_first_move = false
+	#selected_piece.idle()
+	#selected_piece = null
+	#turn_finished.emit()
