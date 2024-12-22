@@ -85,16 +85,5 @@ func get_all_possible_moves() -> Array[SimulatedMove]:
 					move
 				)
 			)
-			
-	#for piece in player_pieces:
-		#var all_moves = piece.piece.get_all_possible_moves()
-		#
-		#for move in all_moves:
-			#moves.push_back(
-				#SimulatedMove.from(
-					#piece,
-					#move
-				#)
-			#)
 	
 	return moves

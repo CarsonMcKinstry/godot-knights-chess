@@ -8,6 +8,8 @@ signal turn_finished
 func start_turn():
 	var move = pick_move()
 	
+	await get_tree().create_timer(0.5).timeout
+	
 	move.piece.ref.move_to(move.to_position)
 	
 	await move.piece.ref.finished_moving

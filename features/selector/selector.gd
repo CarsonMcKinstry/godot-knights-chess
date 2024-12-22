@@ -67,7 +67,7 @@ func handle_target_select() -> void:
 		if can_piece_move_there(relative_position):
 			
 			var target_piece = chess_board.get_piece_at(relative_position)
-			
+
 			if target_piece != null:
 				if player_party.contains(target_piece):
 					pass
