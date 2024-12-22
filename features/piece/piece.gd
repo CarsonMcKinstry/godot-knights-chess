@@ -1,5 +1,16 @@
 class_name Piece extends Area2D
 
+enum PieceType {
+	Pawn,
+	Rook,
+	Knight,
+	Bishop,
+	King,
+	Queen
+}
+
+@export var piece_type: PieceType
+
 @export var movement_controller: GridController
 @export var chess_board: ChessBoard
 @export var move_calculator: MoveCalculator
@@ -21,7 +32,10 @@ signal finished_entering
 
 var is_ready: bool = false
 var initial_facing: GridController.Facing
+var facing: GridController.Facing
 var selected: bool = false
+
+var grid_position: Vector2 = Vector2.ZERO
 
 const animations = [
 	"attack",
@@ -54,11 +68,14 @@ func _ready() -> void:
 	else:
 		is_ready = true
 		finished_entering.emit()
+		
+	
 
 func attack_hit():
 	attack_controller.attack_collided.emit()
 
-func handle_facing_change(facing: GridController.Facing) -> void:
+func handle_facing_change(i_facing: GridController.Facing) -> void:
+	facing = i_facing
 	match facing:
 		GridController.Facing.Left:
 			for animation in animations:
@@ -79,6 +96,13 @@ func deselect() -> void:
 	selected = false
 	if move_calculator != null:
 		move_calculator.hide_indicators()
+
+func ai_select() -> Array[Vector2]:
+	selected = true
+	if move_calculator != null:
+		move_calculator._calculate_indicator_positions()
+		return move_calculator.indicator_positions
+	return []
 
 func damaged() -> void:
 	animation_state.travel("death")

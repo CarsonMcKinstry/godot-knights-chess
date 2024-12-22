@@ -312,6 +312,7 @@ shader_parameter/light = null
 
 [node name="Queen" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_bejtx")
+piece_type = 5
 movement_controller = NodePath("GridController")
 move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")

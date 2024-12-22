@@ -1,22 +1,35 @@
-[gd_scene load_steps=12 format=4 uid="uid://d3a6aj0ot5y7p"]
+[gd_scene load_steps=14 format=4 uid="uid://d3a6aj0ot5y7p"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_75o74"]
 [ext_resource type="PackedScene" uid="uid://hixjhyddggqj" path="res://features/selector/selector.tscn" id="1_dhoyy"]
 [ext_resource type="PackedScene" uid="uid://ui5n72gcvt17" path="res://features/chess_board/chess_board.tscn" id="1_k53qp"]
 [ext_resource type="PackedScene" uid="uid://dqm44jxtilmoy" path="res://components/tilemaps/medieval_town/medieval_town.tscn" id="1_qm0lq"]
+[ext_resource type="Script" path="res://components/controllers/turn_controller/turn_controller.gd" id="2_6qlru"]
 [ext_resource type="PackedScene" uid="uid://72rs4ula8umo" path="res://features/piece/pieces/pawn.tscn" id="4_bgln0"]
 [ext_resource type="PackedScene" uid="uid://buxp5qklitymd" path="res://features/piece/pieces/king.tscn" id="4_ephhl"]
+[ext_resource type="PackedScene" uid="uid://dkfsgrltwdw36" path="res://components/controllers/ai_controller/ai_controller.tscn" id="4_j5pbv"]
 [ext_resource type="Script" path="res://components/controllers/party_controller/party_controller.gd" id="4_kfv8y"]
 [ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="5_qdw0a"]
 [ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="5_rwhmo"]
 [ext_resource type="PackedScene" uid="uid://dqvuts7bktur1" path="res://features/piece/pieces/knight.tscn" id="6_1cqcu"]
 [ext_resource type="PackedScene" uid="uid://ep0abkdtvegc" path="res://features/piece/pieces/bishop.tscn" id="7_oim0n"]
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector", "turn_controller")]
 script = ExtResource("1_75o74")
 player_party = NodePath("ChessBoard/Player")
 opponent_party = NodePath("ChessBoard/Oppponent")
 selector = NodePath("ChessBoard/Selector")
+turn_controller = NodePath("TurnController")
+
+[node name="TurnController" type="Node" parent="." node_paths=PackedStringArray("player_controller", "ai_controller", "info_label")]
+script = ExtResource("2_6qlru")
+player_controller = NodePath("../ChessBoard/Selector")
+ai_controller = NodePath("../AiController")
+info_label = NodePath("../Label")
+
+[node name="AiController" parent="." node_paths=PackedStringArray("party", "chess_board") instance=ExtResource("4_j5pbv")]
+party = NodePath("../ChessBoard/Oppponent")
+chess_board = NodePath("../ChessBoard")
 
 [node name="MedievalTown" parent="." instance=ExtResource("1_qm0lq")]
 position = Vector2(0, -12)
@@ -330,6 +343,14 @@ start_position = Vector2(8, 5)
 intermediate_stop = Vector2(8, 5)
 light_color = Color(0.619608, 0.160784, 0.231373, 1)
 dark_color = Color(0.454902, 0.101961, 0.2, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 20.0
+offset_right = 112.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Game Start"
 
 [connection signal="area_entered" from="ChessBoard/Selector" to="ChessBoard/Selector" method="_on_area_entered"]
 [connection signal="area_exited" from="ChessBoard/Selector" to="ChessBoard/Selector" method="_on_area_exited"]

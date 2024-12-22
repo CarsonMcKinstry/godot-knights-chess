@@ -585,6 +585,7 @@ _data = {
 
 [node name="Knight" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_1cjmm")
+piece_type = 2
 movement_controller = NodePath("GridController")
 move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")
@@ -605,7 +606,7 @@ texture = ExtResource("5_p0u7v")
 flip_h = true
 hframes = 24
 vframes = 7
-frame = 7
+frame = 1
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 visible = false

@@ -291,6 +291,7 @@ shader_parameter/light = null
 
 [node name="Bishop" type="Area2D" node_paths=PackedStringArray("movement_controller", "move_calculator", "animation_tree", "sprites", "attack_controller")]
 script = ExtResource("1_kqo1l")
+piece_type = 3
 movement_controller = NodePath("GridController")
 move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")

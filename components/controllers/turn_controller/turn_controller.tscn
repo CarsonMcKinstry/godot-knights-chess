@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8tvgqqx4epgi"]
+
+[ext_resource type="Script" path="res://components/controllers/turn_controller/turn_controller.gd" id="1_vlsjb"]
+
+[node name="TurnController" type="Node"]
+script = ExtResource("1_vlsjb")

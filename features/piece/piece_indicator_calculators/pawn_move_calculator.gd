@@ -18,16 +18,16 @@ func _calculate_indicator_positions() -> void:
 	var top_target_pos = pos + position_change + Vector2.UP
 	var bottom_target_pos = pos + position_change + Vector2.DOWN
 	
-	var top_target = piece.chess_board.get_opponent_piece_at(top_target_pos)
-	var bottom_target = piece.chess_board.get_opponent_piece_at(bottom_target_pos)
+	var top_target = piece.chess_board.get_piece_at(top_target_pos)
+	var bottom_target = piece.chess_board.get_piece_at(bottom_target_pos)
 	
 	indicator_positions = indicator_positions\
 		.filter(filter_blocked_positions)
 	
-	if top_target != null:
+	if top_target != null && !piece.is_on_same_team_as(top_target):
 		indicator_positions.push_back(top_target_pos)
 	
-	if bottom_target != null:
+	if bottom_target != null && !piece.is_on_same_team_as(bottom_target):
 		indicator_positions.push_back(bottom_target_pos)
 
 func filter_blocked_positions(pos: Vector2) -> bool:

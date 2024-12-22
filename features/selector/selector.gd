@@ -1,5 +1,7 @@
 class_name Selector extends Area2D
 
+signal turn_finished
+
 @export var sprite: AnimatedSprite2D
 @export var movement_controller: GridController
 @export var chess_board: ChessBoard
@@ -84,10 +86,10 @@ func attack_target(target: Piece) -> void:
 	state = SelectorState.Idle
 	selected_piece.attack_controller.attack(target)
 	await selected_piece.attack_controller.attack_finished
-	state = SelectorState.PieceSelect
 	if selected_piece.move_calculator != null:
 		selected_piece.move_calculator.is_first_move = false
 	selected_piece = null
+	turn_finished.emit()
 
 func move_piece_to_position(pos: Vector2) -> void:
 	selected_piece.move()
@@ -95,11 +97,11 @@ func move_piece_to_position(pos: Vector2) -> void:
 	selected_piece.deselect()
 	state = SelectorState.Idle
 	await selected_piece.movement_controller.finished_moving
-	state = SelectorState.PieceSelect
 	if selected_piece.move_calculator != null:
 		selected_piece.move_calculator.is_first_move = false
 	selected_piece.idle()
 	selected_piece = null
+	turn_finished.emit()
 
 func can_piece_move_there(position: Vector2) -> bool:
 	return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)
