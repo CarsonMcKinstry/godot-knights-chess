@@ -28,12 +28,14 @@ var state: CalculatorState = CalculatorState.Idle:
 				
 
 func render_indicators():
+	indicator_positions = _calculate_indicator_positions()
 	for pos in indicator_positions:
 		var indicator: Node2D = tile_indicator_scene.instantiate()
 		indicator.position = to_chess_board_position(pos)
 		tile_indicators.add_child(indicator)
 
 func show_indicators():
+	indicator_positions = _calculate_indicator_positions()
 	state = CalculatorState.Showing
 
 func hide_indicators():
@@ -44,9 +46,9 @@ func handle_idle():
 	for child in tile_indicators.get_children():
 		child.queue_free()
 	
-func _calculate_indicator_positions():
+func _calculate_indicator_positions() -> Array[Vector2]:
 	print("CALCULATE_INDICATOR_POSITIONS_NOT_IMPLEMENTED FOR ",self)
-	pass
+	return []
 
 func to_chess_board_positions(positions: Array[Vector2]) -> Array[Vector2]:
 	var mapped_positions: Array[Vector2] = []

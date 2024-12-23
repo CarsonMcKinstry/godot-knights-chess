@@ -5,9 +5,11 @@ const LEFT_BASE: Vector2 = Vector2.LEFT * 2;
 const DOWN_BASE: Vector2 = Vector2.DOWN * 2;
 const RIGHT_BASE: Vector2 = Vector2.RIGHT * 2;
 
-func _calculate_indicator_positions() -> void:
+func _calculate_indicator_positions() -> Array[Vector2]:
 	
 	var pos = piece.get_board_position()
+
+	var possible_moves: Array[Vector2] = []
 
 	var position_changes = [
 		UP_BASE + Vector2.LEFT,
@@ -21,20 +23,20 @@ func _calculate_indicator_positions() -> void:
 	]
 	
 	for position_change in position_changes:
+		var possible_move = pos + position_change
+		if !is_position_blocked(possible_move):
+			possible_moves.push_back(possible_move)
+		
+	return possible_moves
 
-		indicator_positions.push_back(pos + position_change)
+func is_position_blocked(pos: Vector2) -> bool:
 
-	indicator_positions = indicator_positions\
-		.filter(filter_blocked_positions)
-
-func filter_blocked_positions(pos: Vector2):
-	
 	if piece.chess_board.is_position_out_of_bounds(pos):
-		return false
-	
+		return true
+		
 	var piece_at_pos = piece.chess_board.get_piece_at(pos)
 	
 	if piece.is_on_same_team_as(piece_at_pos):
-		return false
-
-	return true
+		return true
+	
+	return false

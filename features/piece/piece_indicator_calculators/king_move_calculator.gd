@@ -1,8 +1,10 @@
 class_name KingMoveCalculator extends MoveCalculator
 
-func _calculate_indicator_positions():
+func _calculate_indicator_positions() -> Array[Vector2]:
 	
 	var pos = piece.get_board_position()
+	
+	var possible_moves: Array[Vector2] = []
 	
 	var position_changes: Array[Vector2] = [
 		Vector2.UP,
@@ -19,7 +21,9 @@ func _calculate_indicator_positions():
 		var next_position = pos + position_change
 		
 		if !is_blocked_position(next_position):
-			indicator_positions.push_back(next_position)
+			possible_moves.push_back(next_position)
+			
+	return possible_moves
 
 
 func is_blocked_position(pos: Vector2) -> bool:

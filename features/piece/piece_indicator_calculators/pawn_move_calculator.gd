@@ -1,6 +1,6 @@
 class_name PawnMoveCalculator extends MoveCalculator
 
-func _calculate_indicator_positions() -> void:
+func _calculate_indicator_positions() -> Array[Vector2]:
 	
 	var pos = piece.get_board_position()
 	
@@ -9,15 +9,14 @@ func _calculate_indicator_positions() -> void:
 	var position_change: Vector2 = Vector2.LEFT if facing == GridController.Facing.Left else Vector2.RIGHT
 	
 	# the first square forward
-	indicator_positions = [pos + position_change]
+	var possible_moves: Array[Vector2] = [pos + position_change]
 	
-	if piece.chess_board.piece_exists_at(indicator_positions[0]):
-		indicator_positions = []
-		return;
+	if piece.chess_board.piece_exists_at(possible_moves[0]):
+		return []
 	
 	# on the first move of a pawn, they can move 2 squares forward
 	if is_first_move:
-		indicator_positions.push_back(pos + position_change * 2)
+		possible_moves.push_back(pos + position_change * 2)
 	
 	var top_target_pos = pos + position_change + Vector2.UP
 	var bottom_target_pos = pos + position_change + Vector2.DOWN
@@ -25,14 +24,16 @@ func _calculate_indicator_positions() -> void:
 	var top_target = piece.chess_board.get_piece_at(top_target_pos)
 	var bottom_target = piece.chess_board.get_piece_at(bottom_target_pos)
 	
-	indicator_positions = indicator_positions\
+	possible_moves = possible_moves\
 		.filter(filter_blocked_positions)
 	
 	if top_target != null && !piece.is_on_same_team_as(top_target):
-		indicator_positions.push_back(top_target_pos)
+		possible_moves.push_back(top_target_pos)
 	
 	if bottom_target != null && !piece.is_on_same_team_as(bottom_target):
-		indicator_positions.push_back(bottom_target_pos)
+		possible_moves.push_back(bottom_target_pos)
+		
+	return possible_moves
 
 func filter_blocked_positions(pos: Vector2) -> bool:
 	
