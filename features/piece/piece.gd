@@ -38,6 +38,14 @@ var selected: bool = false
 
 var grid_position: Vector2 = Vector2.ZERO
 
+var capturable_by_en_passant: bool = true:
+	set(next_state):
+		
+		if piece_type == PieceType.Pawn:
+			capturable_by_en_passant = next_state
+		else:
+			capturable_by_en_passant = false
+
 const animations = [
 	"attack",
 	"idle",
@@ -142,46 +150,29 @@ func move_to(pos: Vector2) -> void:
 	finished_moving.emit()
 
 func attack_target(target: Piece) -> void:
-	attack_controller.attack(target)
+	
+	if piece_type == PieceType.Pawn && en_passant_possible(target):
+		attack_controller.attack_en_passant(target)
+	else:
+		attack_controller.attack(target)
 	await attack_controller.attack_finished
 	
 	if move_calculator != null:
 		move_calculator.is_first_move = false
 
 func move_to_position(pos: Vector2) -> void:
+	
+	if piece_type == PieceType.Pawn:
+		var starting_pos = chess_board.get_relative_position(position)
+		if abs(starting_pos.x - pos.x) == 2:
+			capturable_by_en_passant = true
+	
 	movement_controller.move_to(chess_board.get_absolute_position(pos))
 	await movement_controller.finished_moving
 	if move_calculator != null:
 		move_calculator.is_first_move = false
 
-#var target_piece = chess_board.get_piece_at(relative_position)
-			#
-			#if target_piece != null:
-				#if player_party.contains(target_piece):
-					#pass
-				#elif opponent_party.contains(target_piece):
-					#await attack_target(target_piece)
-			#else:
-				#await move_piece_to_position(relative_position)
-
-#func attack_target(target: Piece) -> void:
-	#selected_piece.deselect()
-	#state = SelectorState.Idle
-	#selected_piece.attack_controller.attack(target)
-	#await selected_piece.attack_controller.attack_finished
-	#if selected_piece.move_calculator != null:
-		#selected_piece.move_calculator.is_first_move = false
-	#selected_piece = null
-	#turn_finished.emit()
-#
-#func move_piece_to_position(pos: Vector2) -> void:
-	#selected_piece.move()
-	#selected_piece.movement_controller.move_to(chess_board.get_absolute_position(pos))
-	#selected_piece.deselect()
-	#state = SelectorState.Idle
-	#await selected_piece.movement_controller.finished_moving
-	#if selected_piece.move_calculator != null:
-		#selected_piece.move_calculator.is_first_move = false
-	#selected_piece.idle()
-	#selected_piece = null
-	#turn_finished.emit()
+func en_passant_possible(target: Piece) -> bool:
+	return \
+		target.get_board_position().x == get_board_position().x\
+		&& target.capturable_by_en_passant

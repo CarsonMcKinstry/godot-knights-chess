@@ -3,6 +3,8 @@ class_name TurnController extends Node
 @export var player_controller: Selector
 @export var ai_controller: AiController
 
+@export var chess_board: ChessBoard
+
 @export var info_label: Label
 
 enum Turn {
@@ -24,6 +26,7 @@ func start():
 
 func handle_turn_finished():
 	# eventually, this will check win conditions
+	
 	match current_turn:
 		Turn.Player:
 			current_turn = Turn.AI
@@ -33,8 +36,18 @@ func handle_turn_finished():
 func handle_next_turn():
 	match current_turn:
 		Turn.Player:
+			#update_player_en_passant()
 			info_label.text = "Player's Turn"
 			player_controller.start_turn()
 		Turn.AI:
+			#update_opponent_en_passant()
 			info_label.text = "Computer's Turn"
 			ai_controller.start_turn()
+
+func update_player_en_passant():
+	for piece in chess_board.player_party.get_pieces():
+		piece.capturable_by_en_passant = false
+		
+func update_opponent_en_passant():
+	for piece in chess_board.opponent_party.get_pieces():
+		piece.capturable_by_en_passant = false

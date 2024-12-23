@@ -10,8 +10,14 @@ signal attack_finished
 func attack(target: Piece) -> void:
 	_attack(target)
 
+func attack_en_passant(target: Piece) -> void:
+	_attack_en_passant(target)
+
 func _attack(target: Piece) -> void:
 	pass
+	
+func _attack_en_passant(target: Piece) -> void:
+	_attack(target)
 
 func face_target(target: Piece) -> void:
 	piece.movement_controller.face_toward(target.position)

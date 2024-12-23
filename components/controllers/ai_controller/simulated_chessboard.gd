@@ -12,6 +12,14 @@ const PIECE_VALUES = {
 	Piece.PieceType.King: 10000,
 }
 
+enum BoardState {
+	Check_AI,
+	Check_Player,
+	Checkmate_AI,
+	Checkmate_Player,
+	
+}
+
 static func from(i_chess_board: ChessBoard) -> SimulatedChessBoard:
 	var board = SimulatedChessBoard.new()
 	

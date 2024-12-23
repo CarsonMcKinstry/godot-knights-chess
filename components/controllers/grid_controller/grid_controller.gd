@@ -87,3 +87,10 @@ func face_toward(pos: Vector2) -> void:
 		face(Facing.Right)
 	elif pos.x < body.position.x:
 		face(Facing.Left)
+
+func about_face() -> void:
+	match facing:
+		Facing.Right:
+			facing = Facing.Left
+		Facing.Left:
+			facing = Facing.Right

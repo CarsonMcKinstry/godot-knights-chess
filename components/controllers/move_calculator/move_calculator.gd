@@ -21,28 +21,26 @@ var state: CalculatorState = CalculatorState.Idle:
 		
 		match next_state:
 			CalculatorState.Idle:
+				indicator_positions = []
 				handle_idle()
 			CalculatorState.Showing:
-				_calculate_indicator_positions()
+				indicator_positions = _calculate_indicator_positions()
 				render_indicators()
 				
 
 func render_indicators():
-	indicator_positions = _calculate_indicator_positions()
 	for pos in indicator_positions:
 		var indicator: Node2D = tile_indicator_scene.instantiate()
 		indicator.position = to_chess_board_position(pos)
 		tile_indicators.add_child(indicator)
 
 func show_indicators():
-	indicator_positions = _calculate_indicator_positions()
 	state = CalculatorState.Showing
 
 func hide_indicators():
 	state = CalculatorState.Idle
 
 func handle_idle():
-	indicator_positions = []
 	for child in tile_indicators.get_children():
 		child.queue_free()
 	
@@ -62,8 +60,11 @@ func to_chess_board_position(pos: Vector2) -> Vector2:
 	return piece.chess_board.get_absolute_position(pos) + piece.chess_board.position
 
 func get_positions_in_direction(position: Vector2, direction: Vector2) -> Array[Vector2]:
+	return get_n_positions_in_direction(8, position, direction)
+
+func get_n_positions_in_direction(n: int, position: Vector2, direction: Vector2) -> Array[Vector2]:
 	var positions: Array[Vector2] = []
-	for i in range(1, 8):
+	for i in range(1, n + 1):
 		
 		var next_position = position + direction * i
 		

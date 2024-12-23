@@ -84,21 +84,15 @@ func handle_target_select() -> void:
 func attack_target(target: Piece) -> void:
 	selected_piece.deselect()
 	state = SelectorState.Idle
-	selected_piece.attack_controller.attack(target)
-	await selected_piece.attack_controller.attack_finished
-	if selected_piece.move_calculator != null:
-		selected_piece.move_calculator.is_first_move = false
+	await selected_piece.attack_target(target)
 	selected_piece = null
 	turn_finished.emit()
 
 func move_piece_to_position(pos: Vector2) -> void:
 	selected_piece.move()
-	selected_piece.movement_controller.move_to(chess_board.get_absolute_position(pos))
 	selected_piece.deselect()
 	state = SelectorState.Idle
-	await selected_piece.movement_controller.finished_moving
-	if selected_piece.move_calculator != null:
-		selected_piece.move_calculator.is_first_move = false
+	await selected_piece.move_to_position(pos)
 	selected_piece.idle()
 	selected_piece = null
 	turn_finished.emit()
