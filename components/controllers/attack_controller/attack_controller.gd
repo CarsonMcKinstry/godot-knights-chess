@@ -49,3 +49,4 @@ func move_to_melee_attack_position(target: Piece) -> void:
 		target_absolute_position -= ATTACK_POSITION_OFFSET
 		
 	piece.movement_controller.move_to(target_absolute_position)
+	await piece.movement_controller.finished_moving

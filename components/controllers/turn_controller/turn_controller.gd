@@ -36,11 +36,11 @@ func handle_turn_finished():
 func handle_next_turn():
 	match current_turn:
 		Turn.Player:
-			#update_player_en_passant()
+			update_player_en_passant()
 			info_label.text = "Player's Turn"
 			player_controller.start_turn()
 		Turn.AI:
-			#update_opponent_en_passant()
+			update_opponent_en_passant()
 			info_label.text = "Computer's Turn"
 			ai_controller.start_turn()
 

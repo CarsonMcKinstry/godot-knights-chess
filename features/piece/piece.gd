@@ -38,7 +38,7 @@ var selected: bool = false
 
 var grid_position: Vector2 = Vector2.ZERO
 
-var capturable_by_en_passant: bool = true:
+var capturable_by_en_passant: bool = false:
 	set(next_state):
 		
 		if piece_type == PieceType.Pawn:
@@ -155,6 +155,7 @@ func attack_target(target: Piece) -> void:
 		attack_controller.attack_en_passant(target)
 	else:
 		attack_controller.attack(target)
+		
 	await attack_controller.attack_finished
 	
 	if move_calculator != null:
