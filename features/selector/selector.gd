@@ -70,7 +70,8 @@ func handle_target_select() -> void:
 
 			if target_piece != null:
 				if player_party.contains(target_piece):
-					pass
+					if should_castle_a_king(target_piece):
+						await castle_the_king(target_piece)
 				elif opponent_party.contains(target_piece):
 					await attack_target(target_piece)
 			else:
@@ -89,16 +90,41 @@ func attack_target(target: Piece) -> void:
 	turn_finished.emit()
 
 func move_piece_to_position(pos: Vector2) -> void:
-	selected_piece.move()
 	selected_piece.deselect()
 	state = SelectorState.Idle
 	await selected_piece.move_to_position(pos)
-	selected_piece.idle()
+	selected_piece = null
+	turn_finished.emit()
+
+func castle_the_king(target_piece: Piece) -> void:
+	# move the king...
+	selected_piece.deselect()
+	state = SelectorState.Idle
+	var next_position = Vector2.ZERO
+	var target_position = Vector2.ZERO
+	if selected_piece.get_board_position().y > target_piece.get_board_position().y:
+		next_position = selected_piece.get_board_position() - Vector2(0, 2)
+		target_position = next_position + Vector2(0, 1)
+	else:
+		next_position = selected_piece.get_board_position() + Vector2(0, 2)
+		target_position = next_position - Vector2(0, 1)
+	await target_piece.move_to_position(target_position)
+	await selected_piece.move_to_position(next_position)
 	selected_piece = null
 	turn_finished.emit()
 
 func can_piece_move_there(position: Vector2) -> bool:
+	
 	return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)
+
+func should_castle_a_king(target_piece: Piece) -> bool:
+	
+	var is_selected_king = selected_piece.piece_type == Piece.PieceType.King
+	var is_target_rook = target_piece.piece_type == Piece.PieceType.Rook
+	
+	var pieces_havent_moved = selected_piece.move_calculator.is_first_move && target_piece.move_calculator.is_first_move
+	
+	return is_selected_king && is_target_rook && pieces_havent_moved
 
 func start_turn() -> void:
 	state = SelectorState.PieceSelect

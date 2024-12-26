@@ -47,6 +47,9 @@ func handle_idle():
 func _calculate_indicator_positions() -> Array[Vector2]:
 	print("CALCULATE_INDICATOR_POSITIONS_NOT_IMPLEMENTED FOR ",self)
 	return []
+	
+func _calculate_attack_positions() -> Array[Vector2]:
+	return _calculate_indicator_positions()
 
 func to_chess_board_positions(positions: Array[Vector2]) -> Array[Vector2]:
 	var mapped_positions: Array[Vector2] = []

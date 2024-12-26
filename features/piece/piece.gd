@@ -138,6 +138,9 @@ func handle_finish_moving():
 func get_all_possible_moves() -> Array[Vector2]:
 	return move_calculator._calculate_indicator_positions()
 
+func get_all_possible_attacks() -> Array[Vector2]:
+	return move_calculator._calculate_attack_positions()
+
 func move_to(pos: Vector2) -> void:
 	var target_piece = chess_board.get_piece_at(pos)
 	

@@ -1,15 +1,10 @@
 class_name SimulatedPiece extends RefCounted
 
-enum Side {
-	Player,
-	AI
-}
-
 var ref: Piece
 var position: Vector2
 var side: Side
 
-static func from(i_piece: Piece, i_side: SimulatedPiece.Side) -> SimulatedPiece:
+static func from(i_piece: Piece, i_side: SimulatedChessBoard.Side) -> SimulatedPiece:
 	
 	var piece = SimulatedPiece.new()
 	

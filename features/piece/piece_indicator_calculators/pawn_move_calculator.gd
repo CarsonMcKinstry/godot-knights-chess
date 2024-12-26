@@ -22,6 +22,20 @@ func _calculate_indicator_positions() -> Array[Vector2]:
 
 	return possible_moves
 
+func _calculate_attack_positions() -> Array[Vector2]:
+	var pos = piece.get_board_position()
+	
+	var facing = piece.movement_controller.facing 
+	
+	var position_change: Vector2 = Vector2.LEFT if facing == GridController.Facing.Left else Vector2.RIGHT
+	
+	var possible_moves: Array[Vector2] = []
+	
+	possible_moves.append_array(get_forward_attack_targets(pos, position_change))
+	possible_moves.append_array(get_en_passant_moves(pos))
+	
+	return possible_moves
+
 func is_blocked_position(pos: Vector2) -> bool:
 	
 	if piece.chess_board.is_position_out_of_bounds(pos):
