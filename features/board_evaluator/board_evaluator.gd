@@ -24,63 +24,61 @@ func get_board_state() -> Array[Constants.BoardState]:
 		results.append(Constants.BoardState.Check_Player)
 	return results
 
-func simulate_move(move: Move) -> EvaluatorState:
-	
+func simulate_move(move: MoveRecord) -> EvaluatorState:
 	var original_state = EvaluatorState.new(
-		computer.duplicate(true),
-		player.duplicate(true)
+		computer.duplicate(),
+		player.duplicate()
 	)
 	
 	for piece in computer + player:
-		if piece.is_piece(move.piece._ref):
-			piece.position = move.target
+		if piece.is_piece(move.piece):
+			piece.position = move.to
 	
-	var check_state = Constants.BoardState.Check_Computer\
-						if move.piece.side == Constants.Side.Computer\
-						else Constants.BoardState.Check_Player
-	
-	var is_check = get_board_state().has(check_state)
-	
-	original_state.is_in_check = is_check
+	if move.captured != null:
+		if move.side == Constants.Side.Player:
+			computer = computer.filter(func (piece: EvaluatorPiece): return piece._ref == move.captured)
+		else:
+			player = player.filter(func (piece: EvaluatorPiece): return piece._ref == move.captured)
 	
 	return original_state
-
-func simulate_player_move(piece: Piece, target_pos: Vector2) -> EvaluatorState:
-	var move = Move.new(
-		EvaluatorPiece.new(
-			piece.piece_type,
-			piece.get_board_position(),
-			Constants.Side.Player,
-			piece
-		),
-		target_pos
-	)
-	
-	return simulate_move(move)
 
 func undo_simulation(state: EvaluatorState) -> void:
 	computer = state.computer
 	player = state.player
 
-func get_all_possible_moves(side: Constants.Side) -> Array[Move]:
-	var moves: Array[Move] = []
-	var pieces = computer if side == Constants.Side.Computer else player
+func get_all_possible_moves(side: Constants.Side) -> Array[MoveRecord]:
+	var moves: Array[MoveRecord] = []
+	
+	var pieces = player if side == Constants.Side.Player else computer
 	
 	for piece in pieces:
-		var all_moves = piece._ref.get_all_possible_moves()
+		var all_moves = piece.move_calculator._calculate_indicator_positions()
 		
-		for move_pos in all_moves:
-			var target_piece = _get_piece_at(move_pos)
+		for pos in all_moves:
+			var target_piece = _get_piece_at(pos)
+			
 			if target_piece != null && target_piece.side == side:
 				continue
-				
-			var potential_move = Move.new(piece, move_pos)
+			elif target_piece != null && target_piece.side != side:
+				moves.push_back(
+					MoveRecord.with_capture(
+						piece._ref,
+						side,
+						piece.position,
+						pos,
+						target_piece._ref
+					)
+				)
+			else:
+				moves.push_back(
+					MoveRecord.new(
+						piece,
+						side,
+						piece.get_board_position(),
+						pos
+					)
+				)
 			
-			var state = simulate_move(potential_move)
-			if !get_board_state().has(Constants.BoardState.Check_Computer):
-				moves.push_back(potential_move)
-			undo_simulation(state)
-	
 	return moves
 
 # ==== Private Methods ====

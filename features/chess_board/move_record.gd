@@ -6,9 +6,12 @@ var from: Vector2
 var to: Vector2
 
 var piece: Piece
-var captures: Piece
+var captured: Piece
 
 var is_endgame: bool = false
+var is_captured_endgame: bool = false
+
+var pawn_promoted_to: Constants.PieceType
 
 func _init(
 	i_piece: Piece,
@@ -26,7 +29,7 @@ static func with_capture(
 	i_side: Constants.Side,
 	i_from: Vector2,
 	i_to: Vector2,
-	i_capture: Piece
+	i_captured: Piece
 ) -> MoveRecord:
 	var record = MoveRecord.new(
 		i_piece,
@@ -35,6 +38,6 @@ static func with_capture(
 		i_to
 	)
 	
-	record.captures = i_capture
+	record.captured = i_captured
 	
 	return record

@@ -109,7 +109,6 @@ func move_piece_to_position(pos: Vector2) -> void:
 	turn_finished.emit()
 
 func castle_the_king(target_piece: Piece) -> void:
-	# move the king...
 	selected_piece.deselect()
 	state = SelectorState.Idle
 	var next_position = Vector2.ZERO
