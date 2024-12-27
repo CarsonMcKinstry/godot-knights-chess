@@ -14,6 +14,8 @@ const RIGHT_BOUND = 8
 const RELATIVE_OFFSET: Vector2 = Vector2(-16, -16)
 const POSITION_CORRECTION: Vector2 = Vector2(5, 5)
 
+var moves: Array[MoveRecord] = []
+
 func get_relative_position(pos: Vector2) -> Vector2:
 	return ((pos + RELATIVE_OFFSET) / 32) + POSITION_CORRECTION
 
@@ -91,3 +93,35 @@ func get_player_piece_at(pos: Vector2) -> Piece:
 func get_opponent_piece_at(pos: Vector2) -> Piece:
 	var abs_pos = get_absolute_position(pos)
 	return opponent_party.get_piece_at(abs_pos)
+
+func record_move(
+	piece: Piece,
+	from: Vector2,
+	to: Vector2,
+	side: Constants.Side
+):
+	moves.push_front(
+		MoveRecord.new(
+			piece,
+			side,
+			from,
+			to
+		)
+	)
+	
+func record_capture(
+	piece: Piece,
+	from: Vector2,
+	to: Vector2,
+	side: Constants.Side,
+	target: Piece
+):
+	moves.push_front(
+		MoveRecord.with_capture(
+			piece,
+			side,
+			from,
+			to,
+			target
+		)
+	)

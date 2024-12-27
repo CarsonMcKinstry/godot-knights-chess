@@ -55,7 +55,6 @@ script = ExtResource("7_l4y32")
 
 [node name="Pawn" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-336, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 1)
@@ -65,7 +64,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-368, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 2)
@@ -75,7 +73,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn3" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-400, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 3)
@@ -85,7 +82,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn4" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-432, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 4)
@@ -95,7 +91,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn5" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-336, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 8)
@@ -105,7 +100,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn6" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-368, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 7)
@@ -115,7 +109,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn7" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-400, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 6)
@@ -125,7 +118,6 @@ dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn8" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(-432, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(2, 5)
@@ -211,7 +203,6 @@ script = ExtResource("7_l4y32")
 
 [node name="Pawn" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(336, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 1)
@@ -221,7 +212,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn2" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(368, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 2)
@@ -231,7 +221,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn3" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(400, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 3)
@@ -241,7 +230,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn4" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(432, -16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 4)
@@ -251,7 +239,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn5" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(336, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 8)
@@ -261,7 +248,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn6" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(368, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 7)
@@ -271,7 +257,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn7" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(400, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 6)
@@ -281,7 +266,6 @@ dark_color = Color(0.454902, 0.101961, 0.2, 1)
 
 [node name="Pawn8" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
 position = Vector2(432, 16)
-piece_type = null
 chess_board = NodePath("../..")
 party = NodePath("..")
 start_position = Vector2(7, 5)

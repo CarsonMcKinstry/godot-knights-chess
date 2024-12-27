@@ -32,6 +32,7 @@ func handle_turn_finished():
 			current_turn = Turn.Player
 
 func handle_next_turn():
+	print(chess_board.moves)
 	var evaluator = BoardEvaluator.new(chess_board)
 
 	var board_state = evaluator.get_board_state()

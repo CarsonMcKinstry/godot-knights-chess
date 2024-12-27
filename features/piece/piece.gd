@@ -145,6 +145,14 @@ func move_to(pos: Vector2) -> void:
 
 func attack_target(target: Piece) -> void:
 	
+	chess_board.record_capture(
+		self,
+		get_board_position(),
+		target.get_board_position(),
+		party.side,
+		target
+	)
+	
 	if piece_type == Constants.PieceType.Pawn && en_passant_possible(target):
 		attack_controller.attack_en_passant(target)
 	else:
@@ -161,6 +169,13 @@ func move_to_position(pos: Vector2) -> void:
 		var starting_pos = chess_board.get_relative_position(position)
 		if abs(starting_pos.x - pos.x) == 2:
 			capturable_by_en_passant = true
+	
+	chess_board.record_move(
+		self,
+		get_board_position(),
+		pos,
+		party.side
+	)
 	
 	movement_controller.move_to(chess_board.get_absolute_position(pos))
 	await movement_controller.finished_moving

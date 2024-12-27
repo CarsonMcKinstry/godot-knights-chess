@@ -1,5 +1,7 @@
 class_name PartyController extends Node2D
 
+@export var side: Constants.Side
+
 func is_ready():
 	for child in get_children():
 		if !child.is_ready:

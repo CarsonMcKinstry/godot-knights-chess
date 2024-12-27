@@ -4,3 +4,4 @@
 
 [node name="AiController" type="Node"]
 script = ExtResource("1_1sevs")
+pst_file = "res://components/controllers/ai_controller/piece_square_tables.json"
