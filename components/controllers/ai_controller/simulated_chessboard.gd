@@ -4,25 +4,12 @@ var computer_pieces: Array[SimulatedPiece]
 var player_pieces: Array[SimulatedPiece]
 
 const PIECE_VALUES = {
-	Piece.PieceType.Pawn: 100,
-	Piece.PieceType.Knight: 350,
-	Piece.PieceType.Bishop: 350,
-	Piece.PieceType.Rook: 525,
-	Piece.PieceType.Queen: 1000,
-	Piece.PieceType.King: 10000,
-}
-
-enum Side {
-	Player,
-	AI
-}
-
-enum BoardState {
-	Undecided,
-	Check_AI,
-	Check_Player,
-	Checkmate_AI,
-	Checkmate_Player
+	Constants.PieceType.Pawn: 100,
+	Constants.PieceType.Knight: 350,
+	Constants.PieceType.Bishop: 350,
+	Constants.PieceType.Rook: 525,
+	Constants.PieceType.Queen: 1000,
+	Constants.PieceType.King: 10000,
 }
 
 static func from(i_chess_board: ChessBoard) -> SimulatedChessBoard:
@@ -30,12 +17,12 @@ static func from(i_chess_board: ChessBoard) -> SimulatedChessBoard:
 	
 	for piece in i_chess_board.opponent_party.get_pieces():
 		board.computer_pieces.push_back(
-			SimulatedPiece.from(piece, Side.AI)
+			SimulatedPiece.from(piece, Constants.Side.Computer)
 		)
 	
 	for piece in i_chess_board.player_party.get_pieces():
 		board.player_pieces.push_back(
-			SimulatedPiece.from(piece, Side.Player)
+			SimulatedPiece.from(piece, Constants.Side.Player)
 		)
 	
 	return board
@@ -49,7 +36,7 @@ func evaluate() -> int:
 	for piece in player_pieces:
 		value -= PIECE_VALUES[piece.ref.piece_type]
 	
-	if is_check(SimulatedChessBoard.Side.AI) || is_checkmate(SimulatedChessBoard.Side.AI):
+	if is_check(Constants.Side.Computer) || is_checkmate(Constants.Side.Computer):
 		return -INF
 	
 	return value
@@ -60,7 +47,7 @@ func evaluate_move(move: SimulatedMove) -> int:
 	
 	var score = evaluate()
 	
-	if move.piece.ref.piece_type == Piece.PieceType.King:
+	if move.piece.ref.piece_type == Constants.PieceType.King:
 		print(score, move)
 	
 	undo(original)
@@ -92,7 +79,7 @@ func simulate_move(move: SimulatedMove) -> Tuple2:
 
 	return original
 
-func simulate_move_for_piece(piece: Piece, position: Vector2, side: SimulatedChessBoard.Side) -> void:
+func simulate_move_for_piece(piece: Piece, position: Vector2, side: Constants.Side) -> void:
 	var simulated_piece = SimulatedPiece.from(piece, side)
 	var simulated_move = SimulatedMove.from(simulated_piece, position)
 	
@@ -118,20 +105,20 @@ func get_all_possible_moves() -> Array[SimulatedMove]:
 	
 	return moves
 
-func calculate_endgame_state() -> Array[BoardState]:
+func calculate_endgame_state() -> Array[Constants.BoardState]:
 	
-	var results: Array[BoardState] = []
+	var results: Array[Constants.BoardState] = []
 	
-	if is_checkmate(SimulatedChessBoard.Side.AI):
-		results.append(BoardState.Checkmate_AI)
-	elif is_check(SimulatedChessBoard.Side.AI):
-		results.append(BoardState.Check_AI)
+	if is_checkmate(Constants.Side.Computer):
+		results.append(Constants.BoardState.Checkmate_Computer)
+	elif is_check(Constants.Side.Computer):
+		results.append(Constants.BoardState.Check_Computer)
 	
 	
-	if is_checkmate(SimulatedChessBoard.Side.Player):
-		results.append(BoardState.Checkmate_Player)
-	elif is_check(SimulatedChessBoard.Side.Player):
-		results.append(BoardState.Check_Player)
+	if is_checkmate(Constants.Side.Player):
+		results.append(Constants.BoardState.Checkmate_Player)
+	elif is_check(Constants.Side.Player):
+		results.append(Constants.BoardState.Check_Player)
 	
 	return results
 	
@@ -146,16 +133,16 @@ func get_piece_at(position: Vector2):
 			
 	return null
 
-func get_king_position(side: SimulatedChessBoard.Side) -> Vector2:
-	var pieces = computer_pieces if side == SimulatedChessBoard.Side.AI else player_pieces
+func get_king_position(side: Constants.Side) -> Vector2:
+	var pieces = computer_pieces if side == Constants.Side.Computer else player_pieces
 	for piece in pieces:
-		if piece.ref.piece_type == Piece.PieceType.King:
+		if piece.ref.piece_type == Constants.PieceType.King:
 			return piece.position
 
 	return Vector2.ZERO
 
-func is_square_attacked(pos: Vector2, attacking_side: SimulatedChessBoard.Side) -> bool:
-	var attacking_pieces = computer_pieces if attacking_side == SimulatedChessBoard.Side.AI else player_pieces
+func is_square_attacked(pos: Vector2, attacking_side: Constants.Side) -> bool:
+	var attacking_pieces = computer_pieces if attacking_side == Constants.Side.Computer else player_pieces
 	
 	for piece in attacking_pieces:
 		var res = can_piece_attack_square(piece, pos)
@@ -166,23 +153,23 @@ func is_square_attacked(pos: Vector2, attacking_side: SimulatedChessBoard.Side) 
 
 func can_piece_attack_square(piece: SimulatedPiece, target: Vector2) -> bool:
 	match piece.ref.piece_type:
-		Piece.PieceType.Pawn:
+		Constants.PieceType.Pawn:
 			return can_pawn_attack(piece, target)
-		Piece.PieceType.Rook:
+		Constants.PieceType.Rook:
 			return can_rook_attack(piece, target)
-		Piece.PieceType.Knight:
+		Constants.PieceType.Knight:
 			return can_knight_attack(piece, target)
-		Piece.PieceType.Bishop:
+		Constants.PieceType.Bishop:
 			return can_bishop_attack(piece, target)
-		Piece.PieceType.King:
+		Constants.PieceType.King:
 			return can_king_attack(piece, target)
-		Piece.PieceType.Queen:
+		Constants.PieceType.Queen:
 			return can_queen_attack(piece, target)
 	
 	return false
 
 func can_pawn_attack(piece: SimulatedPiece, target: Vector2) -> bool:
-	var direction = 1 if piece.side == SimulatedChessBoard.Side.Player else -1
+	var direction = 1 if piece.side == Constants.Side.Player else -1
 	return (abs(piece.position.x - target.x) == 1 and
 			piece.position.y + direction == target.y)
 	
@@ -227,7 +214,7 @@ func is_path_clear(start: Vector2, end: Vector2) -> bool:
 	
 	return true
 
-func is_check(side: SimulatedChessBoard.Side):
+func is_check(side: Constants.Side):
 	var king_position: Vector2 = get_king_position(side)
 	
 	if king_position == null:
@@ -237,16 +224,16 @@ func is_check(side: SimulatedChessBoard.Side):
 	
 	return is_square_attacked(king_position, opposing_side)
 
-func is_checkmate(side: SimulatedChessBoard.Side) -> bool:
+func is_checkmate(side: Constants.Side) -> bool:
 	if !is_check(side):
 		return false
 		
 	var king: SimulatedPiece = null
 	
-	var pieces = computer_pieces if side == SimulatedChessBoard.Side.AI else player_pieces
+	var pieces = computer_pieces if side == Constants.Side.Computer else player_pieces
 		
 	for piece in pieces:
-		if piece.ref.piece_type == Piece.PieceType.King:
+		if piece.ref.piece_type == Constants.PieceType.King:
 			king = piece
 			break
 	
@@ -276,8 +263,8 @@ func is_checkmate(side: SimulatedChessBoard.Side) -> bool:
 			
 	return true
 
-func get_opposing_side(side: SimulatedChessBoard.Side) -> SimulatedChessBoard.Side:
-	if side == SimulatedChessBoard.Side.Player:
-		return SimulatedChessBoard.Side.AI
+func get_opposing_side(side: Constants.Side) -> Constants.Side:
+	if side == Constants.Side.Player:
+		return Constants.Side.Computer
 	else:
-		return SimulatedChessBoard.Side.Player
+		return Constants.Side.Player

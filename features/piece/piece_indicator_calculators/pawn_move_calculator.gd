@@ -6,7 +6,7 @@ func _calculate_indicator_positions() -> Array[Vector2]:
 	
 	var facing = piece.movement_controller.facing 
 	
-	var position_change: Vector2 = Vector2.LEFT if facing == GridController.Facing.Left else Vector2.RIGHT
+	var position_change: Vector2 = Vector2.LEFT if facing == Constants.Facing.Left else Vector2.RIGHT
 	
 	# the first 2 squares forward
 	var possible_moves: Array[Vector2] = []
@@ -27,7 +27,7 @@ func _calculate_attack_positions() -> Array[Vector2]:
 	
 	var facing = piece.movement_controller.facing 
 	
-	var position_change: Vector2 = Vector2.LEFT if facing == GridController.Facing.Left else Vector2.RIGHT
+	var position_change: Vector2 = Vector2.LEFT if facing == Constants.Facing.Left else Vector2.RIGHT
 	
 	var possible_moves: Array[Vector2] = []
 	

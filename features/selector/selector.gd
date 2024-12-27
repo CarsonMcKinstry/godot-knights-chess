@@ -62,34 +62,68 @@ func handle_select() -> void:
 
 func handle_target_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
+		
 		var relative_position = chess_board.get_relative_position(position)
 		
 		if can_piece_move_there(relative_position):
-			var simulated_board = SimulatedChessBoard.from(chess_board)
 			
-			if simulated_board.is_check(SimulatedChessBoard.Side.Player):
-				print("king is currently in check...")
-				
-			# check if the king would be put in check, or is in check
-			else:
-				simulated_board.simulate_move_for_piece(selected_piece, relative_position, SimulatedChessBoard.Side.Player)
-				
-				var endstates = simulated_board.calculate_endgame_state()
-				
-				if endstates.has(SimulatedChessBoard.BoardState.Check_Player) ||\
-					endstates.has(SimulatedChessBoard.BoardState.Checkmate_Player):
-					print("would put the king in check...")
-				else:
-					var target_piece = chess_board.get_piece_at(relative_position)
+			var evaluator = BoardEvaluator.new(chess_board)
+			
+			var original_state = evaluator.simulate_player_move(
+				selected_piece,
+				relative_position
+			)
 
-					if target_piece != null:
-						if player_party.contains(target_piece):
-							if should_castle_a_king(target_piece):
-								await castle_the_king(target_piece)
-						elif opponent_party.contains(target_piece):
-							await attack_target(target_piece)
-					else:
-						await move_piece_to_position(relative_position)
+			
+			if original_state.is_in_check:
+				print("Would put the king in check...")
+			else:
+				var target_piece = chess_board.get_piece_at(relative_position)
+
+				if target_piece != null:
+					if player_party.contains(target_piece):
+						if should_castle_a_king(target_piece):
+							await castle_the_king(target_piece)
+					elif opponent_party.contains(target_piece):
+						await attack_target(target_piece)
+				else:
+					await move_piece_to_position(relative_position)
+		
+		#var relative_position = chess_board.get_relative_position(position)
+		#
+		#if can_piece_move_there(relative_position):
+			#
+			#var evaluator = BoardEvaluator.new(chess_board)
+			#
+			#var board_state = evaluator.get_board_state()
+			#
+			#if board_state.has(Constants.BoardState.Check_Player):
+				#var original_state = evaluator.simulate_player_move(
+					#selected_piece,
+					#relative_position
+				#)
+				#
+				#if original_state.is_in_check:
+					#print("king is currently in check...")
+			#else:
+				#var original_state = evaluator.simulate_player_move(
+					#selected_piece,
+					#relative_position
+				#)
+				#
+				#if original_state.is_in_check:
+					#print("would put the king in check...")
+				#else:
+					#var target_piece = chess_board.get_piece_at(relative_position)
+#
+					#if target_piece != null:
+						#if player_party.contains(target_piece):
+							#if should_castle_a_king(target_piece):
+								#await castle_the_king(target_piece)
+						#elif opponent_party.contains(target_piece):
+							#await attack_target(target_piece)
+					#else:
+						#await move_piece_to_position(relative_position)
 
 	elif Input.is_action_just_pressed("ui_cancel"):
 		selected_piece.deselect()
@@ -133,8 +167,8 @@ func can_piece_move_there(position: Vector2) -> bool:
 
 func should_castle_a_king(target_piece: Piece) -> bool:
 	
-	var is_selected_king = selected_piece.piece_type == Piece.PieceType.King
-	var is_target_rook = target_piece.piece_type == Piece.PieceType.Rook
+	var is_selected_king = selected_piece.piece_type == Constants.PieceType.King
+	var is_target_rook = target_piece.piece_type == Constants.PieceType.Rook
 	
 	var pieces_havent_moved = selected_piece.move_calculator.is_first_move && target_piece.move_calculator.is_first_move
 	

@@ -4,9 +4,9 @@ var x: Variant
 var y: Variant
 
 static func from(x: Variant, y: Variant) -> Tuple2:
-	var tup = Tuple2.new()
-	
-	tup.x = x
-	tup.y = y
-	
+	var tup = Tuple2.new(x, y)
 	return tup
+
+func _init(i_x: Variant, i_y: Variant):
+	x = i_x
+	y = i_x

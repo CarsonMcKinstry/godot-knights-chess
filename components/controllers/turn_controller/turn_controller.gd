@@ -9,7 +9,7 @@ class_name TurnController extends Node
 
 enum Turn {
 	Player,
-	AI
+	Computer
 }
 
 var current_turn: Turn:
@@ -25,27 +25,31 @@ func start():
 	current_turn = Turn.Player
 
 func handle_turn_finished():
-	# eventually, this will check win conditions
-	
 	match current_turn:
 		Turn.Player:
-			current_turn = Turn.AI
-		Turn.AI:
+			current_turn = Turn.Computer
+		Turn.Computer:
 			current_turn = Turn.Player
 
 func handle_next_turn():
-	var endgame_state = SimulatedChessBoard.from(chess_board)\
-		.calculate_endgame_state()
+	var evaluator = BoardEvaluator.new(chess_board)
 
-	match current_turn:
-		Turn.Player:
-			update_player_en_passant()
-			info_label.text = "Player's Turn"
-			player_controller.start_turn()
-		Turn.AI:
-			update_opponent_en_passant()
-			info_label.text = "Computer's Turn"
-			ai_controller.start_turn()
+	var board_state = evaluator.get_board_state()
+	
+	if board_state.has(Constants.BoardState.Checkmate_Computer):
+		print("Checkmate computer! Player Wins")
+	elif board_state.has(Constants.BoardState.Checkmate_Player):
+		print("Checkmate Player! Computer Wins")
+	else:
+		match current_turn:
+			Turn.Player:
+				update_player_en_passant()
+				info_label.text = "Player's Turn"
+				player_controller.start_turn()
+			Turn.Computer:
+				update_opponent_en_passant()
+				info_label.text = "Computer's Turn"
+				ai_controller.start_turn()
 
 func update_player_en_passant():
 	for piece in chess_board.player_party.get_pieces():

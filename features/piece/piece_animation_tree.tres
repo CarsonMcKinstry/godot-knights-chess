@@ -1,56 +1,56 @@
 [gd_resource type="AnimationNodeStateMachine" load_steps=20 format=3 uid="uid://bleeij3quy5ua"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l7qbs"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l3es3"]
 animation = &"attack_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kn4jo"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nak8q"]
 animation = &"attack_right"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_f6qkj"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_l7qbs")
+blend_point_0/node = SubResource("AnimationNodeAnimation_l3es3")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_kn4jo")
+blend_point_1/node = SubResource("AnimationNodeAnimation_nak8q")
 blend_point_1/pos = 1.0
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_haq4e"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cum6w"]
 animation = &"damage_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y3bdj"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pj8vj"]
 animation = &"damage_right"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_s14kb"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_haq4e")
+blend_point_0/node = SubResource("AnimationNodeAnimation_cum6w")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_y3bdj")
+blend_point_1/node = SubResource("AnimationNodeAnimation_pj8vj")
 blend_point_1/pos = 1.0
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jh1yw"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d1sag"]
 animation = &"idle_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vfi2q"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xaaw4"]
 animation = &"idle_right"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_1jq5a"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_jh1yw")
+blend_point_0/node = SubResource("AnimationNodeAnimation_d1sag")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_vfi2q")
+blend_point_1/node = SubResource("AnimationNodeAnimation_xaaw4")
 blend_point_1/pos = 1.0
 min_space = -1.12
 max_space = 1.07
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1u8sb"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w6pvp"]
 animation = &"move_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_10vhx"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_70wvg"]
 animation = &"move_right"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_7nsjc"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_1u8sb")
+blend_point_0/node = SubResource("AnimationNodeAnimation_w6pvp")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_10vhx")
+blend_point_1/node = SubResource("AnimationNodeAnimation_70wvg")
 blend_point_1/pos = 1.0
 blend_mode = 1
 
@@ -86,4 +86,4 @@ states/idle/position = Vector2(364.064, 102.641)
 states/move/node = SubResource("AnimationNodeBlendSpace1D_7nsjc")
 states/move/position = Vector2(363.658, -65.8474)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_xjyhe"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_oipae"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_4sgvb"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_rgamm"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_mxt4r"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_eyff4"), "death", "End", SubResource("AnimationNodeStateMachineTransition_c2jh1")]
-graph_offset = Vector2(47.5205, -132.285)
+graph_offset = Vector2(-16.5595, -127.17)

@@ -14,11 +14,6 @@ enum GridControllerState {
 	Moving
 }
 
-enum Facing {
-	Left,
-	Right
-}
-
 var target_pos: Vector2
 
 var state: GridControllerState = GridControllerState.Idle:
@@ -26,12 +21,12 @@ var state: GridControllerState = GridControllerState.Idle:
 		state_changed.emit(next_state)
 		state = next_state
 
-var facing: Facing = Facing.Right:
+var facing: Constants.Facing = Constants.Facing.Right:
 	set(next_state):
 		facing_changed.emit(next_state)
 		facing = next_state
 
-var initial_facing: Facing
+var initial_facing: Constants.Facing
 
 func _ready():
 	facing_changed.emit(facing)
@@ -79,18 +74,18 @@ func get_movement_direction() -> Vector2:
 			return Vector2.LEFT
 	return Vector2.ZERO
 
-func face(dir: Facing) -> void:
+func face(dir: Constants.Facing) -> void:
 	facing = dir
 
 func face_toward(pos: Vector2) -> void:
 	if pos.x > body.position.x:
-		face(Facing.Right)
+		face(Constants.Facing.Right)
 	elif pos.x < body.position.x:
-		face(Facing.Left)
+		face(Constants.Facing.Left)
 
 func about_face() -> void:
 	match facing:
-		Facing.Right:
-			facing = Facing.Left
-		Facing.Left:
-			facing = Facing.Right
+		Constants.Facing.Right:
+			facing = Constants.Facing.Left
+		Constants.Facing.Left:
+			facing = Constants.Facing.Right

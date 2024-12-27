@@ -23,9 +23,9 @@ func _attack_en_passant(target: Piece) -> void:
 	piece.movement_controller.about_face()
 
 	match piece.movement_controller.facing:
-		GridController.Facing.Left:
+		Constants.Facing.Left:
 			piece.movement_controller.move_to(target_position + Vector2.LEFT * 32)
-		GridController.Facing.Right:
+		Constants.Facing.Right:
 			piece.movement_controller.move_to(target_position + Vector2.RIGHT * 32)
 	
 	await piece.movement_controller.finished_moving
@@ -64,7 +64,7 @@ func move_to_en_passant_position(target: Piece) -> Vector2:
 	
 	var target_relative_position = piece.chess_board.get_relative_position(target.position)
 	
-	if piece.movement_controller.facing == GridController.Facing.Left:
+	if piece.movement_controller.facing == Constants.Facing.Left:
 		target_relative_position += Vector2.LEFT
 	else:
 		target_relative_position += Vector2.RIGHT

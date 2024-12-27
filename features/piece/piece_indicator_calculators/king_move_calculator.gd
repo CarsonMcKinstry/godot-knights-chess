@@ -50,7 +50,7 @@ func get_castling_positions(positions_under_attack: Array[Vector2]) -> Array[Vec
 	
 	var pos = piece.get_board_position()
 	var rooks: Array[Piece] = piece.party.get_pieces()\
-		.filter(func (p: Piece): return p.piece_type == Piece.PieceType.Rook && is_first_move)
+		.filter(func (p: Piece): return p.piece_type == Constants.PieceType.Rook && is_first_move)
 	
 	# okay, we have our rooks
 	

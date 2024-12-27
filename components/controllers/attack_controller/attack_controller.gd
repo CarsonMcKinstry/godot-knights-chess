@@ -29,7 +29,7 @@ func move_to_melee_attack_position(target: Piece) -> void:
 	if piece.position.x < target.position.x:
 		target_relative_position += Vector2.LEFT
 	elif piece.position.x == target.position.x:
-		if target.movement_controller.facing == GridController.Facing.Left:
+		if target.movement_controller.facing == Constants.Facing.Left:
 			target_relative_position += Vector2.LEFT
 		else:
 			target_relative_position += Vector2.RIGHT
@@ -41,7 +41,7 @@ func move_to_melee_attack_position(target: Piece) -> void:
 	if piece.position.x < target.position.x:
 		target_absolute_position += ATTACK_POSITION_OFFSET
 	elif piece.position.x == target.position.x:
-		if target.movement_controller.facing == GridController.Facing.Left:
+		if target.movement_controller.facing == Constants.Facing.Left:
 			target_absolute_position += ATTACK_POSITION_OFFSET
 		else:
 			target_absolute_position -= ATTACK_POSITION_OFFSET

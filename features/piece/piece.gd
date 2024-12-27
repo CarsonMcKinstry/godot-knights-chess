@@ -1,15 +1,6 @@
 class_name Piece extends Area2D
 
-enum PieceType {
-	Pawn,
-	Rook,
-	Knight,
-	Bishop,
-	King,
-	Queen
-}
-
-@export var piece_type: PieceType
+@export var piece_type: Constants.PieceType
 
 @export var movement_controller: GridController
 @export var chess_board: ChessBoard
@@ -32,8 +23,8 @@ signal finished_entering
 signal finished_moving
 
 var is_ready: bool = false
-var initial_facing: GridController.Facing
-var facing: GridController.Facing
+var initial_facing: Constants.Facing
+var facing: Constants.Facing
 var selected: bool = false
 
 var grid_position: Vector2 = Vector2.ZERO
@@ -41,7 +32,7 @@ var grid_position: Vector2 = Vector2.ZERO
 var capturable_by_en_passant: bool = false:
 	set(next_state):
 		
-		if piece_type == PieceType.Pawn:
+		if piece_type == Constants.PieceType.Pawn:
 			capturable_by_en_passant = next_state
 		else:
 			capturable_by_en_passant = false
@@ -83,13 +74,13 @@ func _ready() -> void:
 func attack_hit():
 	attack_controller.attack_collided.emit()
 
-func handle_facing_change(i_facing: GridController.Facing) -> void:
+func handle_facing_change(i_facing: Constants.Facing) -> void:
 	facing = i_facing
 	match facing:
-		GridController.Facing.Left:
+		Constants.Facing.Left:
 			for animation in animations:
 				animation_tree.set("parameters/%s/blend_position" % animation, -1.0)
-		GridController.Facing.Right:
+		Constants.Facing.Right:
 			for animation in animations:
 				animation_tree.set("parameters/%s/blend_position" % animation, 1.0)
 
@@ -154,7 +145,7 @@ func move_to(pos: Vector2) -> void:
 
 func attack_target(target: Piece) -> void:
 	
-	if piece_type == PieceType.Pawn && en_passant_possible(target):
+	if piece_type == Constants.PieceType.Pawn && en_passant_possible(target):
 		attack_controller.attack_en_passant(target)
 	else:
 		attack_controller.attack(target)
@@ -166,7 +157,7 @@ func attack_target(target: Piece) -> void:
 
 func move_to_position(pos: Vector2) -> void:
 	
-	if piece_type == PieceType.Pawn:
+	if piece_type == Constants.PieceType.Pawn:
 		var starting_pos = chess_board.get_relative_position(position)
 		if abs(starting_pos.x - pos.x) == 2:
 			capturable_by_en_passant = true
