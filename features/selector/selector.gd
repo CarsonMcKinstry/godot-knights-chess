@@ -20,6 +20,12 @@ var state: SelectorState = SelectorState.Idle
 var hovered_piece: Piece = null
 var selected_piece: Piece = null
 
+var grid_position: Vector2
+
+func _ready():
+	movement_controller.finished_moving.connect(update_grid_position)
+	update_grid_position()
+
 func _physics_process(_delta: float) -> void:
 	
 	if state == SelectorState.Idle:
@@ -49,45 +55,44 @@ func handle_move() -> void:
 			movement_controller.move_in(direction)
 			await movement_controller.finished_moving
 
+func update_grid_position():
+	grid_position = chess_board.get_grid_position(position)
+
 func handle_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
-		var relative_position = chess_board.get_relative_position(position)
 		
-		var player_piece = chess_board.get_player_piece_at(relative_position)
+		var piece = chess_board.get_piece_at(grid_position)
 		
-		if player_piece != null:
-			player_piece.select()
-			selected_piece = player_piece
+		if piece != null && piece.party.side == Constants.Side.Player:
+			piece.select()
+			selected_piece = piece
 			state = SelectorState.PieceSelected
 
 func handle_target_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
 		
-		var relative_position = chess_board.get_relative_position(position)
-		
-		if can_piece_move_there(relative_position):
+		if can_piece_move_there(grid_position):
 			
-			var evaluator = BoardEvaluator.new(chess_board)
-			
-			var original_state = evaluator.simulate_player_move(
+			var move = MoveRecord.new(
+				Constants.Side.Player,
 				selected_piece,
-				relative_position
+				selected_piece.grid_position,
+				grid_position
 			)
-
 			
-			if original_state.is_in_check:
-				print("Would put the king in check...")
-			else:
-				var target_piece = chess_board.get_piece_at(relative_position)
+			var target_piece = chess_board.get_piece_at(grid_position)
+			
+			if target_piece != null:
+				move = move.with_target(target_piece)
 
-				if target_piece != null:
-					if player_party.contains(target_piece):
-						if should_castle_a_king(target_piece):
-							await castle_the_king(target_piece)
-					elif opponent_party.contains(target_piece):
-						await attack_target(target_piece)
-				else:
-					await move_piece_to_position(relative_position)
+			chess_board.enqueue_move(move)
+			
+			state = SelectorState.Idle
+			selected_piece.deselect()
+			selected_piece = null
+			
+			await chess_board.resolve_latest_move()
+			turn_finished.emit()
 
 	elif Input.is_action_just_pressed("ui_cancel"):
 		selected_piece.deselect()

@@ -19,7 +19,7 @@ func _attack(target: Piece) -> void:
 	# damage the target
 	target.damaged()
 	# emit signal
-	await target.tree_exited
+	await target.finished_exiting
 	piece.z_index = init_z_index
 	
 	piece.movement_controller.move_to(target_position)

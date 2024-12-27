@@ -20,8 +20,10 @@ class_name Piece extends Area2D
 
 signal finished_entering
 signal finished_moving
+signal finished_exiting
 
-var is_ready: bool = false
+var is_ready: bool = true
+var is_dead: bool = false
 @onready var initial_facing: Constants.Facing = Constants.Facing.Right if party.side == Constants.Side.Player else Constants.Facing.Left
 @onready var facing: Constants.Facing = initial_facing
 var selected: bool = false
@@ -69,9 +71,6 @@ func handle_facing_change(i_facing: Constants.Facing) -> void:
 			for animation in animations:
 				animation_tree.set("parameters/%s/blend_position" % animation, 1.0)
 
-func get_board_position() -> Vector2:
-	return chess_board.get_relative_position(position)
-
 func select() -> void:
 	selected = true
 	if move_calculator != null:
@@ -91,7 +90,9 @@ func died() -> void:
 	tween.set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(self,"modulate:a",0.0,0.3)
 	await tween.finished
-	queue_free()
+	is_dead = true
+	position = Vector2(1000, 1000)
+	finished_exiting.emit()
 
 func attack() -> void:
 	animation_state.travel("attack")

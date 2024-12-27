@@ -1,8 +1,7 @@
 class_name PawnMoveCalculator extends MoveCalculator
 
 func _calculate_indicator_positions() -> Array[Vector2]:
-	
-	var pos = piece.get_board_position()
+	var pos = piece.grid_position
 	
 	var facing = piece.movement_controller.facing 
 	
@@ -10,20 +9,20 @@ func _calculate_indicator_positions() -> Array[Vector2]:
 	
 	# the first 2 squares forward
 	var possible_moves: Array[Vector2] = []
-	
+	#
 	possible_moves.append_array(get_forward_positions(pos, position_change))
-
+#
 	possible_moves.append_array(get_forward_attack_targets(pos, position_change))
-	
+	#
 	possible_moves.append_array(get_en_passant_moves(pos))
-	
+	#
 	possible_moves = possible_moves\
 		.filter(func (pos): return !is_blocked_position(pos))
 
 	return possible_moves
 
 func _calculate_attack_positions() -> Array[Vector2]:
-	var pos = piece.get_board_position()
+	var pos = piece.grid_position
 	
 	var facing = piece.movement_controller.facing 
 	

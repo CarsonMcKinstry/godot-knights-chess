@@ -1,7 +1,7 @@
 class_name QueenMoveCalculator extends MoveCalculator
 
 func _calculate_indicator_positions() -> Array[Vector2]:
-	var pos = piece.get_board_position()
+	var pos = piece.grid_position
 	
 	var possible_moves: Array[Vector2] = []
 	

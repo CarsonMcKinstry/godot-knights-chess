@@ -60,7 +60,7 @@ func to_chess_board_positions(positions: Array[Vector2]) -> Array[Vector2]:
 	return mapped_positions
 	
 func to_chess_board_position(pos: Vector2) -> Vector2:
-	return piece.chess_board.get_absolute_position(pos) + piece.chess_board.position
+	return piece.chess_board.get_canvas_position(pos) + piece.chess_board.position
 
 func get_positions_in_direction(position: Vector2, direction: Vector2) -> Array[Vector2]:
 	return get_n_positions_in_direction(8, position, direction)

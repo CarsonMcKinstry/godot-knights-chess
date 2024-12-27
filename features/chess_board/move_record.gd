@@ -42,6 +42,15 @@ func with_castled(i_piece: Piece) -> MoveRecord:
 	
 	return self
 
+func with_target(target: Piece) -> MoveRecord:
+	
+	if piece.is_on_same_team_as(target):
+		return with_castled(target)
+	else:
+		return with_captured(target)
+	
+	return self
+
 func resolve(chess_board: ChessBoard) -> void:
 	if captured != null:
 		await piece.attack_target(captured)
@@ -49,4 +58,16 @@ func resolve(chess_board: ChessBoard) -> void:
 		var pos = chess_board.get_canvas_position(piece.grid_position)
 	
 		await piece.move_to_position(pos)
+
+func undo() -> void:
+	piece.grid_position = from
 	
+	if captured != null:
+		captured.is_dead = true
+
+func apply() -> void:
+	
+	piece.grid_position = to
+
+	if captured != null:
+		captured.is_dead = true

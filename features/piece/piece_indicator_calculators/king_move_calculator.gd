@@ -2,7 +2,7 @@ class_name KingMoveCalculator extends MoveCalculator
 
 func _calculate_indicator_positions() -> Array[Vector2]:
 	
-	var pos = piece.get_board_position()
+	var pos = piece.grid_position
 	
 	var possible_moves: Array[Vector2] = []
 	
@@ -17,18 +17,20 @@ func _calculate_indicator_positions() -> Array[Vector2]:
 		Vector2.LEFT + Vector2.UP
 	]
 	
-	var pieces_under_attack = piece.chess_board.opponent_party.get_attackable_positions() if piece.selected else []
+	return possible_moves
 	
-	for position_change in position_changes:
-		var next_position = pos + position_change
-		
-		if !is_blocked_position(next_position):
-			possible_moves.push_back(next_position)
-
-	if piece.selected:
-		possible_moves.append_array(get_castling_positions(pieces_under_attack))
-
-	return possible_moves.filter(func (move): return !pieces_under_attack.has(move))
+	#var pieces_under_attack = piece.chess_board.opponent_party.get_attackable_positions() if piece.selected else []
+	#
+	#for position_change in position_changes:
+		#var next_position = pos + position_change
+		#
+		#if !is_blocked_position(next_position):
+			#possible_moves.push_back(next_position)
+#
+	#if piece.selected:
+		#possible_moves.append_array(get_castling_positions(pieces_under_attack))
+#
+	#return possible_moves.filter(func (move): return !pieces_under_attack.has(move))
 
 
 func is_blocked_position(pos: Vector2) -> bool:
@@ -48,7 +50,7 @@ func get_castling_positions(positions_under_attack: Array[Vector2]) -> Array[Vec
 	if !is_first_move:
 		return []
 	
-	var pos = piece.get_board_position()
+	var pos = piece.grid_position
 	var rooks: Array[Piece] = piece.party.get_pieces()\
 		.filter(func (p: Piece): return p.piece_type == Constants.PieceType.Rook && is_first_move)
 	

@@ -33,29 +33,29 @@ func handle_turn_finished():
 
 func handle_next_turn():
 	
-	var evaluator = BoardEvaluator.new(chess_board)
-
-	var board_state = evaluator.get_board_state()
-	
-	if board_state.has(Constants.BoardState.Checkmate_Computer):
-		print("Checkmate computer! Player Wins")
-	elif board_state.has(Constants.BoardState.Checkmate_Player):
-		print("Checkmate Player! Computer Wins")
-	else:
-		match current_turn:
-			Turn.Player:
-				update_player_en_passant()
-				info_label.text = "Player's Turn"
-				player_controller.start_turn()
-			Turn.Computer:
-				update_opponent_en_passant()
-				info_label.text = "Computer's Turn"
-				ai_controller.start_turn()
+	#var evaluator = BoardEvaluator.new(chess_board)
+#
+	#var board_state = evaluator.get_board_state()
+	#
+	#if board_state.has(Constants.BoardState.Checkmate_Computer):
+		#print("Checkmate computer! Player Wins")
+	#elif board_state.has(Constants.BoardState.Checkmate_Player):
+		#print("Checkmate Player! Computer Wins")
+	#else:
+	match current_turn:
+		Turn.Player:
+			update_player_en_passant()
+			info_label.text = "Player's Turn"
+			player_controller.start_turn()
+		Turn.Computer:
+			update_opponent_en_passant()
+			info_label.text = "Computer's Turn"
+			ai_controller.start_turn()
 
 func update_player_en_passant():
 	for piece in chess_board.player_party.get_pieces():
 		piece.capturable_by_en_passant = false
 		
 func update_opponent_en_passant():
-	for piece in chess_board.opponent_party.get_pieces():
+	for piece in chess_board.computer_party.get_pieces():
 		piece.capturable_by_en_passant = false

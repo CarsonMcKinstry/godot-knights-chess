@@ -19,7 +19,7 @@ func _attack(target: Piece) -> void:
 	
 	target.damaged()
 	
-	await target.tree_exited
+	await target.finished_exiting
 	
 	smite.queue_free()
 	
