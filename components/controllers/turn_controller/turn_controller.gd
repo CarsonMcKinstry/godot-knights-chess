@@ -36,8 +36,7 @@ func handle_turn_finished():
 func handle_next_turn():
 	var endgame_state = SimulatedChessBoard.from(chess_board)\
 		.calculate_endgame_state()
-		
-	print(endgame_state)
+
 	match current_turn:
 		Turn.Player:
 			update_player_en_passant()
