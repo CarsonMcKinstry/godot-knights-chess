@@ -49,7 +49,7 @@ func evaluate() -> int:
 	for piece in player_pieces:
 		value -= PIECE_VALUES[piece.ref.piece_type]
 	
-	if is_check(SimulatedChessBoard.Side.AI):
+	if is_check(SimulatedChessBoard.Side.AI) || is_checkmate(SimulatedChessBoard.Side.AI):
 		return -INF
 	
 	return value
@@ -60,7 +60,8 @@ func evaluate_move(move: SimulatedMove) -> int:
 	
 	var score = evaluate()
 	
-	
+	if move.piece.ref.piece_type == Piece.PieceType.King:
+		print(score, move)
 	
 	undo(original)
 	
