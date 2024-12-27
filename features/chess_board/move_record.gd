@@ -6,38 +6,47 @@ var from: Vector2
 var to: Vector2
 
 var piece: Piece
+
 var captured: Piece
+var promoted_to: Constants.PieceType
 
-var is_endgame: bool = false
-var is_captured_endgame: bool = false
-
-var pawn_promoted_to: Constants.PieceType
+var castled: Piece
 
 func _init(
-	i_piece: Piece,
 	i_side: Constants.Side,
+	i_piece: Piece,
 	i_from: Vector2,
 	i_to: Vector2
-) -> void :
+):
 	side = i_side
 	piece = i_piece
 	from = i_from
 	to = i_to
 	
-static func with_capture(
-	i_piece: Piece,
-	i_side: Constants.Side,
-	i_from: Vector2,
-	i_to: Vector2,
-	i_captured: Piece
-) -> MoveRecord:
-	var record = MoveRecord.new(
-		i_piece,
-		i_side,
-		i_from,
-		i_to
-	)
+func with_captured(i_piece: Piece) -> MoveRecord:
 	
-	record.captured = i_captured
+	captured = i_piece
 	
-	return record
+	return self
+	
+func promoted(type: Constants.PieceType) -> MoveRecord:
+	
+	promoted_to = type
+	
+	return self
+
+func with_castled(i_piece: Piece) -> MoveRecord:
+	assert(piece.piece_type == Constants.PieceType.Rook)
+	
+	castled = i_piece
+	
+	return self
+
+func resolve(chess_board: ChessBoard) -> void:
+	if captured != null:
+		await piece.attack_target(captured)
+	else:
+		var pos = chess_board.get_canvas_position(piece.grid_position)
+	
+		await piece.move_to_position(pos)
+	

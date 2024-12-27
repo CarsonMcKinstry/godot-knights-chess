@@ -56,29 +56,29 @@ func get_all_possible_moves(side: Constants.Side) -> Array[MoveRecord]:
 		
 		for pos in all_moves:
 			var target_piece = _get_piece_at(pos)
-			
-			if target_piece != null && target_piece.side == side:
-				continue
-			elif target_piece != null && target_piece.side != side:
-				moves.push_back(
-					MoveRecord.with_capture(
-						piece._ref,
-						side,
-						piece.position,
-						pos,
-						target_piece._ref
-					)
-				)
-			else:
-				moves.push_back(
-					MoveRecord.new(
-						piece,
-						side,
-						piece.get_board_position(),
-						pos
-					)
-				)
-			
+			#
+			#if target_piece != null && target_piece.side == side:
+				#continue
+			#elif target_piece != null && target_piece.side != side:
+				#moves.push_back(
+					#MoveRecord.with_capture(
+						#piece._ref,
+						#side,
+						#piece.position,
+						#pos,
+						#target_piece._ref
+					#)
+				#)
+			#else:
+				#moves.push_back(
+					#MoveRecord.new(
+						#piece,
+						#side,
+						#piece.get_board_position(),
+						#pos
+					#)
+				#)
+			#
 	return moves
 
 # ==== Private Methods ====

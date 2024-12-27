@@ -45,19 +45,19 @@ func _attack(target: Piece) -> void:
 	piece.z_index = 1000
 	# perform the attack
 	piece.attack()
-
-	# wait for the attack collide signal
+#
+	## wait for the attack collide signal
 	await attack_collided
-	# damage the target
+	## damage the target
 	target.damaged()
-	# emit signal
+	## emit signal
 	await target.tree_exited
 	piece.z_index = init_z_index
-	
+	#
 	piece.movement_controller.move_to(target_position)
-	
+	#
 	await piece.movement_controller.finished_moving
-	
+	#
 	attack_finished.emit()
 	
 func move_to_en_passant_position(target: Piece) -> Vector2:

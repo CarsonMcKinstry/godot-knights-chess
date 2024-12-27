@@ -24,19 +24,19 @@ func face_target(target: Piece) -> void:
 
 func move_to_melee_attack_position(target: Piece) -> void:
 	
-	var target_relative_position = piece.chess_board.get_relative_position(target.position)
-
-	if piece.position.x < target.position.x:
-		target_relative_position += Vector2.LEFT
-	elif piece.position.x == target.position.x:
-		if target.movement_controller.facing == Constants.Facing.Left:
-			target_relative_position += Vector2.LEFT
-		else:
-			target_relative_position += Vector2.RIGHT
-	else:
-		target_relative_position += Vector2.RIGHT
+	var target_position = target.grid_position
 	
-	var target_absolute_position = piece.chess_board.get_absolute_position(target_relative_position)
+	if piece.grid_position.x < target_position.x:
+		target_position += Vector2.LEFT
+	elif piece.grid_position.x == target_position.x:
+		if target.facing == Constants.Facing.Left:
+			target_position += Vector2.LEFT
+		else:
+			target_position += Vector2.RIGHT
+	else:
+		target_position += Vector2.RIGHT
+	
+	var target_absolute_position = piece.chess_board.get_canvas_position(target_position)
 	
 	if piece.position.x < target.position.x:
 		target_absolute_position += ATTACK_POSITION_OFFSET

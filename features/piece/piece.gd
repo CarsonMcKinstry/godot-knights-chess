@@ -13,7 +13,6 @@ class_name Piece extends Area2D
 @onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @export var start_position: Vector2
-@export var intermediate_stop: Vector2
 
 @export_category("Color Scheme")
 @export var light_color: Color
@@ -23,11 +22,11 @@ signal finished_entering
 signal finished_moving
 
 var is_ready: bool = false
-var initial_facing: Constants.Facing
-var facing: Constants.Facing
+@onready var initial_facing: Constants.Facing = Constants.Facing.Right if party.side == Constants.Side.Player else Constants.Facing.Left
+@onready var facing: Constants.Facing = initial_facing
 var selected: bool = false
 
-var grid_position: Vector2 = Vector2.ZERO
+@onready var grid_position: Vector2 = start_position
 
 var capturable_by_en_passant: bool = false:
 	set(next_state):
@@ -45,31 +44,17 @@ const animations = [
 ]
 
 func _ready() -> void:
-	
 	if sprites.size() > 0:
 		for sprite in sprites:
 			sprite.material.set_shader_parameter("light", light_color)
 			sprite.material.set_shader_parameter("dark", dark_color)
-	
+	#
 	movement_controller.facing_changed.connect(handle_facing_change)
-	
+	#
 	movement_controller.finished_moving.connect(handle_finish_moving)
 	movement_controller.moving.connect(handle_moving)
-	
-	handle_facing_change(movement_controller.facing)
-	
-	if chess_board != null:
-		movement_controller.move_to(chess_board.get_absolute_position(intermediate_stop))
-		await movement_controller.finished_moving
-		movement_controller.move_to(chess_board.get_absolute_position(start_position))
-		await movement_controller.finished_moving
-		is_ready = true
-		finished_entering.emit()
-	else:
-		is_ready = true
-		finished_entering.emit()
-		
-	
+	#
+	handle_facing_change(initial_facing)
 
 func attack_hit():
 	attack_controller.attack_collided.emit()
@@ -126,33 +111,7 @@ func handle_moving():
 func handle_finish_moving():
 	idle()
 
-func get_all_possible_moves() -> Array[Vector2]:
-	return move_calculator._calculate_indicator_positions()
-
-func get_all_possible_attacks() -> Array[Vector2]:
-	return move_calculator._calculate_attack_positions()
-
-func move_to(pos: Vector2) -> void:
-	var target_piece = chess_board.get_piece_at(pos)
-	
-	if target_piece != null:
-		if !is_on_same_team_as(target_piece):
-			await attack_target(target_piece)
-	else:
-		await move_to_position(pos)
-		
-	finished_moving.emit()
-
 func attack_target(target: Piece) -> void:
-	
-	chess_board.record_capture(
-		self,
-		get_board_position(),
-		target.get_board_position(),
-		party.side,
-		target
-	)
-	
 	if piece_type == Constants.PieceType.Pawn && en_passant_possible(target):
 		attack_controller.attack_en_passant(target)
 	else:
@@ -166,23 +125,30 @@ func attack_target(target: Piece) -> void:
 func move_to_position(pos: Vector2) -> void:
 	
 	if piece_type == Constants.PieceType.Pawn:
-		var starting_pos = chess_board.get_relative_position(position)
+		var starting_pos = grid_position - chess_board.get_grid_position(position)
 		if abs(starting_pos.x - pos.x) == 2:
 			capturable_by_en_passant = true
 	
-	chess_board.record_move(
-		self,
-		get_board_position(),
-		pos,
-		party.side
-	)
-	
-	movement_controller.move_to(chess_board.get_absolute_position(pos))
+	movement_controller.move_to(pos)
 	await movement_controller.finished_moving
+	
 	if move_calculator != null:
 		move_calculator.is_first_move = false
+	
+	#
+	#chess_board.record_move(
+		#self,
+		#get_board_position(),
+		#pos,
+		#party.side
+	#)
+	#
+	#movement_controller.move_to(chess_board.get_absolute_position(pos))
+	#await movement_controller.finished_moving
+	#if move_calculator != null:
+		#move_calculator.is_first_move = false
 
 func en_passant_possible(target: Piece) -> bool:
 	return \
-		target.get_board_position().x == get_board_position().x\
+		target.grid_position.x == grid_position.x\
 		&& target.capturable_by_en_passant
