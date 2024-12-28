@@ -20,9 +20,18 @@ var current_turn: Turn:
 func _ready():
 	player_controller.turn_finished.connect(handle_turn_finished)
 	ai_controller.turn_finished.connect(handle_turn_finished)
+	
+	player_controller.checkmate.connect(handle_player_checkmate)
+	ai_controller.checkmate.connect(handle_computer_checkmate)
 
 func start():
 	current_turn = Turn.Player
+
+func handle_computer_checkmate():
+	print("Checkmate! Player Wins")
+
+func handle_player_checkmate():
+	print("Checkmate! Computer wins!")
 
 func handle_turn_finished():
 	match current_turn:
@@ -32,16 +41,6 @@ func handle_turn_finished():
 			current_turn = Turn.Player
 
 func handle_next_turn():
-	
-	#var evaluator = BoardEvaluator.new(chess_board)
-#
-	#var board_state = evaluator.get_board_state()
-	#
-	#if board_state.has(Constants.BoardState.Checkmate_Computer):
-		#print("Checkmate computer! Player Wins")
-	#elif board_state.has(Constants.BoardState.Checkmate_Player):
-		#print("Checkmate Player! Computer Wins")
-	#else:
 	match current_turn:
 		Turn.Player:
 			update_player_en_passant()

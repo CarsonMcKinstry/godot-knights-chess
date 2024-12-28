@@ -45,10 +45,11 @@ func start_turn():
 	var move
 	
 	while !all_possible_moves.is_empty():
-		move = all_possible_moves.pop_front()
-		var is_valid_move = chess_board.validate_move(move)
+		var temp = all_possible_moves.pop_front()
+		var is_valid_move = chess_board.validate_move(temp)
 		
 		if is_valid_move:
+			move = temp
 			break
 
 	if move != null:

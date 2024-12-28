@@ -1,6 +1,7 @@
 class_name Selector extends Area2D
 
 signal turn_finished
+signal checkmate
 
 @export var sprite: AnimatedSprite2D
 @export var movement_controller: GridController
