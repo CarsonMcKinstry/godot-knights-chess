@@ -81,9 +81,12 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.5, 1.83333),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"attack_hit"
+}, {
 "args": [],
 "method": &"attack_hit"
 }]
@@ -148,9 +151,12 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.5, 1.83333),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"attack_hit"
+}, {
 "args": [],
 "method": &"attack_hit"
 }]
@@ -606,6 +612,7 @@ texture = ExtResource("5_p0u7v")
 flip_h = true
 hframes = 24
 vframes = 7
+frame = 5
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 visible = false
@@ -616,7 +623,6 @@ flip_h = true
 vframes = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-active = false
 libraries = {
 "": SubResource("AnimationLibrary_g1ql6")
 }

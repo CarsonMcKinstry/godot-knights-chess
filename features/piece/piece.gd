@@ -57,10 +57,12 @@ func _ready() -> void:
 	movement_controller.facing = initial_facing
 
 func attack_hit():
+	print("attack hit called...")
 	attack_controller.attack_collided.emit()
 
 func handle_facing_change(i_facing: Constants.Facing) -> void:
 	facing = i_facing
+
 	match facing:
 		Constants.Facing.Left:
 			for animation in animations:

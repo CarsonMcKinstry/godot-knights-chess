@@ -16,8 +16,13 @@ func _attack(target: Piece) -> void:
 	
 	# damage the target
 	target.damaged()
+	
 	# emit signal
 	await target.finished_exiting
+	
+	# hack to wait for the attack animation to fully finish
+	await attack_collided
+	
 	piece.z_index = init_z_index
 	
 	piece.movement_controller.move_to(target_position)
@@ -28,10 +33,16 @@ func _attack(target: Piece) -> void:
 func move_to_attack_position(target: Piece) -> void:
 	var target_position = target.grid_position
 
-	if piece.grid_position.x < target.grid_position.x:
-		target_position += Vector2.RIGHT
+	if target.position.x > piece.position.x:
+		if piece.movement_controller.facing == Constants.Facing.Right:
+			target_position += Vector2.LEFT
+		else:
+			target_position += Vector2.RIGHT
 	else:
-		target_position += Vector2.LEFT
+		if piece.movement_controller.facing == Constants.Facing.Right:
+			target_position += Vector2.RIGHT
+		else:
+			target_position += Vector2.LEFT
 	
 	var target_absolute_position = piece.chess_board.get_canvas_position(target_position)
 	
