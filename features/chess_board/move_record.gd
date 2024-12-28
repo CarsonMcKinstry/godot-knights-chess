@@ -12,6 +12,8 @@ var promoted_to: Constants.PieceType
 
 var castled: Piece
 
+var original_rook_position: Vector2
+
 func _init(
 	i_side: Constants.Side,
 	i_piece: Piece,
@@ -74,20 +76,13 @@ func resolve(chess_board: ChessBoard) -> void:
 	if captured != null:
 		await piece.attack_target(captured)
 	if castled != null:
+		var positions = calculate_castled_positions()
 		
-		var direction = (castled.grid_position - from).normalized()
-		
-		var king_grid_position = from + direction * 2
-		var rook_grid_position = king_grid_position - direction
-		
-		var king_position = chess_board.get_canvas_position(king_grid_position)
-		var rook_position = chess_board.get_canvas_position(rook_grid_position)
+		var king_position = chess_board.get_canvas_position(positions[0])
+		var rook_position = chess_board.get_canvas_position(positions[1])
 		
 		await piece.move_to_position(king_position)
 		await castled.move_to_position(rook_position)
-		
-		piece.grid_position = king_grid_position
-		castled.grid_position = rook_grid_position
 		
 	else:
 		var pos = chess_board.get_canvas_position(piece.grid_position)
@@ -97,12 +92,34 @@ func resolve(chess_board: ChessBoard) -> void:
 func undo() -> void:
 	piece.grid_position = from
 	
+	if castled != null:
+		
+		castled.grid_position = original_rook_position
+	
 	if captured != null:
 		captured.is_dead = false
 
 func apply() -> void:
-	
+
 	piece.grid_position = to
+
+	if castled != null:
+		var positions = calculate_castled_positions()
+		
+		piece.grid_position = positions[0]
+		
+		original_rook_position = castled.grid_position
+		
+		castled.grid_position = positions[1]
 
 	if captured != null:
 		captured.is_dead = true
+
+func calculate_castled_positions() -> Array[Vector2]:
+	
+	var direction = (castled.grid_position - from).normalized()
+		
+	var king_grid_position = from + direction * 2
+	var rook_grid_position = king_grid_position - direction
+	
+	return [king_grid_position, rook_grid_position]

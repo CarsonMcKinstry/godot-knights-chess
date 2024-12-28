@@ -355,8 +355,6 @@ move_calculator = NodePath("MoveCalculator")
 animation_tree = NodePath("AnimationTree")
 sprites = [NodePath("Sprite2D")]
 attack_controller = NodePath("AttackController")
-light_color = null
-dark_color = null
 
 [node name="GridController" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("3_ckllj")

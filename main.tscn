@@ -61,7 +61,7 @@ light_color = Color(0.176471, 0.415686, 0.772549, 1)
 dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Pawn2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("4_bgln0")]
-position = Vector2(-48, -80)
+position = Vector2(-80, -80)
 chess_board = NodePath("../..")
 party = NodePath("..")
 light_color = Color(0.176471, 0.415686, 0.772549, 1)
@@ -117,14 +117,14 @@ light_color = Color(0.176471, 0.415686, 0.772549, 1)
 dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Bishop" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("7_oim0n")]
-position = Vector2(-48, -112)
+position = Vector2(-112, -48)
 chess_board = NodePath("../..")
 party = NodePath("..")
 light_color = Color(0.176471, 0.415686, 0.772549, 1)
 dark_color = Color(0.121569, 0.286275, 0.533333, 1)
 
 [node name="Knight" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("6_1cqcu")]
-position = Vector2(-48, -48)
+position = Vector2(-112, -80)
 chess_board = NodePath("../..")
 party = NodePath("..")
 light_color = Color(0.176471, 0.415686, 0.772549, 1)

@@ -66,9 +66,12 @@ func handle_select() -> void:
 		var piece = chess_board.get_piece_at(pos)
 		
 		if piece != null && piece.party.side == Constants.Side.Player:
-			piece.select()
-			selected_piece = piece
-			state = SelectorState.PieceSelected
+			var selected = piece.select()
+			if selected:
+				selected_piece = piece
+				state = SelectorState.PieceSelected
+			else:
+				piece.deselect()
 
 func handle_target_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):

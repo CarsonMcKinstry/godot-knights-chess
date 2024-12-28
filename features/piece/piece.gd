@@ -69,10 +69,17 @@ func handle_facing_change(i_facing: Constants.Facing) -> void:
 			for animation in animations:
 				animation_tree.set("parameters/%s/blend_position" % animation, 1.0)
 
-func select() -> void:
+func select() -> bool:
 	selected = true
 	if move_calculator != null:
 		move_calculator.show_indicators()
+		
+		if move_calculator.indicator_positions.size() == 0:
+			return false
+		return true
+	else:
+		return false
+	
 
 func deselect() -> void:
 	selected = false
