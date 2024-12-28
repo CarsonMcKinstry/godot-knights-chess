@@ -14,6 +14,8 @@ var castled: Piece
 
 var original_rook_position: Vector2
 
+var is_en_passant = false
+
 func _init(
 	i_side: Constants.Side,
 	i_piece: Piece,
@@ -46,8 +48,10 @@ func debug() -> void:
 		])
 
 func with_captured(i_piece: Piece) -> MoveRecord:
-	
 	captured = i_piece
+	
+	if piece.piece_type == Constants.PieceType.Pawn && piece.en_passant_possible(captured):
+		is_en_passant = true
 	
 	return self
 	
@@ -75,6 +79,9 @@ func with_target(target: Piece) -> MoveRecord:
 func resolve(chess_board: ChessBoard) -> void:
 	if captured != null:
 		await piece.attack_target(captured)
+		var pos = chess_board.get_canvas_position(piece.grid_position)
+		
+		await piece.move_to_position(pos)
 	if castled != null:
 		var positions = calculate_castled_positions()
 		
@@ -98,6 +105,13 @@ func undo() -> void:
 	
 	if captured != null:
 		captured.is_dead = false
+		
+		if is_en_passant:
+			if piece.facing == Constants.Facing.Right:
+				to += Vector2.LEFT
+			else:
+				to += Vector2.RIGHT
+			piece.grid_position = to
 
 func apply() -> void:
 
@@ -114,6 +128,14 @@ func apply() -> void:
 
 	if captured != null:
 		captured.is_dead = true
+		
+		if is_en_passant:
+			if piece.facing == Constants.Facing.Right:
+				to += Vector2.RIGHT
+			else:
+				to += Vector2.LEFT
+
+			piece.grid_position = to
 
 func calculate_castled_positions() -> Array[Vector2]:
 	

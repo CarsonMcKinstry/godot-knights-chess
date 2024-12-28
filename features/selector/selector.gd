@@ -90,7 +90,6 @@ func handle_target_select() -> void:
 			var target_piece = chess_board.get_piece_at(pos)
 			
 			if target_piece != null:
-				print(target_piece.is_dead)
 				move = move.with_target(target_piece)
 
 			var is_valid_move = chess_board.validate_move(move)

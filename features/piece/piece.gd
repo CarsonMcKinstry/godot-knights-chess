@@ -28,7 +28,7 @@ var selected: bool = false
 
 @onready var grid_position: Vector2 = chess_board.get_grid_position(position)
 
-var capturable_by_en_passant: bool = false:
+var capturable_by_en_passant: bool = true:
 	set(next_state):
 		
 		if piece_type == Constants.PieceType.Pawn:
@@ -147,9 +147,8 @@ func move_to_position(pos: Vector2) -> void:
 	
 
 func en_passant_possible(target: Piece) -> bool:
-	return \
-		target.grid_position.x == grid_position.x\
-		&& target.capturable_by_en_passant
+
+	return target.capturable_by_en_passant
 
 func get_all_possible_moves() -> Array[MoveRecord]:
 	
