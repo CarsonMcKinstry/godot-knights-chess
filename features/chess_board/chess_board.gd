@@ -42,6 +42,12 @@ func undo():
 		var move: MoveRecord = resolved_moves.pop_front()
 		move.undo()
 
+func undo_last_move():
+	var move: MoveRecord = resolved_moves.pop_front()
+	
+	if move != null:
+		move.undo()
+
 func apply_piece_updates():
 	for move in resolved_moves:
 		move.apply()
@@ -55,8 +61,31 @@ func resolve_latest_move():
 	
 	moves.push_front(move)
 
+func validate_move(move: MoveRecord) -> bool:
+	var side = move.piece.party.side
+	# verify that the move doesn't put, or leave, their king in check
+	move.apply()
+	
+	var king = move.piece if move.piece.piece_type == Constants.PieceType.King else get_king_for(side)
+	
+	var king_under_attack = is_position_under_attack_by(king.grid_position, Constants.get_opposing_side(side))
+	
+	move.undo()
+	
+	return !king_under_attack
+
+#func can_piece_move_there(position: Vector2) -> bool:
+	#
+	#return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)
+
+func player() -> Array[Piece]:
+	return player_party.get_pieces()
+	
+func computer() -> Array[Piece]:
+	return computer_party.get_pieces()
+
 func pieces() -> Array[Piece]:
-	return player_party.get_pieces() + computer_party.get_pieces()
+	return player() + computer()
 
 func get_grid_position(canvas_pos: Vector2) -> Vector2:
 	return ((canvas_pos + RELATIVE_OFFSET) / 32 ) + POSITION_CORRECTION - Vector2.ONE
@@ -67,9 +96,20 @@ func get_canvas_position(grid_pos: Vector2) -> Vector2:
 	
 func get_piece_at(grid_pos: Vector2) -> Piece:
 	for piece in pieces():
-		if piece.grid_position == grid_pos:
+		if piece.grid_position == grid_pos && !piece.is_dead:
 			return piece
 	return null
+	
+func get_pieces_of_type(type: Constants.PieceType, side: Constants.Side) -> Array[Piece]:
+	var pieces_of_type: Array[Piece] = []
+	
+	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	for piece in pieces:
+		if !piece.is_dead && piece.has_type(type):
+			pieces_of_type.push_back(piece)
+	
+	return pieces_of_type
 
 func is_direction_out_of_bounds(pos: Vector2, direction: Vector2) -> bool:
 	
@@ -89,3 +129,86 @@ func is_direction_out_of_bounds(pos: Vector2, direction: Vector2) -> bool:
 
 func is_position_out_of_bounds(grid_position: Vector2) -> bool:
 	return grid_position.x < LEFT_BOUND || grid_position.x > RIGHT_BOUND || grid_position.y < LOWER_BOUND || grid_position.y > UPPER_BOUND
+
+func is_position_under_attack_by(grid_position: Vector2, side: Constants.Side) -> bool:
+	
+	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	for piece in pieces:
+		if _can_piece_attack_square(piece, grid_position):
+			return true
+	
+	return false
+
+func get_king_for(side: Constants.Side):
+	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	for piece in pieces:
+		if piece.piece_type == Constants.PieceType.King:
+			return piece
+
+func _can_piece_attack_square(piece: Piece, target: Vector2) -> bool:
+	
+	match piece.piece_type:
+		Constants.PieceType.Pawn:
+			return _can_pawn_attack(piece, target)
+		Constants.PieceType.Rook:
+			return _can_rook_attack(piece, target)
+		Constants.PieceType.Knight:
+			return _can_knight_attack(piece, target)
+		Constants.PieceType.Bishop:
+			return _can_bishop_attack(piece, target)
+		Constants.PieceType.King:
+			return _can_king_attack(piece, target)
+		Constants.PieceType.Queen:
+			return _can_queen_attack(piece, target)
+	
+	return false
+#
+func _can_pawn_attack(piece: Piece, target: Vector2) -> bool:
+	var direction = 1 if piece.party.side == Constants.Side.Player else -1
+	return abs(piece.grid_position.x - target.x) == 1\
+			&& piece.grid_position.y + direction == target.y
+
+func _can_rook_attack(piece: Piece, target: Vector2) -> bool:
+	if piece.grid_position.x != target.x && piece.grid_position.y != target.y:
+		return false
+	return _is_path_clear(piece.grid_position, target)
+
+func _can_knight_attack(piece: Piece, target: Vector2) -> bool:
+	var dx = abs(piece.grid_position.x - target.x)
+	var dy = abs(piece.grid_position.y - target.y)
+	
+	return (dx == 2 && dy == 1) || (dx ==1 && dy == 2)
+
+func _can_bishop_attack(piece: Piece, target: Vector2) -> bool:
+	if abs(piece.grid_position.x - target.x) != abs(piece.grid_position.y - target.y):
+		return false
+	return _is_path_clear(piece.grid_position, target)
+
+func _can_king_attack(piece: Piece, target: Vector2) -> bool:
+	var dx = abs(piece.grid_position.x - target.x)
+	var dy = abs(piece.grid_position.y - target.y)
+	
+	return dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)
+
+func _can_queen_attack(piece: Piece, target: Vector2) -> bool:
+	return _can_bishop_attack(piece, target) || _can_rook_attack(piece, target)
+
+func _is_path_clear(start: Vector2, end: Vector2) -> bool:
+	
+	var d = end - start
+	
+	var step = Vector2(
+		0 if d.x == 0 else d.x / abs(d.x),
+		0 if d.y == 0 else d.y / abs(d.y),
+	)
+	
+	var current = start + step
+	
+	while current != end:
+		if get_piece_at(current) != null:
+			return false
+		current += step
+	
+	return true

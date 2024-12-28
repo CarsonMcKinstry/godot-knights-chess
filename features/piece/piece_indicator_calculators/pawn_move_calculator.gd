@@ -3,13 +3,13 @@ class_name PawnMoveCalculator extends MoveCalculator
 func _calculate_indicator_positions() -> Array[Vector2]:
 	var pos = piece.grid_position
 	
-	var facing = piece.movement_controller.facing 
+	var facing = piece.facing
 	
 	var position_change: Vector2 = Vector2.LEFT if facing == Constants.Facing.Left else Vector2.RIGHT
 	
 	# the first 2 squares forward
 	var possible_moves: Array[Vector2] = []
-	#
+	
 	possible_moves.append_array(get_forward_positions(pos, position_change))
 #
 	possible_moves.append_array(get_forward_attack_targets(pos, position_change))
@@ -18,6 +18,26 @@ func _calculate_indicator_positions() -> Array[Vector2]:
 	#
 	possible_moves = possible_moves\
 		.filter(func (pos): return !is_blocked_position(pos))
+
+	return possible_moves
+
+func get_forward_positions(pos: Vector2, position_change: Vector2) -> Array[Vector2]:
+	# the first 2 squares forward
+	var possible_moves: Array[Vector2] = get_n_positions_in_direction(
+		2 if is_first_move else 1,
+		pos,
+		position_change
+	)
+	
+	var last_move = possible_moves.pop_back()
+	
+	if last_move != null:
+		var target_piece = piece.chess_board.get_piece_at(last_move)
+		
+		if target_piece != null && piece.is_on_same_team_as(target_piece):
+			possible_moves.push_back(last_move)
+		elif target_piece == null:
+			possible_moves.push_back(last_move)
 
 	return possible_moves
 
@@ -52,25 +72,7 @@ func not_attackable(pos: Vector2) -> bool:
 	
 	return target == null || piece.is_on_same_team_as(target)
 
-func get_forward_positions(pos: Vector2, position_change: Vector2) -> Array[Vector2]:
-	# the first 2 squares forward
-	var possible_moves: Array[Vector2] = get_n_positions_in_direction(
-		2 if is_first_move else 1,
-		pos,
-		position_change
-	)
-	
-	var last_move = possible_moves.pop_back()
-	
-	if last_move != null:
-		var target_piece = piece.chess_board.get_piece_at(last_move)
-		
-		if target_piece != null && piece.is_on_same_team_as(target_piece):
-			possible_moves.push_back(last_move)
-		elif target_piece == null:
-			possible_moves.push_back(last_move)
 
-	return possible_moves
 
 func get_forward_attack_targets(pos: Vector2, position_change: Vector2) -> Array[Vector2]:
 	

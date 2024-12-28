@@ -25,7 +25,7 @@ func get_pieces() -> Array[Piece]:
 		if child is Piece:
 			pieces.push_back(child)
 	
-	return pieces
+	return pieces.filter(func (piece: Piece): return !piece.is_dead)
 
 func get_attackable_positions() -> Array[Vector2]:
 	var attackable_positions: Array[Vector2]

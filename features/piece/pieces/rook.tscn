@@ -347,7 +347,7 @@ texture = ExtResource("4_oji73")
 flip_h = true
 hframes = 8
 vframes = 7
-frame = 3
+frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = ExtResource("6_07k6w")

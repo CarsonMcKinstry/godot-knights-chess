@@ -5,6 +5,8 @@ class_name MoveCalculator extends Node
 @export var piece: Piece
 @export var tile_indicators: Node2D
 
+@onready var chess_board = piece.chess_board
+
 # only applies to pawns
 var is_first_move = true
 
@@ -86,3 +88,15 @@ func get_n_positions_in_direction(n: int, position: Vector2, direction: Vector2)
 		positions.push_back(next_position)
 	
 	return positions
+
+func is_under_attack():
+	var side = piece.party.side
+	var o_side = Constants.get_opposing_side(side)
+	
+	return chess_board.is_position_under_attack_by(piece.grid_position, o_side)
+
+func is_position_under_attack(pos: Vector2):
+	var side = piece.party.side
+	var o_side = Constants.get_opposing_side(side)
+	
+	return chess_board.is_position_under_attack_by(pos, o_side)

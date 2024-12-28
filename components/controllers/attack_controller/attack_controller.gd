@@ -2,6 +2,8 @@ class_name AttackController extends Node
 
 @export var piece: Piece
 
+@onready var chess_board = piece.chess_board
+
 var ATTACK_POSITION_OFFSET = Vector2.ZERO 
 
 signal attack_collided

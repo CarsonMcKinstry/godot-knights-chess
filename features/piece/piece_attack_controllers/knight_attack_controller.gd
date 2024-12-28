@@ -26,14 +26,14 @@ func _attack(target: Piece) -> void:
 	attack_finished.emit()
 	
 func move_to_attack_position(target: Piece) -> void:
-	
-	var target_relative_position = piece.chess_board.get_relative_position(target.position)
+	var target_position = target.grid_position
 
-	if piece.position.x < target.position.x:
-		target_relative_position += Vector2.LEFT
+	if piece.grid_position.x < target.grid_position.x:
+		target_position += Vector2.RIGHT
 	else:
-		target_relative_position += Vector2.RIGHT
+		target_position += Vector2.LEFT
 	
-	var target_absolute_position = piece.chess_board.get_absolute_position(target_relative_position)
+	var target_absolute_position = piece.chess_board.get_canvas_position(target_position)
 	
 	piece.movement_controller.move_to(target_absolute_position)
+	await piece.movement_controller.finished_moving

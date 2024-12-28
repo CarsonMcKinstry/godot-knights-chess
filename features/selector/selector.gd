@@ -61,7 +61,9 @@ func update_grid_position():
 func handle_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
 		
-		var piece = chess_board.get_piece_at(grid_position)
+		var pos = chess_board.get_grid_position(position)
+		
+		var piece = chess_board.get_piece_at(pos)
 		
 		if piece != null && piece.party.side == Constants.Side.Player:
 			piece.select()
@@ -71,28 +73,37 @@ func handle_select() -> void:
 func handle_target_select() -> void:
 	if Input.is_action_just_pressed("ui_select"):
 		
-		if can_piece_move_there(grid_position):
+		var pos = chess_board.get_grid_position(position)
+	
+		if can_piece_move_there(pos):
 			
 			var move = MoveRecord.new(
 				Constants.Side.Player,
 				selected_piece,
 				selected_piece.grid_position,
-				grid_position
+				pos
 			)
 			
-			var target_piece = chess_board.get_piece_at(grid_position)
+			var target_piece = chess_board.get_piece_at(pos)
 			
 			if target_piece != null:
+				print(target_piece.is_dead)
 				move = move.with_target(target_piece)
 
-			chess_board.enqueue_move(move)
+			var is_valid_move = chess_board.validate_move(move)
+
+			if is_valid_move:
+				
+				chess_board.enqueue_move(move)
 			
-			state = SelectorState.Idle
-			selected_piece.deselect()
-			selected_piece = null
-			
-			await chess_board.resolve_latest_move()
-			turn_finished.emit()
+				state = SelectorState.Idle
+				selected_piece.deselect()
+				selected_piece = null
+				
+				await chess_board.resolve_latest_move()
+				turn_finished.emit()
+			else:
+				print("Move would leave king in check")
 
 	elif Input.is_action_just_pressed("ui_cancel"):
 		selected_piece.deselect()
