@@ -28,7 +28,7 @@ var selected: bool = false
 
 @onready var grid_position: Vector2 = chess_board.get_grid_position(position)
 
-var capturable_by_en_passant: bool = true:
+var capturable_by_en_passant: bool = false:
 	set(next_state):
 		
 		if piece_type == Constants.PieceType.Pawn:
@@ -57,7 +57,6 @@ func _ready() -> void:
 	movement_controller.facing = initial_facing
 
 func attack_hit():
-	print("attack hit called...")
 	attack_controller.attack_collided.emit()
 
 func handle_facing_change(i_facing: Constants.Facing) -> void:
