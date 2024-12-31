@@ -1,5 +1,7 @@
 class_name Piece extends Area2D
 
+
+
 @export var piece_type: Constants.PieceType
 
 @export var movement_controller: GridController
@@ -15,6 +17,8 @@ class_name Piece extends Area2D
 @export_category("Color Scheme")
 @export var light_color: Color
 @export var dark_color: Color
+
+@onready var queen_template = preload("res://features/piece/pieces/queen.tscn")
 
 signal finished_entering
 signal finished_moving
@@ -180,3 +184,31 @@ func get_all_possible_moves() -> Array[MoveRecord]:
 
 func has_type(type: Constants.PieceType) -> bool:
 	return piece_type == type
+
+func promote(promotion_type: Constants.PieceType):
+	assert(piece_type == Constants.PieceType.Pawn)
+	var queen: Piece = queen_template.instantiate()
+	
+	queen.chess_board = chess_board
+	queen.party = party
+	queen.position = position
+	queen.grid_position = grid_position
+	queen.initial_facing = initial_facing
+	queen.facing = facing
+	
+	queen.light_color = light_color
+	queen.dark_color = dark_color
+	
+	queen.modulate.a = 0.0
+
+	party.add_child(queen)
+	
+	var tween = get_tree().create_tween()
+	
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(self,"modulate:a",0.0,0.3)
+	tween.tween_property(queen, "modulate:a", 1.0, 0.3)
+	await tween.finished
+
+	queue_free()

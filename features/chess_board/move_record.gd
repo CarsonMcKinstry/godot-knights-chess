@@ -8,7 +8,7 @@ var to: Vector2
 var piece: Piece
 
 var captured: Piece
-var promoted_to: Constants.PieceType
+var promoted_to
 
 var castled: Piece
 
@@ -39,7 +39,13 @@ func debug() -> void:
 			to
 		])
 	elif castled != null:
-		pass
+		print("king at %s castled" % [from])
+	elif promoted_to != null:
+		print("%s at %s promoted to %s" % [
+			piece_name, 
+			from,
+			Constants.piece_type_to_string(promoted_to)
+		])
 	else:
 		print("%s at %s to %s" % [
 			piece_name,
@@ -82,7 +88,7 @@ func resolve(chess_board: ChessBoard) -> void:
 		var pos = chess_board.get_canvas_position(piece.grid_position)
 		
 		await piece.move_to_position(pos)
-	if castled != null:
+	elif castled != null:
 		var positions = calculate_castled_positions()
 		
 		var king_position = chess_board.get_canvas_position(positions[0])
@@ -90,11 +96,15 @@ func resolve(chess_board: ChessBoard) -> void:
 		
 		await piece.move_to_position(king_position)
 		await castled.move_to_position(rook_position)
-		
 	else:
 		var pos = chess_board.get_canvas_position(piece.grid_position)
 	
 		await piece.move_to_position(pos)
+		
+	if promoted_to:
+		
+		await piece.promote(promoted_to)
+
 
 func undo() -> void:
 	piece.grid_position = from
@@ -112,6 +122,9 @@ func undo() -> void:
 			else:
 				to += Vector2.RIGHT
 			piece.grid_position = to
+			
+	if promoted_to != null:
+		promoted_to = null
 
 func apply() -> void:
 
@@ -136,6 +149,12 @@ func apply() -> void:
 				to += Vector2.LEFT
 
 			piece.grid_position = to
+			
+	if piece.piece_type == Constants.PieceType.Pawn:
+		var x_to_check = 7 if piece.party.side == Constants.Side.Player else 0
+		
+		if to.x == x_to_check:
+			promoted_to = Constants.PieceType.Queen
 
 func calculate_castled_positions() -> Array[Vector2]:
 	
