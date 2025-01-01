@@ -178,11 +178,12 @@ func get_all_possible_moves() -> Array[MoveRecord]:
 			else:
 				move = move.with_captured(target_piece)
 	
-		#move.apply()
-		#var is_king_safe = !chess_board.is_check(party.side)
-		#move.undo()
-		#if is_king_safe:
-		moves.push_back(move)
+		move.apply()
+		var is_king_safe = !chess_board.is_check(party.side)
+		move.undo()
+		
+		if is_king_safe:
+			moves.push_back(move)
 	
 	return moves
 

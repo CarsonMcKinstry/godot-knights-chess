@@ -1,7 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://dkfsgrltwdw36"]
+[gd_scene load_steps=6 format=3 uid="uid://dkfsgrltwdw36"]
 
 [ext_resource type="Script" path="res://components/controllers/ai_controller/ai_controller.gd" id="1_1sevs"]
+[ext_resource type="Script" path="res://components/controllers/ai_controller/board_evaluator.gd" id="2_pfemn"]
+[ext_resource type="Script" path="res://components/controllers/ai_controller/piece_square_tables.gd" id="3_bsvic"]
+[ext_resource type="Script" path="res://components/controllers/ai_controller/move_randomizer.gd" id="4_cd058"]
+[ext_resource type="Script" path="res://components/controllers/ai_controller/mini_max_selector.gd" id="5_e4iqh"]
 
-[node name="AiController" type="Node"]
+[node name="AiController" type="Node" node_paths=PackedStringArray("move_randomizer")]
 script = ExtResource("1_1sevs")
+move_randomizer = NodePath("MoveRandomizer")
+
+[node name="BoardEvaluator" type="Node" parent="." node_paths=PackedStringArray("pst")]
+script = ExtResource("2_pfemn")
+pst = NodePath("../PieceSquareTables")
+
+[node name="PieceSquareTables" type="Node" parent="."]
+script = ExtResource("3_bsvic")
 pst_file = "res://components/controllers/ai_controller/piece_square_tables.json"
+
+[node name="MoveRandomizer" type="Node" parent="."]
+script = ExtResource("4_cd058")
+
+[node name="MiniMaxSelector" type="Node" parent="."]
+script = ExtResource("5_e4iqh")

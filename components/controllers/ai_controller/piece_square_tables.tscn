@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chwlwjwuoutv2"]
+
+[ext_resource type="Script" path="res://components/controllers/ai_controller/piece_square_tables.gd" id="1_4fltf"]
+
+[node name="PieceSquareTables" type="Node"]
+script = ExtResource("1_4fltf")
