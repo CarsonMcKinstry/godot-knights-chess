@@ -15,7 +15,6 @@ enum Behavior {
 
 @export var behavior: Behavior = Behavior.Random
 
-@export var board_evaluator: BoardEvaluator
 @export var move_randomizer: MoveRandomizer
 @export var minimax_selector: MiniMaxSelector
 

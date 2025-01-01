@@ -28,6 +28,37 @@ func _init(
 	from = i_from
 	to = i_to
 
+func serialize() -> String:
+	
+	var s = Constants.side_to_string(side)
+	var p = Constants.piece_type_to_string(piece.piece_type)
+	
+	var flags: Array[String] = []
+	
+	if captured != null:
+		var c = Constants.piece_type_to_string(captured.piece_type)
+		flags.push_back("cap_%s" % [c])
+		
+	if castled:
+		var is_queen_side = abs(piece.grid_position - original_rook_position).y == 2
+		if is_queen_side:
+			flags.push_back("c_qs")
+		else:
+			flags.push_back("c_ks")
+	
+	if is_en_passant:
+		flags.push_back("ep")
+		
+	if promoted_to != null:
+		var pr = Constants.piece_type_to_string(promoted_to)
+		flags.push_back("pr_%s" % [pr])
+	
+	var all = [s, p, from, to]
+	
+	all.append_array(flags)
+	
+	return ">".join(all)
+
 func debug() -> void:
 	
 	var piece_name = Constants.piece_type_to_string(piece.piece_type)

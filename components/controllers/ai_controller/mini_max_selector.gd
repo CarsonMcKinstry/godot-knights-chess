@@ -12,6 +12,8 @@ const MVV_LVA = {
 @export var exploration_depth: int = 1
 @export var thread_count: int = OS.get_processor_count()
 
+@export var board_evaluator: BoardEvaluator
+
 signal threads_done
 
 func signal_threads_finished():

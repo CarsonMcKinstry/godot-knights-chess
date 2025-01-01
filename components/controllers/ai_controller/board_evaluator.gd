@@ -20,8 +20,8 @@ func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_sum: int, si
 		else:
 			return -(10 ** 10)
 	
-	# need checks for draw, threefold repition, and stalemate
-	# in these cases, return 0
+	if chess_board.is_draw(side):
+		return 0
 	
 	if chess_board.in_check():
 		if move.side == side:

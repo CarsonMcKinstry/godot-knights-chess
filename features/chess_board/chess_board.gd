@@ -56,6 +56,7 @@ func resolve_latest_move():
 	assert(!resolved_moves.is_empty(), "can't resolve no moves")
 	
 	var move = resolved_moves.pop_back()
+	print(move.serialize())
 
 	await move.resolve(self)
 	
@@ -181,6 +182,67 @@ func is_check(side: Constants.Side) -> bool:
 	var opposing_side = Constants.get_opposing_side(side)
 	
 	return is_position_under_attack_by(king.grid_position, opposing_side)
+
+func is_draw(side: Constants.Side) -> bool:
+	if is_stalemate(side):
+		return true
+
+	if is_threefold_repetition():
+		return true
+	
+	# Additional checks can go here, like insufficient material
+	if has_insufficient_material():
+		return true
+	
+	return false
+
+func is_stalemate(side: Constants.Side) -> bool:
+	if is_check(side):
+		return false
+	
+	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	for piece in pieces:
+		if !piece.is_iead:
+			var possible_moves = piece.get_all_possible_moves()
+			for move in possible_moves:
+				move.apply()
+				var still_in_check = is_check(side)
+				move.undo()
+				
+				if !still_in_check:
+					return false
+
+	return true
+
+func is_threefold_repetition() -> bool:
+	var position_counts = {}
+	
+	for move in moves:
+		var key = move.serialize()
+		
+		if position_counts.has(key):
+			position_counts[key] += 1
+		else:
+			position_counts[key] = 1
+			
+		if position_counts[key] >= 3:
+			return true
+			
+	return false
+
+func has_insufficient_material() -> bool:
+	var all_pieces = pieces()
+	var non_pawn_pieces = []
+
+	for piece in all_pieces:
+		if !piece.is_dead:
+			if piece.piece_type in [Constants.PieceType.Queen, Constants.PieceType.Rook, Constants.PieceType.Pawn]:
+				return false
+		non_pawn_pieces.append(piece)
+
+	# If only kings are left, or one side has a bishop/knight, it’s insufficient
+	return len(non_pawn_pieces) <= 2
 
 func is_direction_out_of_bounds(pos: Vector2, direction: Vector2) -> bool:
 	

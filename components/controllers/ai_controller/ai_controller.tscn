@@ -10,10 +10,6 @@
 script = ExtResource("1_1sevs")
 move_randomizer = NodePath("MoveRandomizer")
 
-[node name="BoardEvaluator" type="Node" parent="." node_paths=PackedStringArray("pst")]
-script = ExtResource("2_pfemn")
-pst = NodePath("../PieceSquareTables")
-
 [node name="PieceSquareTables" type="Node" parent="."]
 script = ExtResource("3_bsvic")
 pst_file = "res://components/controllers/ai_controller/piece_square_tables.json"
@@ -21,5 +17,10 @@ pst_file = "res://components/controllers/ai_controller/piece_square_tables.json"
 [node name="MoveRandomizer" type="Node" parent="."]
 script = ExtResource("4_cd058")
 
-[node name="MiniMaxSelector" type="Node" parent="."]
+[node name="MiniMaxSelector" type="Node" parent="." node_paths=PackedStringArray("board_evaluator")]
 script = ExtResource("5_e4iqh")
+board_evaluator = NodePath("BoardEvaluator")
+
+[node name="BoardEvaluator" type="Node" parent="MiniMaxSelector" node_paths=PackedStringArray("pst")]
+script = ExtResource("2_pfemn")
+pst = NodePath("../../PieceSquareTables")
