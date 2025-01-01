@@ -74,10 +74,6 @@ func validate_move(move: MoveRecord) -> bool:
 	
 	return !king_under_attack
 
-#func can_piece_move_there(position: Vector2) -> bool:
-	#
-	#return selected_piece.move_calculator != null && selected_piece.move_calculator.indicator_positions.has(position)
-
 func player() -> Array[Piece]:
 	return player_party.get_pieces()
 	
@@ -111,6 +107,57 @@ func get_pieces_of_type(type: Constants.PieceType, side: Constants.Side) -> Arra
 	
 	return pieces_of_type
 
+func is_checkmate(side: Constants.Side) -> bool:
+	if !is_check(side):
+		return false
+		
+	var king = get_king_for(side)
+
+	for dx in [-1,0,1]:
+		for dy in [-1,0,1]:
+			var pos = Vector2(dx, dy)
+			
+			if pos == Vector2.ZERO:
+				continue
+				
+			var next_position = king.grid_position + pos
+			
+			if is_position_out_of_bounds(next_position):
+				continue
+			
+			var move = MoveRecord.new(
+				side,
+				king,
+				king.grid_position,
+				next_position
+			)
+			
+			var piece_at_target = get_piece_at(next_position)
+			if piece_at_target != null && piece_at_target.party.side == side:
+				continue
+			elif piece_at_target != null:
+				move = move.with_captured(piece_at_target)
+			
+			move.debug()
+			
+			move.apply()
+			var still_in_check = is_check(side)
+			
+			move.undo()
+			
+			if !still_in_check:
+				return false
+	
+	return true
+
+func is_check(side: Constants.Side) -> bool:
+	
+	var king = get_king_for(side)
+	
+	var opposing_side = Constants.get_opposing_side(side)
+	
+	return is_position_under_attack_by(king.grid_position, opposing_side)
+
 func is_direction_out_of_bounds(pos: Vector2, direction: Vector2) -> bool:
 	
 	var relative_position = get_grid_position(pos)
@@ -140,12 +187,19 @@ func is_position_under_attack_by(grid_position: Vector2, side: Constants.Side) -
 	
 	return false
 
-func get_king_for(side: Constants.Side):
+func get_king_for(side: Constants.Side) -> Piece:
 	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	var king: Piece
 	
 	for piece in pieces:
 		if piece.piece_type == Constants.PieceType.King:
-			return piece
+			king = piece
+			break
+			
+	
+	assert(king != null, "King not found for %s" % [Constants.side_to_string(side)])
+	return king
 
 func _can_piece_attack_square(piece: Piece, target: Vector2) -> bool:
 	

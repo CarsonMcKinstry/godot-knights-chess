@@ -139,6 +139,7 @@ func apply() -> void:
 		
 		castled.grid_position = positions[1]
 
+	# adjust this to do the captured calculation for us...
 	if captured != null:
 		captured.is_dead = true
 		

@@ -157,7 +157,12 @@ func should_castle_a_king(target_piece: Piece) -> bool:
 	return is_selected_king && is_target_rook && pieces_havent_moved
 
 func start_turn() -> void:
-	state = SelectorState.PieceSelect
+	print("Starting player's turn...")
+	if chess_board.is_checkmate(Constants.Side.Player):
+		checkmate.emit()
+		print("Player in checkmate!")
+	else:
+		state = SelectorState.PieceSelect
 
 
 func _on_area_entered(piece: Piece) -> void:

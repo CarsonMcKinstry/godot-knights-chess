@@ -30,6 +30,14 @@ enum Side {
 	Computer
 }
 
+static func side_to_string(side: Constants.Side) -> String:
+	match side:
+		Constants.Side.Player:
+			return "Player"
+		Constants.Side.Computer:
+			return "Computer"
+	return "UNKNOWN SIDE"
+
 static func get_opposing_side(side: Constants.Side) -> Constants.Side:
 	match side:
 		Side.Player:
