@@ -14,7 +14,8 @@ var castled: Piece
 
 var original_rook_position: Vector2
 
-var is_en_passant = false
+var is_en_passant := false
+var is_end_game := false
 
 func _init(
 	i_side: Constants.Side,

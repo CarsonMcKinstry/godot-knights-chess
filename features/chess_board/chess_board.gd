@@ -68,6 +68,10 @@ func validate_move(move: MoveRecord) -> bool:
 	
 	var king = move.piece if move.piece.piece_type == Constants.PieceType.King else get_king_for(side)
 	
+	if king == null:
+		move.undo()
+		return false
+	
 	var king_under_attack = is_position_under_attack_by(king.grid_position, Constants.get_opposing_side(side))
 	
 	move.undo()
@@ -107,11 +111,30 @@ func get_pieces_of_type(type: Constants.PieceType, side: Constants.Side) -> Arra
 	
 	return pieces_of_type
 
+func get_all_possible_moves_for(side: Constants.Side) -> Array[MoveRecord]:
+	var all_possible_moves: Array[MoveRecord] = []
+	
+	var pieces = player() if side == Constants.Side.Player else computer()
+	
+	for piece in pieces:
+		all_possible_moves.append_array(piece.get_all_possible_moves())
+	
+	return all_possible_moves
+
+func in_checkmate() -> bool:
+	return is_checkmate(Constants.Side.Computer) || is_checkmate(Constants.Side.Player)
+
+func in_check() -> bool:
+	return is_check(Constants.Side.Computer) || is_check(Constants.Side.Player)
+
 func is_checkmate(side: Constants.Side) -> bool:
 	if !is_check(side):
 		return false
 		
 	var king = get_king_for(side)
+	
+	if king == null:
+		return true
 
 	for dx in [-1,0,1]:
 		for dy in [-1,0,1]:
@@ -137,9 +160,7 @@ func is_checkmate(side: Constants.Side) -> bool:
 				continue
 			elif piece_at_target != null:
 				move = move.with_captured(piece_at_target)
-			
-			move.debug()
-			
+
 			move.apply()
 			var still_in_check = is_check(side)
 			
@@ -153,6 +174,9 @@ func is_checkmate(side: Constants.Side) -> bool:
 func is_check(side: Constants.Side) -> bool:
 	
 	var king = get_king_for(side)
+	
+	if king == null:
+		return true
 	
 	var opposing_side = Constants.get_opposing_side(side)
 	
@@ -197,8 +221,6 @@ func get_king_for(side: Constants.Side) -> Piece:
 			king = piece
 			break
 			
-	
-	assert(king != null, "King not found for %s" % [Constants.side_to_string(side)])
 	return king
 
 func _can_piece_attack_square(piece: Piece, target: Vector2) -> bool:
