@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PieceConfig" load_steps=3 format=3 uid="uid://c6vg1klkm00dx"]
+
+[ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="1_8u42h"]
+[ext_resource type="Script" path="res://components/match_configs/piece_config.gd" id="1_wc562"]
+
+[resource]
+script = ExtResource("1_wc562")
+opening_grid_path = Array[Vector2]([])
+piece_template = ExtResource("1_8u42h")

@@ -11,8 +11,8 @@ const PIECE_WEIGHTS = {
 	Constants.PieceType.King: 60_000,
 }
 
-func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_sum: int, side: Constants.Side) -> int:
-	var new_sum = prev_sum
+func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_score: int, side: Constants.Side) -> int:
+	var new_score = prev_score
 
 	if chess_board.in_checkmate():
 		if move.side == side:
@@ -25,14 +25,14 @@ func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_sum: int, si
 	
 	if chess_board.in_check():
 		if move.side == side:
-			new_sum += 50
+			new_score += 50
 		else:
-			new_sum -= 50
+			new_score -= 50
 	
 	var from = move.from
 	var to = move.to
 	
-	if prev_sum < -1500:
+	if prev_score < -1500:
 		if move.piece.piece_type == Constants.PieceType.King:
 			move.is_end_game = true
 		elif move.captured != null && move.captured.piece_type == Constants.PieceType.King:
@@ -41,9 +41,9 @@ func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_sum: int, si
 	if move.captured != null:
 		var captured = move.captured.piece_type
 		if move.side == side:
-			new_sum += _get_weight(captured) + pst.get_opponent_position_value(move, captured, to)
+			new_score += _get_weight(captured) + pst.get_opponent_position_value(move, captured, to)
 		else:
-			new_sum -= _get_weight(captured) + pst.get_own_position_value(move, captured, to)
+			new_score -= _get_weight(captured) + pst.get_own_position_value(move, captured, to)
 	
 	if move.promoted_to != null:
 		var original_piece_type = move.piece.piece_type
@@ -53,24 +53,24 @@ func evaluate_board(chess_board: ChessBoard, move: MoveRecord, prev_sum: int, si
 		var change_from_promotion = _get_weight(promoted_to) + pst.get_own_position_value(move, promoted_to, to)
 		
 		if move.side == side:
-			new_sum -= change_from_original
-			new_sum += change_from_promotion
+			new_score -= change_from_original
+			new_score += change_from_promotion
 		else:
-			new_sum += change_from_original
-			new_sum -= change_from_promotion
+			new_score += change_from_original
+			new_score -= change_from_promotion
 	else:
 		var piece_type = move.piece.piece_type
 		var from_change = pst.get_own_position_value(move, piece_type, from)
 		var to_change = pst.get_own_position_value(move, piece_type, to)
 		
 		if move.side == side:
-			new_sum += from_change
-			new_sum -= to_change
+			new_score += from_change
+			new_score -= to_change
 		else:
-			new_sum -= from_change
-			new_sum += to_change
+			new_score -= from_change
+			new_score += to_change
 
-	return new_sum
+	return new_score
 
 
 

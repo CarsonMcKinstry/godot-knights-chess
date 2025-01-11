@@ -1,25 +1,23 @@
-[gd_scene load_steps=14 format=4 uid="uid://b0or30nw4pedo"]
+[gd_scene load_steps=9 format=4 uid="uid://b0or30nw4pedo"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_uvtnw"]
 [ext_resource type="Script" path="res://components/controllers/turn_controller/turn_controller.gd" id="2_dsylg"]
+[ext_resource type="Resource" uid="uid://shdldokc45lk" path="res://matches/base_match/match.tres" id="2_ys7b8"]
 [ext_resource type="PackedScene" uid="uid://dkfsgrltwdw36" path="res://components/controllers/ai_controller/ai_controller.tscn" id="3_peoit"]
 [ext_resource type="PackedScene" uid="uid://dqm44jxtilmoy" path="res://components/tilemaps/medieval_town/medieval_town.tscn" id="4_sk2fg"]
 [ext_resource type="PackedScene" uid="uid://ui5n72gcvt17" path="res://features/chess_board/chess_board.tscn" id="5_c0n4n"]
 [ext_resource type="PackedScene" uid="uid://hixjhyddggqj" path="res://features/selector/selector.tscn" id="6_4wac5"]
 [ext_resource type="Script" path="res://components/controllers/party_controller/party_controller.gd" id="7_l4y32"]
-[ext_resource type="PackedScene" uid="uid://72rs4ula8umo" path="res://features/piece/pieces/pawn.tscn" id="8_4rbu3"]
-[ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="9_4v3x2"]
-[ext_resource type="PackedScene" uid="uid://ep0abkdtvegc" path="res://features/piece/pieces/bishop.tscn" id="10_j1brx"]
-[ext_resource type="PackedScene" uid="uid://dqvuts7bktur1" path="res://features/piece/pieces/knight.tscn" id="11_il72p"]
-[ext_resource type="PackedScene" uid="uid://buxp5qklitymd" path="res://features/piece/pieces/king.tscn" id="12_k38j0"]
-[ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="13_kwpc8"]
 
-[node name="TestMain" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector", "turn_controller")]
+[node name="TestMain" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector", "turn_controller", "chess_board")]
 script = ExtResource("1_uvtnw")
 player_party = NodePath("ChessBoard/Player")
 opponent_party = NodePath("ChessBoard/Oppponent")
 selector = NodePath("ChessBoard/Selector")
 turn_controller = NodePath("TurnController")
+match_config = ExtResource("2_ys7b8")
+use_config = true
+chess_board = NodePath("ChessBoard")
 
 [node name="TurnController" type="Node" parent="." node_paths=PackedStringArray("player_controller", "ai_controller", "chess_board", "info_label")]
 script = ExtResource("2_dsylg")
@@ -36,11 +34,10 @@ chess_board = NodePath("../ChessBoard")
 position = Vector2(0, -12)
 tile_map_data = PackedByteArray("AAAGAAEAAAAGAAAAAAAHAAEAAAAGAAAAAAAIAAEAAAAGAAAAAAAJAAEAAAAGAAAAAAAKAAEAAAAGAAAAAAALAAEAAAAGAAAAAAAMAAEAAAAGAAAAAAANAAEAAAAGAAAAAAAOAAEAAAAHAAAAAAAFAAEAAAAFAAAAAAAFAAIAAAAFAAEAAAAFAAMAAAAFAAEAAAAFAAQAAAAEAAIAAAAFAAUAAAAGAAEAAAAFAAYAAAAGAAEAAAAFAAcAAAAEAAAAAAAFAAgAAAAFAAEAAAAOAAIAAAAHAAEAAAAOAAMAAAAHAAEAAAAOAAQAAAACAAIAAAAOAAUAAAAGAAEAAAAOAAYAAAAGAAEAAAAOAAcAAAACAAAAAAAOAAgAAAAHAAEAAAAGAAIAAAAGAAEAAAAHAAIAAAAGAAEAAAAIAAIAAAAGAAEAAAAJAAIAAAAGAAEAAAAKAAIAAAAGAAEAAAALAAIAAAAGAAEAAAAMAAIAAAAGAAEAAAANAAIAAAAGAAEAAAANAAMAAAAGAAEAAAANAAQAAAAGAAEAAAANAAUAAAAGAAEAAAANAAYAAAAGAAEAAAANAAcAAAAGAAEAAAANAAgAAAAGAAEAAAAMAAgAAAAGAAEAAAALAAgAAAAGAAEAAAAKAAgAAAAGAAEAAAAJAAgAAAAGAAEAAAAIAAgAAAAGAAEAAAAHAAgAAAAGAAEAAAAGAAgAAAAGAAEAAAAGAAcAAAAGAAEAAAAGAAYAAAAGAAEAAAAGAAUAAAAGAAEAAAAGAAQAAAAGAAEAAAAGAAMAAAAGAAEAAAAHAAMAAAAGAAEAAAAIAAMAAAAGAAEAAAAJAAMAAAAGAAEAAAAKAAMAAAAGAAEAAAALAAMAAAAGAAEAAAAMAAMAAAAGAAEAAAAMAAQAAAAGAAEAAAAMAAUAAAAGAAEAAAAMAAYAAAAGAAEAAAAMAAcAAAAGAAEAAAALAAcAAAAGAAEAAAAKAAcAAAAGAAEAAAAJAAcAAAAGAAEAAAAIAAcAAAAGAAEAAAAHAAcAAAAGAAEAAAAHAAYAAAAGAAEAAAAHAAUAAAAGAAEAAAAHAAQAAAAGAAEAAAAIAAQAAAAGAAEAAAAJAAQAAAAGAAEAAAAKAAQAAAAGAAEAAAALAAQAAAAGAAEAAAALAAUAAAAGAAEAAAALAAYAAAAGAAEAAAAKAAYAAAAGAAEAAAAJAAYAAAAGAAEAAAAIAAYAAAAGAAEAAAAIAAUAAAAGAAEAAAAJAAUAAAAGAAEAAAAKAAUAAAAGAAEAAAAOAAkAAAAHAAEAAAAFAAkAAAAFAAEAAAAGAAoAAAAGAAIAAAAHAAoAAAAGAAIAAAAIAAoAAAAGAAIAAAAJAAoAAAAGAAIAAAAKAAoAAAAGAAIAAAALAAoAAAAGAAIAAAAMAAoAAAAGAAIAAAANAAoAAAAGAAIAAAAOAAoAAAAHAAIAAAAFAAoAAAAFAAIAAAAGAAkAAAAGAAEAAAAHAAkAAAAGAAEAAAAIAAkAAAAGAAEAAAAJAAkAAAAGAAEAAAAKAAkAAAAGAAEAAAALAAkAAAAGAAEAAAAMAAkAAAAGAAEAAAANAAkAAAAGAAEAAAAAAAUAAAAGAAEAAAABAAUAAAAGAAEAAAACAAUAAAAGAAEAAAADAAUAAAAGAAEAAAAEAAUAAAAGAAEAAAAAAAYAAAAGAAEAAAABAAYAAAAGAAEAAAACAAYAAAAGAAEAAAADAAYAAAAGAAEAAAAEAAYAAAAGAAEAAAAPAAUAAAAGAAEAAAAQAAUAAAAGAAEAAAARAAUAAAAGAAEAAAASAAUAAAAGAAEAAAATAAUAAAAGAAEAAAAPAAYAAAAGAAEAAAAQAAYAAAAGAAEAAAARAAYAAAAGAAEAAAASAAYAAAAGAAEAAAATAAYAAAAGAAEAAAAAAAAAAAADAAEAAAABAAAAAAADAAEAAAACAAAAAAADAAEAAAADAAAAAAADAAEAAAAEAAAAAAADAAEAAAAFAAAAAAADAAEAAAAGAAAAAAADAAEAAAAHAAAAAAADAAEAAAAIAAAAAAADAAEAAAAJAAAAAAADAAEAAAAKAAAAAAADAAEAAAALAAAAAAADAAEAAAAMAAAAAAADAAEAAAANAAAAAAADAAEAAAAOAAAAAAADAAEAAAAPAAAAAAADAAEAAAAQAAAAAAADAAEAAAARAAAAAAADAAEAAAASAAAAAAADAAEAAAATAAAAAAADAAEAAAAAAAEAAAADAAEAAAAAAAIAAAADAAEAAAAAAAMAAAADAAEAAAAAAAQAAAAGAAAAAAABAAQAAAAGAAAAAAACAAQAAAAGAAAAAAADAAQAAAAGAAAAAAAEAAQAAAAGAAAAAAAEAAMAAAADAAEAAAAEAAIAAAADAAEAAAAEAAEAAAADAAEAAAADAAEAAAADAAEAAAACAAEAAAADAAEAAAABAAEAAAADAAEAAAABAAIAAAADAAEAAAACAAIAAAADAAEAAAADAAIAAAADAAEAAAACAAMAAAADAAEAAAABAAMAAAADAAEAAAADAAMAAAADAAEAAAAPAAEAAAADAAEAAAAPAAIAAAADAAEAAAAPAAMAAAADAAEAAAAPAAQAAAADAAIAAAAQAAQAAAADAAIAAAARAAQAAAADAAIAAAASAAQAAAADAAIAAAATAAQAAAADAAIAAAATAAMAAAADAAEAAAATAAIAAAADAAEAAAATAAEAAAADAAEAAAASAAEAAAADAAEAAAARAAEAAAADAAEAAAARAAIAAAADAAEAAAARAAMAAAADAAEAAAASAAMAAAADAAEAAAASAAIAAAADAAEAAAAQAAEAAAADAAEAAAAQAAIAAAADAAEAAAAQAAMAAAADAAEAAAAAAAcAAAADAAAAAAAAAAgAAAADAAEAAAAAAAkAAAADAAEAAAAAAAoAAAADAAEAAAAAAAsAAAADAAEAAAATAAsAAAADAAEAAAABAAsAAAADAAEAAAACAAsAAAADAAEAAAADAAsAAAADAAEAAAAEAAsAAAADAAEAAAAFAAsAAAADAAEAAAAGAAsAAAADAAEAAAAHAAsAAAADAAEAAAAIAAsAAAADAAEAAAAJAAsAAAADAAEAAAAKAAsAAAADAAEAAAALAAsAAAADAAEAAAAMAAsAAAADAAEAAAANAAsAAAADAAEAAAAOAAsAAAADAAEAAAAPAAsAAAADAAEAAAAQAAsAAAADAAEAAAARAAsAAAADAAEAAAASAAsAAAADAAEAAAABAAcAAAADAAAAAAABAAgAAAADAAEAAAABAAkAAAADAAEAAAABAAoAAAADAAEAAAACAAcAAAADAAAAAAACAAgAAAADAAEAAAACAAkAAAADAAEAAAACAAoAAAADAAEAAAADAAcAAAADAAAAAAADAAgAAAADAAEAAAADAAkAAAADAAEAAAADAAoAAAADAAEAAAAEAAcAAAAGAAIAAAAEAAgAAAADAAEAAAAEAAkAAAADAAEAAAAEAAoAAAADAAEAAAAPAAcAAAADAAAAAAAPAAgAAAADAAEAAAAPAAkAAAADAAEAAAAPAAoAAAADAAEAAAAQAAcAAAADAAAAAAAQAAgAAAADAAEAAAAQAAkAAAADAAEAAAAQAAoAAAADAAEAAAARAAcAAAADAAAAAAARAAgAAAADAAEAAAARAAkAAAADAAEAAAARAAoAAAADAAEAAAASAAcAAAADAAAAAAASAAgAAAADAAEAAAASAAkAAAADAAEAAAASAAoAAAADAAEAAAATAAcAAAADAAAAAAATAAgAAAADAAEAAAATAAkAAAADAAEAAAATAAoAAAADAAEAAAA=")
 
-[node name="ChessBoard" parent="." node_paths=PackedStringArray("player_party", "opponent_party") instance=ExtResource("5_c0n4n")]
+[node name="ChessBoard" parent="." node_paths=PackedStringArray("player_party") instance=ExtResource("5_c0n4n")]
 z_index = 2
 position = Vector2(320, 180)
 player_party = NodePath("Player")
-opponent_party = NodePath("Oppponent")
 metadata/_edit_lock_ = true
 
 [node name="Selector" parent="ChessBoard" node_paths=PackedStringArray("chess_board", "player_party", "opponent_party") instance=ExtResource("6_4wac5")]
@@ -53,297 +50,10 @@ opponent_party = NodePath("../Oppponent")
 y_sort_enabled = true
 script = ExtResource("7_l4y32")
 
-[node name="Pawn" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-336, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 1)
-intermediate_stop = Vector2(2, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-368, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 2)
-intermediate_stop = Vector2(2, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn3" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-400, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 3)
-intermediate_stop = Vector2(2, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn4" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-432, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 4)
-intermediate_stop = Vector2(2, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn5" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-336, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 8)
-intermediate_stop = Vector2(2, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn6" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-368, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 7)
-intermediate_stop = Vector2(2, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn7" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-400, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 6)
-intermediate_stop = Vector2(2, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Pawn8" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(-432, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(2, 5)
-intermediate_stop = Vector2(2, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Rook" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("9_4v3x2")]
-position = Vector2(-464, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 1)
-intermediate_stop = Vector2(1, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Bishop" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("10_j1brx")]
-position = Vector2(-528, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 3)
-intermediate_stop = Vector2(1, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Knight" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("11_il72p")]
-position = Vector2(-496, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 2)
-intermediate_stop = Vector2(1, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="King" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("12_k38j0")]
-position = Vector2(-560, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 4)
-intermediate_stop = Vector2(1, 4)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Rook2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("9_4v3x2")]
-position = Vector2(-464, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 8)
-intermediate_stop = Vector2(1, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Bishop2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("10_j1brx")]
-position = Vector2(-528, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 6)
-intermediate_stop = Vector2(1, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Knight2" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("11_il72p")]
-position = Vector2(-496, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 7)
-intermediate_stop = Vector2(1, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
-[node name="Queen" parent="ChessBoard/Player" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("13_kwpc8")]
-position = Vector2(-560, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(1, 5)
-intermediate_stop = Vector2(1, 5)
-light_color = Color(0.176471, 0.415686, 0.772549, 1)
-dark_color = Color(0.121569, 0.286275, 0.533333, 1)
-
 [node name="Oppponent" type="Node2D" parent="ChessBoard"]
 y_sort_enabled = true
 script = ExtResource("7_l4y32")
-
-[node name="Pawn" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(336, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 1)
-intermediate_stop = Vector2(7, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn2" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(368, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 2)
-intermediate_stop = Vector2(7, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn3" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(400, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 3)
-intermediate_stop = Vector2(7, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn4" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(432, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 4)
-intermediate_stop = Vector2(7, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn5" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(336, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 8)
-intermediate_stop = Vector2(7, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn6" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(368, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 7)
-intermediate_stop = Vector2(7, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn7" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(400, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 6)
-intermediate_stop = Vector2(7, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Pawn8" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("8_4rbu3")]
-position = Vector2(432, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(7, 5)
-intermediate_stop = Vector2(7, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Rook" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("9_4v3x2")]
-position = Vector2(464, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 1)
-intermediate_stop = Vector2(8, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Bishop" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("10_j1brx")]
-position = Vector2(528, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 3)
-intermediate_stop = Vector2(8, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Knight" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("11_il72p")]
-position = Vector2(496, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 2)
-intermediate_stop = Vector2(8, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="King" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("12_k38j0")]
-position = Vector2(560, -16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 4)
-intermediate_stop = Vector2(8, 4)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Rook2" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("9_4v3x2")]
-position = Vector2(464, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 8)
-intermediate_stop = Vector2(8, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Bishop2" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("10_j1brx")]
-position = Vector2(528, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 6)
-intermediate_stop = Vector2(8, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Knight2" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("11_il72p")]
-position = Vector2(496, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 7)
-intermediate_stop = Vector2(8, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
-
-[node name="Queen" parent="ChessBoard/Oppponent" node_paths=PackedStringArray("chess_board", "party") instance=ExtResource("13_kwpc8")]
-position = Vector2(560, 16)
-chess_board = NodePath("../..")
-party = NodePath("..")
-start_position = Vector2(8, 5)
-intermediate_stop = Vector2(8, 5)
-light_color = Color(0.619608, 0.160784, 0.231373, 1)
-dark_color = Color(0.454902, 0.101961, 0.2, 1)
+side = 1
 
 [node name="Label" type="Label" parent="."]
 offset_left = 16.0

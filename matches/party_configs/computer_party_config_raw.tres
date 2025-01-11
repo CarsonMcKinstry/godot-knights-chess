@@ -1,0 +1,96 @@
+[gd_resource type="Resource" script_class="PartyConfig" load_steps=25 format=3 uid="uid://svoglt4x3m3y"]
+
+[ext_resource type="Script" path="res://components/match_configs/piece_config.gd" id="1_r4623"]
+[ext_resource type="Script" path="res://components/match_configs/party_config.gd" id="2_1jm6m"]
+[ext_resource type="PackedScene" uid="uid://72rs4ula8umo" path="res://features/piece/pieces/pawn.tscn" id="2_qk03d"]
+[ext_resource type="PackedScene" uid="uid://csw7xweisrnjk" path="res://features/piece/pieces/rook.tscn" id="3_f1fut"]
+[ext_resource type="PackedScene" uid="uid://dqvuts7bktur1" path="res://features/piece/pieces/knight.tscn" id="4_35vc2"]
+[ext_resource type="PackedScene" uid="uid://ep0abkdtvegc" path="res://features/piece/pieces/bishop.tscn" id="5_6gduk"]
+[ext_resource type="PackedScene" uid="uid://buxp5qklitymd" path="res://features/piece/pieces/king.tscn" id="6_yu42k"]
+[ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="7_8hmi0"]
+
+[sub_resource type="Resource" id="Resource_jfapa"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 0)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_fm52k"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 1)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_1mdax"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 2)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_hspnm"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 3)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_o5tqt"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 4)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_eemmq"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 5)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_wumdg"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 6)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_0sggq"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(6, 7)])
+piece_template = ExtResource("2_qk03d")
+
+[sub_resource type="Resource" id="Resource_r2uwh"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 0)])
+piece_template = ExtResource("3_f1fut")
+
+[sub_resource type="Resource" id="Resource_tolsd"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 1)])
+piece_template = ExtResource("4_35vc2")
+
+[sub_resource type="Resource" id="Resource_f06t1"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 2)])
+piece_template = ExtResource("5_6gduk")
+
+[sub_resource type="Resource" id="Resource_aertd"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 3)])
+piece_template = ExtResource("6_yu42k")
+
+[sub_resource type="Resource" id="Resource_xa2r5"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 4)])
+piece_template = ExtResource("7_8hmi0")
+
+[sub_resource type="Resource" id="Resource_y8a12"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 5)])
+piece_template = ExtResource("5_6gduk")
+
+[sub_resource type="Resource" id="Resource_y7ma8"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 6)])
+piece_template = ExtResource("4_35vc2")
+
+[sub_resource type="Resource" id="Resource_davem"]
+script = ExtResource("1_r4623")
+opening_grid_path = Array[Vector2]([Vector2(7, 7)])
+piece_template = ExtResource("3_f1fut")
+
+[resource]
+script = ExtResource("2_1jm6m")
+pieces = Array[ExtResource("1_r4623")]([SubResource("Resource_jfapa"), SubResource("Resource_fm52k"), SubResource("Resource_1mdax"), SubResource("Resource_hspnm"), SubResource("Resource_o5tqt"), SubResource("Resource_eemmq"), SubResource("Resource_wumdg"), SubResource("Resource_0sggq"), SubResource("Resource_r2uwh"), SubResource("Resource_tolsd"), SubResource("Resource_f06t1"), SubResource("Resource_aertd"), SubResource("Resource_xa2r5"), SubResource("Resource_y8a12"), SubResource("Resource_y7ma8"), SubResource("Resource_davem")])
+base_color = Color(0.619608, 0.160784, 0.231373, 1)
+shadow_color = Color(0.454902, 0.101961, 0.2, 1)

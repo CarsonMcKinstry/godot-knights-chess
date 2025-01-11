@@ -3,33 +3,17 @@ class_name AiController extends Node
 signal turn_finished
 signal checkmate
 
-
-
-enum Behavior {
-	Random,
-	Minimax
-}
-
 @export var party: PartyController
 @export var chess_board: ChessBoard
 
-@export var behavior: Behavior = Behavior.Random
-
-@export var move_randomizer: MoveRandomizer
-@export var minimax_selector: MiniMaxSelector
+@export var behavior_selector: BehaviorSelector
 
 func start_turn():
 	
 	if chess_board.is_checkmate(Constants.Side.Computer):
 		checkmate.emit()
 	else:
-		var move: MoveRecord
-		
-		match behavior:
-			Behavior.Random:
-				move = move_randomizer.choose(chess_board, party)
-			Behavior.Minimax:
-				move = minimax_selector.choose(chess_board, party)
+		var move := behavior_selector.get_move(chess_board, party)
 
 		if move != null:
 			chess_board.enqueue_move(move)

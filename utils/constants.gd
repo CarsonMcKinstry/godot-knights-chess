@@ -52,6 +52,14 @@ enum Facing {
 	Right
 }
 
+static func facing_to_string(facing: Constants.Facing) -> String :
+	match facing:
+		Constants.Facing.Left:
+			return "Left"
+		Constants.Facing.Right:
+			return "Right"
+	return "UKNOWN FACING"
+
 enum BoardState {
 	Check_Computer,
 	Check_Player,

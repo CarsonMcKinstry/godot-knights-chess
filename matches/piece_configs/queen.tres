@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PieceConfig" load_steps=3 format=3 uid="uid://7rbmoe1iawnp"]
+
+[ext_resource type="Script" path="res://components/match_configs/piece_config.gd" id="1_fip4i"]
+[ext_resource type="PackedScene" uid="uid://dwabqu0judbn0" path="res://features/piece/pieces/queen.tscn" id="1_gi4y5"]
+
+[resource]
+script = ExtResource("1_fip4i")
+opening_grid_path = Array[Vector2]([])
+piece_template = ExtResource("1_gi4y5")

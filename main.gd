@@ -7,7 +7,16 @@ class_name Main extends Node2D
 
 @export var turn_controller: TurnController
 
+@export var match_config: MatchConfig
+
+@export var use_config: bool = false
+
+@export var chess_board: ChessBoard
+
 var parties_ready: bool = false
+
+func _ready():
+	match_config.start_match(chess_board, player_party, opponent_party)
 
 func _process(delta):
 	if !parties_ready:

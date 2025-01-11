@@ -24,7 +24,7 @@ signal finished_entering
 signal finished_moving
 signal finished_exiting
 
-var is_ready: bool = true
+var is_ready: bool = false
 var is_dead: bool = false
 @onready var initial_facing: Constants.Facing = Constants.Facing.Right if party.side == Constants.Side.Player else Constants.Facing.Left
 @onready var facing: Constants.Facing = initial_facing
@@ -58,7 +58,7 @@ func _ready() -> void:
 	movement_controller.finished_moving.connect(handle_finish_moving)
 	movement_controller.moving.connect(handle_moving)
 
-	movement_controller.facing = initial_facing
+	movement_controller.face(self.initial_facing)
 
 func attack_hit():
 	attack_controller.attack_collided.emit()
@@ -149,7 +149,13 @@ func move_to_position(pos: Vector2) -> void:
 	
 	if move_calculator != null:
 		move_calculator.is_first_move = false
+
+func move_to_grid_position(pos: Vector2) -> void:
+	var canvas_pos = chess_board.get_canvas_position(pos)
+	movement_controller.move_to(canvas_pos)
+	await movement_controller.finished_moving
 	
+	movement_controller.face(initial_facing)
 
 func en_passant_possible(target: Piece) -> bool:
 

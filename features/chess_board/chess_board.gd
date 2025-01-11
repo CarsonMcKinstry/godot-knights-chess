@@ -56,7 +56,6 @@ func resolve_latest_move():
 	assert(!resolved_moves.is_empty(), "can't resolve no moves")
 	
 	var move = resolved_moves.pop_back()
-	print(move.serialize())
 
 	await move.resolve(self)
 	
