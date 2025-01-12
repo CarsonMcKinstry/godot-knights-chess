@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5atcs78j03uo"]
+
+[ext_resource type="Script" path="res://components/ui/banner/test_banner.gd" id="1_ji0hw"]
+[ext_resource type="PackedScene" uid="uid://cf0ri3l8l2eq4" path="res://components/ui/banner/banner.tscn" id="2_074d2"]
+
+[node name="test_banner" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ji0hw")
+
+[node name="Banner" parent="." instance=ExtResource("2_074d2")]
+layout_mode = 1
