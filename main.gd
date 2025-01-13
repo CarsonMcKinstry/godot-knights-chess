@@ -13,6 +13,8 @@ class_name Main extends Node2D
 
 @export var chess_board: ChessBoard
 
+@export var hud: Control
+
 var parties_ready: bool = false
 
 func _ready():

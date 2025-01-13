@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://b14mh5p8dlmca"]
+
+[ext_resource type="Script" path="res://components/ui/banner/info_banner.gd" id="1_v06xc"]
+[ext_resource type="Texture2D" uid="uid://m2wckbpwivxg" path="res://components/ui/banner/text_box.png" id="2_hudqp"]
+[ext_resource type="FontFile" uid="uid://c43r2oi72tjef" path="res://components/ui/banner/InexpugnableExtended.woff" id="3_48ikw"]
+
+[sub_resource type="FontVariation" id="FontVariation_ea8dl"]
+base_font = ExtResource("3_48ikw")
+spacing_glyph = 1
+
+[node name="InfoBanner" type="CenterContainer" node_paths=PackedStringArray("background_rect", "label")]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 128.0
+offset_top = 12.0
+offset_right = -128.0
+offset_bottom = 40.0
+grow_horizontal = 2
+scale = Vector2(0.75, 0.75)
+pivot_offset = Vector2(192, 19)
+script = ExtResource("1_v06xc")
+background_rect = NodePath("NinePatchRect")
+label = NodePath("Label")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(384, 28)
+layout_mode = 2
+texture = ExtResource("2_hudqp")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.223529, 0.192157, 1)
+theme_override_colors/font_shadow_color = Color(0.85098, 0.627451, 0.4, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = -1
+theme_override_fonts/font = SubResource("FontVariation_ea8dl")
+theme_override_font_sizes/font_size = 16
+text = "That would leave your king vulnerable..."
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true

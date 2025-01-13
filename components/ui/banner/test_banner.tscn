@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5atcs78j03uo"]
 
 [ext_resource type="Script" path="res://components/ui/banner/test_banner.gd" id="1_ji0hw"]
-[ext_resource type="PackedScene" uid="uid://cf0ri3l8l2eq4" path="res://components/ui/banner/banner.tscn" id="2_074d2"]
+[ext_resource type="PackedScene" uid="uid://b14mh5p8dlmca" path="res://components/ui/banner/info_banner.tscn" id="2_2b1qm"]
 
 [node name="test_banner" type="Control"]
 layout_mode = 3
@@ -12,5 +12,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ji0hw")
 
-[node name="Banner" parent="." instance=ExtResource("2_074d2")]
-layout_mode = 1
+[node name="InfoBanner" parent="." instance=ExtResource("2_2b1qm")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 34.0
+grow_horizontal = 1

@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dkfsgrltwdw36" path="res://components/controllers/ai_controller/ai_controller.tscn" id="4_j5pbv"]
 [ext_resource type="Script" path="res://components/controllers/party_controller/party_controller.gd" id="4_kfv8y"]
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector", "turn_controller", "chess_board")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player_party", "opponent_party", "selector", "turn_controller", "chess_board", "hud")]
 script = ExtResource("1_75o74")
 player_party = NodePath("ChessBoard/Player")
 opponent_party = NodePath("ChessBoard/Computer")
@@ -17,6 +17,7 @@ selector = NodePath("ChessBoard/Selector")
 turn_controller = NodePath("TurnController")
 match_config = ExtResource("2_axa6f")
 chess_board = NodePath("ChessBoard")
+hud = NodePath("HUD")
 
 [node name="TurnController" type="Node" parent="." node_paths=PackedStringArray("player_controller", "ai_controller", "chess_board", "info_label")]
 script = ExtResource("2_6qlru")
@@ -61,6 +62,12 @@ offset_right = 112.0
 offset_bottom = 43.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Game Start"
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
 
 [connection signal="area_entered" from="ChessBoard/Selector" to="ChessBoard/Selector" method="_on_area_entered"]
 [connection signal="area_exited" from="ChessBoard/Selector" to="ChessBoard/Selector" method="_on_area_exited"]
