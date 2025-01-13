@@ -40,11 +40,12 @@ position = Vector2(320, 180)
 player_party = NodePath("Player")
 computer_party = NodePath("Computer")
 
-[node name="Selector" parent="ChessBoard" node_paths=PackedStringArray("chess_board", "player_party", "opponent_party") instance=ExtResource("1_dhoyy")]
+[node name="Selector" parent="ChessBoard" node_paths=PackedStringArray("chess_board", "player_party", "opponent_party", "hud") instance=ExtResource("1_dhoyy")]
 position = Vector2(-112, -16)
 chess_board = NodePath("..")
 player_party = NodePath("../Player")
 opponent_party = NodePath("../Computer")
+hud = NodePath("../../HUD")
 
 [node name="Player" type="Node2D" parent="ChessBoard"]
 y_sort_enabled = true

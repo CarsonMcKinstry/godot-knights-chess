@@ -8,6 +8,7 @@ signal checkmate
 @export var chess_board: ChessBoard
 @export var player_party: PartyController
 @export var opponent_party: PartyController
+@export var hud: Control
 
 enum SelectorState {
 	PieceSelect, # Choosing a piece to move
@@ -68,10 +69,20 @@ func handle_select() -> void:
 		
 		if piece != null && piece.party.side == Constants.Side.Player:
 			var selected = piece.select()
+			
 			if selected:
 				selected_piece = piece
 				state = SelectorState.PieceSelected
 			else:
+				var prev_state = state
+				state = SelectorState.Idle
+				BannerManager.display_banner(
+					hud,
+					"That would leave your king vulnerable..."
+				)
+				await BannerManager.exited
+				state = prev_state
+				
 				piece.deselect()
 
 func handle_target_select() -> void:
