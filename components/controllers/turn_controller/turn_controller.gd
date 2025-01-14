@@ -4,6 +4,7 @@ class_name TurnController extends Node
 @export var ai_controller: AiController
 
 @export var chess_board: ChessBoard
+@export var hud: Control
 
 @export var info_label: Label
 
@@ -28,10 +29,16 @@ func start():
 	current_turn = Turn.Player
 
 func handle_computer_checkmate():
-	print("Checkmate! Player Wins")
+	BannerManager.display_banner(
+		hud,
+		"Checkmate! You win!",
+	)
 
 func handle_player_checkmate():
-	print("Checkmate! Computer wins!")
+	BannerManager.display_banner(
+		hud,
+		"Checkmate! You lose :(",
+	)
 
 func handle_turn_finished():
 	match current_turn:

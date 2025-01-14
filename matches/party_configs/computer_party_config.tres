@@ -71,7 +71,7 @@ piece_template = ExtResource("6_yu42k")
 
 [sub_resource type="Resource" id="Resource_xa2r5"]
 script = ExtResource("1_r4623")
-opening_grid_path = Array[Vector2]([Vector2(21, 4), Vector2(7, 4), Vector2(4, 0)])
+opening_grid_path = Array[Vector2]([Vector2(21, 4), Vector2(7, 4), Vector2(7, 4)])
 piece_template = ExtResource("7_8hmi0")
 
 [sub_resource type="Resource" id="Resource_y8a12"]

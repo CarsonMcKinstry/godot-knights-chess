@@ -78,7 +78,8 @@ func handle_select() -> void:
 				state = SelectorState.Idle
 				BannerManager.display_banner(
 					hud,
-					"That would leave your king vulnerable..."
+					"That would leave your king vulnerable...",
+					BannerManager.BANNER_BEHAVIOR_PERSIST
 				)
 				await BannerManager.exited
 				state = prev_state

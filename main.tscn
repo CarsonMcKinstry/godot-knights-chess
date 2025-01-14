@@ -19,11 +19,12 @@ match_config = ExtResource("2_axa6f")
 chess_board = NodePath("ChessBoard")
 hud = NodePath("HUD")
 
-[node name="TurnController" type="Node" parent="." node_paths=PackedStringArray("player_controller", "ai_controller", "chess_board", "info_label")]
+[node name="TurnController" type="Node" parent="." node_paths=PackedStringArray("player_controller", "ai_controller", "chess_board", "hud", "info_label")]
 script = ExtResource("2_6qlru")
 player_controller = NodePath("../ChessBoard/Selector")
 ai_controller = NodePath("../AiController")
 chess_board = NodePath("../ChessBoard")
+hud = NodePath("../HUD")
 info_label = NodePath("../Label")
 
 [node name="AiController" parent="." node_paths=PackedStringArray("party", "chess_board") instance=ExtResource("4_j5pbv")]

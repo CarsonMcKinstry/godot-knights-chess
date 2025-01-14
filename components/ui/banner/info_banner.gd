@@ -48,7 +48,7 @@ func enter():
 		background_rect,
 		"custom_minimum_size",
 		initial_size,
-		0.15
+		enter_speed
 	)
 	
 	await tween.finished
@@ -68,7 +68,7 @@ func exit():
 		background_rect,
 		"custom_minimum_size",
 		Vector2.ZERO,
-		0.1
+		exit_speed
 	)
 	await tween.finished
 	hide()
